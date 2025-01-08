@@ -1,0 +1,36 @@
+# This workflow executes verifications for HTML5 and CSS files.
+# In a future it will execute, all sorts of needed tests.
+
+name: CI verification
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - name: HTML5 and CSS Validator
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: src/
+          format: json
+          css: true
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: latest_verification
+          path: latest_verification.log
+
+      - name: Workflow exit message
+        run: echo Exit of the CI verification workflow...
