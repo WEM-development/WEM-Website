@@ -23,7 +23,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
           ssh-keygen -t rsa -f ~/.ssh/known_hosts -R ftze1u0mljdk@92.205.92.157
-          eval "$(ssh-agent -s)"
+          eval "$(ssh-agent)"
+          ssh-add - <<< "${{ secrets.REMOTE_PRIVATE_KEY }}"
     
       
       - name: Link remote repository
