@@ -1,5 +1,5 @@
-# This workflow executes verifications for HTML5 and CSS files.
-# In a future it will execute, all sorts of needed tests.
+# This workflow creates a remote connection to hosting
+# service and remotly commit to remote git repository.
 
 name: CI remote testing
 
@@ -15,17 +15,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
+      SSH_USERNAME: ${{ secrets.REMOTE_SSH_USERNAME }}
+      SSH_ADDRESS: ${{ secrets.REMOTE_SSH_ADDRESS }}
     
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up SSH
+      - name: Setup SSH connection
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.REMOTE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 92.205.92.157 >> ~/.ssh/known_hosts
+          ssh-keyscan -H $SSH_ADDRESS >> ~/.ssh/known_hosts
 
       - name: Clone remote repository
         run: |
-          git clone ftze1u0mljdk@92.205.92.157:WEM-Website.git 
+          git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
