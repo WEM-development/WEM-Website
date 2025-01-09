@@ -19,7 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: SSH connection
       - uses: shimataro/ssh-key-action@v2
         with:
           ssh-private-key: ${{ secrets.REMOTE_PRIVATE_KEY }}
