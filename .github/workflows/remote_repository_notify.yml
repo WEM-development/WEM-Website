@@ -20,13 +20,11 @@ jobs:
       - uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-          name: id_rsa
-          known_hosts: ${{ secrets.REMOTE_KNOWN_HOSTS }}
+          known_hosts: '92.205.92.157'
           
       - uses: actions/checkout@v4
       - name: Link remote repository
         run: |
-          git remote set-url origin ftze1u0mljdk@92.205.92.157:WEM-Website.git
-          git clone ftze1u0mljdk@92.205.92.157:WEM-Website.git
+          ssh -o StrictHostKeyChecking=no ftze1u0mljdk@92.205.92.157 'git clone ftze1u0mljdk@92.205.92.157:WEM-Website.git'
           cd WEM-Website
           ls -l
