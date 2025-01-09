@@ -1,21 +1,26 @@
-name: Remote SSH notify
+# This workflow executes verifications for HTML5 and CSS files.
+# In a future it will execute, all sorts of needed tests.
+
+name: CI remote testing
 
 on:
-  workflow_run:
-    workflows: ["CI verification"]
-    types:
-      - completed
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu_latest
+  build:
+    runs-on: ubuntu-latest
     
-    steps:     
+    steps:
+      - uses: actions/checkout@v4
+      
       - name: Link remote repository
         run: |
           git clone $REMOTE_HOSTING_REPOSITORY
           cd WEM-Website
           ls -l
-  
-
-
