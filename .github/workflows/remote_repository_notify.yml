@@ -19,19 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.REMOTE_KNOWN_HOSTS }}
-
-      - name: Add SSH Key to Agent
+      - name: Set up SSH
         run: |
-          eval "$(ssh-agent -s)"
-          ssh-add <(echo "${{ secrets.REMOTE_PRIVATE_KEY }}")
+          mkdir -p ~/.ssh
+          echo "${{ secrets.REMOTE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 92.205.92.157 >> ~/.ssh/known_hosts
 
-      - name: Link remote repository
+      - name: Clone remote repository
         run: |
-          ssh -o StrictHostKeyChecking=no ftze1u0mljdk@92.205.92.157 'echo "SSH connection successful!"'
-          git clone ftze1u0mljdk@92.205.92.157:WEM-Website.git
-          cd WEM-Website
-          ls -l
+          git clone ftze1u0mljdk@92.205.92.157:WEM-Website.git 
