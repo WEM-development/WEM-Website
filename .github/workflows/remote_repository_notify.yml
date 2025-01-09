@@ -18,6 +18,14 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create ssh connection
+        run: |
+          mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
+          ssh_keyscan ftze1u0mljdk >> ~/.ssh/known_hosts
+          eval $(ssh-agent)
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+    
       
       - name: Link remote repository
         run: |
