@@ -21,6 +21,11 @@ jobs:
         with:
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           known_hosts: '92.205.92.157'
+
+      - name: Add SSH Key to Agent
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add <(echo "${{ secrets.REMOTE_PRIVATE_KEY }}")
           
       - uses: actions/checkout@v4
       - name: Link remote repository
