@@ -1,0 +1,21 @@
+name: Remote SSH notify
+
+on:
+  workflow_run:
+    workflows: ["CI verification"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu_latest
+    
+    steps:     
+      - name: Link remote repository
+        run: |
+          git clone $REMOTE_HOSTING_REPOSITORY
+          cd WEM-Website
+          ls -l
+  
+
+
