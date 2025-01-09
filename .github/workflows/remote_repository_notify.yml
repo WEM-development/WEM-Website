@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Create ssh connection
       - uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
