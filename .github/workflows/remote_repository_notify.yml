@@ -30,6 +30,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Link remote repository
         run: |
+          ssh -i ~/.ssh/private.key -o UserKnownHostsFile=/github/home/.ssh/known_hosts -tt ftze1u0mljdk@92.205.92.157
           git clone ftze1u0mljdk@92.205.92.157:WEM-Website.git
           cd WEM-Website
           ls -l
