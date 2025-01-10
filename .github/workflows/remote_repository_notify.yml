@@ -41,7 +41,7 @@ jobs:
       - name: Mirror GitHub files
         run: |
           sudo rsync -av --progress . WEM-Website --exclude WEM-Website --exclude .git --exclude .github
-          ls -l WEM-Website
+          cd WEM-Website && ls -l
 
       - name: Configure git config
         run: |
