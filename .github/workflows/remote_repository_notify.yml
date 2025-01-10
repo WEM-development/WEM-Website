@@ -58,6 +58,7 @@ jobs:
 
       - name: Commit file changes
         run: |
+          cd ~/work/WEM-Website/generated::git-repository/WEM-Website
           pwd
           git add .
           git commit -m "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')"
