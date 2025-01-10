@@ -36,7 +36,7 @@ jobs:
       - name: Clone and access remote repository
         run: |
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
-          cd WEN-Website
+          cd WEM-Website
 
       - name: Commit file changes
         run: |
