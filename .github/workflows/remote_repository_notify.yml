@@ -44,11 +44,11 @@ jobs:
 
       - name: Configure git config
         run: |
-          git rm --cached WEM-Website
           git config --global user.email "info@weldingmontaze.cz"
           git config --global user.name "WEM"
 
       - name: Commit file changes
         run: |
           git add .
-          git commit -m "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')" && git push
+          git commit -m "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')"
+          git push
