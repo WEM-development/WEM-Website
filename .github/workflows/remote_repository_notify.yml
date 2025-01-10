@@ -34,13 +34,13 @@ jobs:
       - name: Clone and access remote repository
         run: |
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
-          chmod 700 WEM-Website
+          chmod 777 WEM-Website
           cd WEM-Website && rm -r *
           cd ..
 
       - name: Mirror GitHub files
         run: |
-          rsync -av --progress . /WEM-Website --exclude WEM-Website
+          sudo rsync -av --progress . /WEM-Website --exclude WEM-Website
 
       - name: Configure git config
         run: |
