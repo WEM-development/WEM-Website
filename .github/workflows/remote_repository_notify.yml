@@ -39,7 +39,7 @@ jobs:
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           ls -la
           chmod 777 WEM-Website
-          find WEM-Website -mindepth 1 -name '.git' -prune -o -print -exec rm -rf {} +
+          find WEM-Website/ -mindepth 1 -name '.git/' -prune -o -print -exec rm -rf {} +
           ls -la
       - name: Mirror GitHub files
         run: |
