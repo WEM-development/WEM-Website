@@ -4,17 +4,15 @@
 name: CI remote testing
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI verification"]
+    types:
+      - completed
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    
     env:
       PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
       SSH_USERNAME: ${{ secrets.REMOTE_SSH_USERNAME }}
@@ -40,7 +38,5 @@ jobs:
 
       - name: Commit file changes
         run: |
-         echo "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')"
-          
-          
-          
+          git add .
+          git commit -m "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')" && git push
