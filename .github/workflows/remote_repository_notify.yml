@@ -33,10 +33,13 @@ jobs:
 
       - name: Clone and access remote repository
         run: |
-          cd .. && mkdir generated::git-repository && cd generated::git-repository
+          cd .. && mkdir generated::git-repository
+          ls -l
+          cd generated::git-repository
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           chmod 777 WEM-Website
           find WEM-Website -mindepth 1 -name '.git' -prune -o -print -exec rm -rf {} +
+          ls -la
       - name: Mirror GitHub files
         run: |
           rsync -rtvp src/* WEM-Website
