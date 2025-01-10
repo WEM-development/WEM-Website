@@ -39,7 +39,7 @@ jobs:
 
       - name: Mirror GitHub files
         run: |
-          cp -a src WEM-Website
+          rsync -rtvp src/* WEM-Website
           cd WEM-Website && ls -l
 
       - name: Configure git config
