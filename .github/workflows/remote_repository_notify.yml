@@ -40,7 +40,7 @@ jobs:
 
       - name: Commit file changes
         run: |
-         echo "commit[token]=$UNIQUE_ACTION_ID - $(date +'%Y-%m-%d')"
+         echo "commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')"
           
           
           
