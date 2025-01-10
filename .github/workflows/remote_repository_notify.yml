@@ -36,6 +36,11 @@ jobs:
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           cd WEM-Website
 
+      - name: Configure git config
+        run: |
+          git config --global user.email "info@weldingmontaze.cz"
+          git config --global user.name "WEM"
+
       - name: Commit file changes
         run: |
           git add .
