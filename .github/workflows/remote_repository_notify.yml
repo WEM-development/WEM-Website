@@ -35,7 +35,7 @@ jobs:
         run: |
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           chmod 777 WEM-Website
-          cd WEM-Website && find WEM-Website -mindepth 1 -not -name '.git' -exec rm -rf {} + && cd ..
+          find WEM-Website -mindepth 1 -not -name '.git' -exec rm -rf {} +
       - name: Mirror GitHub files
         run: |
           rsync -rtvp src/* WEM-Website
