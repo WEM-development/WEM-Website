@@ -7,7 +7,7 @@ Having working CI/CD by GitHub platform, which would automatically update the co
 
 - [x] Find way to connect GoDaddy hosting to GitHub, not just domain with DNS. (Impossible)
 - [x] Use git in GoDaddy platform, with SSH connections for automations.
-- [ ] Create automatic git request for both platforms. (GoDaddy - production, GitHub - testing)
+- [x] Create automatic git request for both platforms. (GoDaddy - production, GitHub - testing)
 
 The plan would be, to simply create pull request to GitHub repository, which would automatically create git push to GoDaddy platform, if the build would be sucessful.
 - This specific functionality, should be possible with GitHub actions.

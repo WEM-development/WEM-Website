@@ -1,0 +1,65 @@
+# This workflow creates a remote connection to hosting
+# service and remotly commit to remote git repository.
+
+name: CI remote testing
+
+on:
+  workflow_run:
+    workflows: ["CI verification"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
+      SSH_USERNAME: ${{ secrets.REMOTE_SSH_USERNAME }}
+      SSH_ADDRESS: ${{ secrets.REMOTE_SSH_ADDRESS }}
+
+      UNIQUE_ACTION_ID: ${{ github.run_id }}[${{ github.run_attempt }}]
+      CURRENT_DATE: $(date +'%Y-%m-%dT%H:%M:%S')
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH connection
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SSH_ADDRESS >> ~/.ssh/known_hosts
+
+      - name: Clone and access remote repository
+        run: |
+          cd .. && mkdir generated::git-repository
+          pwd
+          ls -la
+          cd generated::git-repository
+          git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
+          echo "-----=ORIGINAL FILES=-----"
+          ls -la WEM-Website
+          chmod 777 WEM-Website
+          echo "-----=DELETED FILES=-----"
+          find WEM-Website/ -mindepth 1 -name '.git' -prune -o -print -exec rm -rf {} +
+          echo "-----=CURRENT FILES=-----"
+          ls -la WEM-Website
+      - name: Mirror GitHub files
+        run: |
+          rsync -rtvp ~/work/WEM-Website/WEM-Website/src/* ~/work/WEM-Website/generated::git-repository/WEM-Website
+          echo "-----=NEW FILES=-----"
+          cd ~/work/WEM-Website/generated::git-repository/WEM-Website && ls -la
+
+      - name: Configure git config
+        run: |
+          git config --global user.email "info@weldingmontaze.cz"
+          git config --global user.name "WEM"
+
+      - name: Commit file changes
+        run: |
+          cd ~/work/WEM-Website/generated::git-repository/WEM-Website
+          pwd
+          git add .
+          git commit -m "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')"
+          git push
