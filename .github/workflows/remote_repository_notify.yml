@@ -48,8 +48,8 @@ jobs:
       - name: Mirror GitHub files
         run: |
           rsync -rtvp ~/work/WEM-Website/WEM-Website/src/* ~/work/WEM-Website/generated::git-repository/WEM-Website
-          echo "-----=CURRENT FILES=-----"
-          ls -la ~/work/WEM-Website/generated::git-repository/WEM-Website
+          echo "-----=NEW FILES=-----"
+          cd ~/work/WEM-Website/generated::git-repository/WEM-Website && ls -la
 
       - name: Configure git config
         run: |
@@ -58,6 +58,7 @@ jobs:
 
       - name: Commit file changes
         run: |
+          pwd
           git add .
           git commit -m "generated::commit[token]=$UNIQUE_ACTION_ID-$(date +'%Y-%m-%d')"
           git push
