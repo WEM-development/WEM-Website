@@ -46,8 +46,9 @@ jobs:
           ls -la WEM-Website
       - name: Mirror GitHub files
         run: |
-          rsync -rtvp ../WEM-Website/src/* WEM-Website
+          rsync -rtvp ~/WEM-Website/src/* ~/generated::git-repository/WEM-Website
           echo "-----=CURRENT FILES=-----"
+          pwd
           ls -la WEM-Website
 
       - name: Configure git config
