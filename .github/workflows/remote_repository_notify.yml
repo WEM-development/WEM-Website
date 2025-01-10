@@ -34,6 +34,7 @@ jobs:
       - name: Clone and access remote repository
         run: |
           cd .. && mkdir generated::git-repository
+          pwd
           ls -la
           cd generated::git-repository
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
