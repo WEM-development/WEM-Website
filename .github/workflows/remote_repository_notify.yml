@@ -20,7 +20,7 @@ jobs:
       SSH_USERNAME: ${{ secrets.REMOTE_SSH_USERNAME }}
       SSH_ADDRESS: ${{ secrets.REMOTE_SSH_ADDRESS }}
 
-      UNIQUE_ACTION_ID: token-${{ github.run_id }}-${{ github.run_attempt }}
+      UNIQUE_ACTION_ID: token-${{ github.run_id }}[${{ github.run_attempt }}]
       CURRENT_DATE: $(date +'%Y-%m-%dT%H:%M:%S')
     
     steps:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Commit file changes
         run: |
-         echo "$UNIQUE_ACTION_ID-$CURRENT_DATE"
+         echo "$UNIQUE_ACTION_ID - $(date +'%Y-%m-%dT%H:%M:%S')"
           
           
           
