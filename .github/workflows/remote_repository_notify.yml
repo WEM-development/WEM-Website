@@ -19,6 +19,9 @@ jobs:
       PRIVATE_KEY: ${{ secrets.REMOTE_PRIVATE_KEY }}
       SSH_USERNAME: ${{ secrets.REMOTE_SSH_USERNAME }}
       SSH_ADDRESS: ${{ secrets.REMOTE_SSH_ADDRESS }}
+
+      UNIQUE_ACTION_ID: token-${{ github.run_id }}-${{ github.run_attempt }}
+      CURRENT_DATE: $(date +%s)
     
     steps:
       - uses: actions/checkout@v4
@@ -30,8 +33,14 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H $SSH_ADDRESS >> ~/.ssh/known_hosts
 
-      - name: Clone remote repository, with remote commit
+      - name: Clone and access remote repository
         run: |
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
-          pwd
-          ls -l
+          cd WEN-Website
+
+      - name: Commit file changes
+        run: |
+         echo "$UNIQUE_ACTION_ID-$CURRENT_DATE"
+          
+          
+          
