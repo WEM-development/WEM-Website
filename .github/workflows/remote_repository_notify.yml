@@ -21,7 +21,7 @@ jobs:
       SSH_ADDRESS: ${{ secrets.REMOTE_SSH_ADDRESS }}
 
       UNIQUE_ACTION_ID: token-${{ github.run_id }}-${{ github.run_attempt }}
-      CURRENT_DATE: $(date +%s)
+      CURRENT_DATE: $(date +'%Y-%m-%dT%H:%M:%S')
     
     steps:
       - uses: actions/checkout@v4
