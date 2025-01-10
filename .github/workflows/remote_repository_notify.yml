@@ -33,6 +33,7 @@ jobs:
 
       - name: Clone and access remote repository
         run: |
+          cd .. && mkdir generated::git-repository && cd generated::git-repository
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           chmod 777 WEM-Website
           find WEM-Website -mindepth 1 -name '.git' -prune -o -print -exec rm -rf {} +
@@ -44,7 +45,6 @@ jobs:
 
       - name: Configure git config
         run: |
-          git submodule set-url -- ../WEM-Website $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           git config --global user.email "info@weldingmontaze.cz"
           git config --global user.name "WEM"
 
