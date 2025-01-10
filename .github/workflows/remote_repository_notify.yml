@@ -42,12 +42,11 @@ jobs:
           chmod 777 WEM-Website
           echo "-----=DELETED FILES=-----"
           find WEM-Website/ -mindepth 1 -name '.git' -prune -o -print -exec rm -rf {} +
-          ls -la
+          echo "-----=CURRENT FILES=-----"
+          ls -la WEM-Website
       - name: Mirror GitHub files
         run: |
           rsync -rtvp src/* WEM-Website
-          cd WEM-Website && ls -la
-          ls -l .git
 
       - name: Configure git config
         run: |
