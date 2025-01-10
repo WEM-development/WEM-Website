@@ -37,8 +37,10 @@ jobs:
           ls -la
           cd generated::git-repository
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
-          ls -la
+          echo "-----=ORIGINAL FILES=-----"
+          cd WEM-Website && ls -la && cd ..
           chmod 777 WEM-Website
+          echo "-----=DELETED FILES=-----"
           find WEM-Website/ -mindepth 1 -name '.git' -prune -o -print -exec rm -rf {} +
           ls -la
       - name: Mirror GitHub files
