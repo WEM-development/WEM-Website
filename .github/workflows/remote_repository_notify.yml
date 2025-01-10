@@ -39,7 +39,7 @@ jobs:
 
       - name: Mirror GitHub files
         run: |
-          cp -r src WEM-Website
+          cp -a src WEM-Website
           cd WEM-Website && ls -l
 
       - name: Configure git config
