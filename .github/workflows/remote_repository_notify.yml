@@ -35,7 +35,7 @@ jobs:
         run: |
           git clone $SSH_USERNAME@$SSH_ADDRESS:WEM-Website.git
           chmod 777 WEM-Website
-          cd WEM-Website && { rm -rf *; tar -x; } <<< $(tar -c .git) && cd ..
+          cd WEM-Website && find . -type f ! -name '.git/' -delete && cd ..
 
       - name: Mirror GitHub files
         run: |
