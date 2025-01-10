@@ -44,6 +44,7 @@ jobs:
 
       - name: Configure git config
         run: |
+          git rm --cached WEM-Website
           git config --global user.email "info@weldingmontaze.cz"
           git config --global user.name "WEM"
 
