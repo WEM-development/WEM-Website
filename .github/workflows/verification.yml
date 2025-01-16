@@ -19,6 +19,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
 
       - name: HTML5 and CSS Validator
         uses: Cyb3r-Jak3/html5validator-action@v7.2.0
