@@ -1208,3 +1208,7 @@ input[type="button"],
 
 .company-owner { margin-bottom: 40px; }
 .company-owner a { display: flex; }
+ 
+.button-disabled {
+	background-color: #f4f4f4 !important;
+}
