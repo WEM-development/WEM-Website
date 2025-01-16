@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Welding Montáže</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<script src="js/image_changer.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/main.css" />
+		</noscript>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
+	</head>
+	<body id="top">
+		<div id="header" class="skel-layers-fixed">
+			<img class="company-logo" src="assets/WEM-text-bigger.png" alt="company-logo">
+			<nav id="nav">
+				<ul>
+					<li><a href="index.html">DOMŮ</a></li>
+					<li><a href="products-page.html">PRODUKTY</a></li>
+					<li><a href="about-page.html">O SPOLEČNOSTI</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div id="new-products" class="wrapper style1">
+			<div class="container">
+				<h2>produkty</h2>
+				<div class="row">
+					<div class="4u">
+						<a href="products-page.html#steel-product">
+							<div class="box">
+								<img src="assets/steel-product-images/pipe.png" alt="construction-image">
+								<div class="box-information">
+									<h4>Výroba ocelových konstrukcí</h4>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="4u">
+						<a href="products-page.html#welding-product">
+							<div class="box">
+								<img src="assets/welding-product-images/excavator.jpg" alt="welding-image">
+								<div class="box-information">
+									<h4>Svářečské opravy a zámečnické práce</h4>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="4u">
+						<a href="products-page.html#container-product">
+							<div class="box">
+								<img src="assets/container.jpg" alt="container-image">
+								<div class="box-information">
+									<h4>Výroba kontejnerů</h4>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="steel-product" class="wrapper style1">
+			<div class="container">
+				<div class="row">
+					<div class="8u">
+						<div class="product-container">
+							<h2 class="container-section-header">Výroba ocelových konstrukcí</h2>
+							<div class="image-slideshow">
+								<a href="#" style="transform: scale(0.8);" class="image fit"><img id="steel-img" alt="steel-image"/></a>
+								<div class="image-previous-button" onclick="slideImage(imagesInformationContainer[0], -1);"><p>&#10094;</p></div>
+								<div class="image-next-button" onclick="slideImage(imagesInformationContainer[0], 1);"><p>&#10095;</p></div>
+							</div>
+							<p style="font-size: 20px;">Máme dlouholetou zkušenost s montáží potrubí ve všech dimenzí a ocelových konstrukcí.</p>
+						</div>
+					</div>
+					<div class="order-container">
+						<h3>Zakázka na míru</h3>
+						<p>V momentální době, pouze pomocí e-mailové komunikace.</p>
+						<a href="mailto:info@weldingmontaze.cz" class="button alt">Kontakt</a>
+					</div>
+				</div>
+			</div>
+		</div>			
+		<div id="welding-product" class="wrapper style1">
+			<div class="container">
+				<div class="row">
+					<div class="8u">
+						<div class="product-container">
+							<h2 class="container-section-header">Svářečské opravy a zámečnické práce</h2>
+							<div class="image-slideshow">
+								<a href="#" style="transform: scale(0.8);" class="image fit"><img id="welding-img" alt="welding-image"/></a>
+								<div class="image-previous-button" onclick="slideImage(imagesInformationContainer[1], -1);"><p>&#10094;</p></div>
+								<div class="image-next-button" onclick="slideImage(imagesInformationContainer[1], 1);"><p>&#10095;</p></div>
+							</div>
+							<p style="font-size: 20px;">Svařování pomocí metod EN 141, 111, 136.</p>
+							<p style="font-size: 20px;">V nabídce máme opravy strojů, výrobu mříží, žebříků, plotů, bran a pažení kontejnerů.</p>
+						</div>
+					</div>
+					<div class="order-container">
+						<h3>Zakázka na míru</h3>
+						<p>V momentální době, pouze pomocí e-mailové komunikace.</p>
+						<a href="mailto:info@weldingmontaze.cz" class="button alt">Kontakt</a>
+					</div>
+				</div>
+			</div>
+		</div>			
+		<div id="container-product" class="wrapper style1">
+			<div class="container">
+				<div class="row">
+					<div class="8u">
+						<div class="product-container">
+							<h2 class="container-section-header">Výroba kontejnerů</h2>
+							<div class="image-slideshow">
+								<a href="#" style="transform: scale(0.8);" class="image fit"><img id="container-img" alt="container-image"/></a>
+								<div class="image-previous-button" onclick="slideImage(imagesInformationContainer[2], -1);"><p>&#10094;</p></div>
+								<div class="image-next-button" onclick="slideImage(imagesInformationContainer[2], 1);"><p>&#10095;</p></div>
+							</div>
+							<p style="font-size: 20px;">Máme dlouholetou zkušenost s montáží potrubí ve všech dimenzí a ocelových konstrukcí.</p>
+						</div>
+					</div>
+					<div class="order-container">
+						<h3>Zakázka na míru</h3>
+						<p>V momentální době, pouze pomocí e-mailové komunikace.</p>
+						<a href="mailto:info@weldingmontaze.cz" class="button alt">Kontakt</a>
+					</div>
+				</div>
+			</div>
+		</div>			
+		<div class="footer">
+			<div class="container">
+				<div class="footer-information">
+					<h2>Welding montáže</h2>
+					<ul class="icons">
+						<li><a href="#"><img class="social-icon" src="assets/social-icons/fb.png" alt="fb-icon"></a></li>
+						<li><a href="#"><img class="social-icon" src="assets/social-icons/ig.png" alt="ig-icon"></a></li>
+						<li><a href="#"><img class="social-icon" src="assets/social-icons/in.png" alt="in-icon"></a></li>
+					</ul>
+				</div>
+				<ul class="copyright">
+					<li>&copy; Welding montáže. Všechny práva vyhrazena.</li>
+					<li>Design: <a href="http://templated.co">Partially TEMPLATED and Ma-tes</a></li>
+					<li><a href="https://github.com/WEM-development">GitHub: WEM-development</a></li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			var imagesInformationContainer = [
+				{
+					'name': "steel-img",
+					'index': 0,
+					'images': [
+						"assets/steel-product-images/pipe.png",
+						"assets/steel-product-images/pipe-complex.png",
+						"assets/steel-product-images/pipe-moment.png",
+					]
+				},
+				{
+					'name': "welding-img",
+					'index': 0,
+					'images': [
+						"assets/welding-product-images/excavator.jpg",
+						"assets/welding-product-images/excavator-before.jpg",
+						"assets/welding-product-images/excavator-after.jpg",
+						"assets/welding-product-images/excavator-two-before.jpg",
+						"assets/welding-product-images/excavator-two-after.png",
+						"assets/welding-product-images/spoon-back.jpeg",
+						"assets/welding-product-images/spoon-back-color.jpeg",
+						"assets/welding-product-images/spoon-inside.jpeg",
+					]
+				},
+				{
+					'name': "container-img",
+					'index': 0,
+					'images': [
+						"assets/container.jpg"
+					]
+				}
+			];
+			for (let i = 0; i < imagesInformationContainer.length; i++) {
+				const currentImage = imagesInformationContainer[i];
+				setImageIndex(currentImage.name, currentImage.images, currentImage.index);
+			}
+		</script>
+	</body>
+</html>
