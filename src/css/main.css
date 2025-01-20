@@ -1211,3 +1211,79 @@ input[type="button"],
 .button-disabled {
 	background-color: #f4f4f4;
 }
+
+.image-slider-container {
+	width: 75%;
+	display: relative;
+	margin: 40px auto;
+}
+
+.image-slider-container .image-slider-actor {
+	position: relative;
+	overflow: hidden;
+}
+
+.image-slider-actor .image-slider-after {
+	display: block;
+}
+
+.image-slider-img {
+	display: block;
+	width: 100%;
+	max-height: 600px;
+	object-fit: contain;
+
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.image-slider-actor .image-slider-before {
+	position: absolute;
+	overflow: hidden;
+	z-index: 2;
+}
+
+.image-slider-actor .image-slider-resizer {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	z-index: 5;
+	top: 0;
+	left: 40%;
+	height: 100%;
+	width: 4px;
+	background: #FFC746;
+
+	/*Stop vertical scrolling on touch*/
+	-ms-touch-action: pan-y;
+		touch-action: pan-y;
+}
+
+.image-slider-actor .image-slider-resizer:after {
+	content:'';
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	margin-left: -18px;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-size: 32px;
+	background-repeat: no-repeat;
+	background-position: 50%;
+
+	background-color: #FFC746;
+	background-image: url("../assets/swipe-icon.png");
+	z-index: 10;
+}
+
+
+
+
+
+
+
