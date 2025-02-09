@@ -248,32 +248,32 @@ textarea {
 	position: relative;
 }
 
-	.select-wrapper:before {
-		content: "";
-		-moz-osx-font-smoothing: grayscale;
-		-webkit-font-smoothing: antialiased;
-		font-family: FontAwesome;
-		font-style: normal;
-		font-weight: normal;
-		text-transform: none !important;
-	}
+.select-wrapper:before {
+	content: "";
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-transform: none !important;
+}
 
-	.select-wrapper:before {
-		color: rgba(144, 144, 144, 0.25);
-		display: block;
-		height: 2.75em;
-		line-height: 2.75em;
-		pointer-events: none;
-		position: absolute;
-		right: 0;
-		text-align: center;
-		top: 0;
-		width: 2.75em;
-	}
+.select-wrapper:before {
+	color: rgba(144, 144, 144, 0.25);
+	display: block;
+	height: 2.75em;
+	line-height: 2.75em;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 2.75em;
+}
 
-	.select-wrapper select::-ms-expand {
-		display: none;
-	}
+.select-wrapper select::-ms-expand {
+	display: none;
+}
 
 input[type="text"],
 input[type="password"],
