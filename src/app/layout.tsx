@@ -18,9 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="cs" suppressHydrationWarning>
+      <head>
+        <title>Welding Montáže - Profesionální svařovací služby v Ostravě</title>
+        <meta name="description" content="Profesionální svařovací služby a montáže ocelových konstrukcí v Ostravě" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <HeroUIProvider disableAnimation={false}>
+        <HeroUIProvider>
           <NavigationBar navigationItems={items}/>
           {children}
         </HeroUIProvider>
