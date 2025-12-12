@@ -19,7 +19,7 @@ export interface NavigationItem {
   href: string;
 }
 
-export default function NavigationBar({ navigationItems }: { navigationItems: NavigationItem[] }) {
+export default function NavigationBar({ navigationItems }: { navigationItems: NavigationItem[] }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const pathname = usePathname();
 
@@ -40,8 +40,7 @@ export default function NavigationBar({ navigationItems }: { navigationItems: Na
           <NavbarItem key={name} isActive={pathname === href}>
             <Link
               color={pathname !== href ? "foreground" : undefined}
-              href={href}
-            >
+              href={href}>
               {name}
             </Link>
           </NavbarItem>
@@ -49,12 +48,9 @@ export default function NavigationBar({ navigationItems }: { navigationItems: Na
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="/contact">Contact</Link>
-        </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
+          <Button as={Link} color="primary" href="/contact" variant="flat">
+            Cenová nabídka
           </Button>
         </NavbarItem>
       </NavbarContent>

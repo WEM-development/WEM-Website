@@ -7,9 +7,9 @@ import { geistMono, geistSans } from "../config/fonts";
 import NavigationBar, { NavigationItem } from "../components/navigation/NavigationBar";
 
 export const items: NavigationItem[] = [
-  { name: "Home", href: "/" },
-  { name: "Products", href: "/products" },
-  { name: "About", href: "/about" },
+  { name: "O nás", href: "/" },
+  { name: "Produkty", href: "/products" },
+  { name: "Kontakt", href: "/contact" }
 ];
 
 export default function RootLayout({
