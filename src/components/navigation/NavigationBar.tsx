@@ -49,9 +49,6 @@ export default function NavigationBar({ navigationItems }: { navigationItems: Na
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="primary" href="/contact" variant="flat">
-            Cenová nabídka
-          </Button>
         </NavbarItem>
       </NavbarContent>
 
@@ -62,9 +59,8 @@ export default function NavigationBar({ navigationItems }: { navigationItems: Na
               className="w-full"
               color={pathname !== href ? "foreground" : undefined}
               href={href}
-              size="lg"
-            >
-              {name}
+              size="lg">
+                {name}
             </Link>
           </NavbarMenuItem>
         ))}
