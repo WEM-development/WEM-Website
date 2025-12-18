@@ -19,7 +19,7 @@ export default function InvoicePreview({ invoice }: { invoice?: Invoice }) {
     const totalAmount = subTotal + vatAmount;
 
     return (
-        <div className="flex flex-col min-h-[297mm] bg-white w-full max-w-[210mm] rounded-lg border-1 border-gray-200 p-8 shadow-sm text-sm relative">
+        <div id="print-area" className="flex flex-col min-h-[297mm] bg-white w-full max-w-[210mm] rounded-lg border-1 border-gray-200 p-8 shadow-sm text-sm relative">
             <div className="flex justify-between mb-8">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-800">FAKTURA</h1>
@@ -74,7 +74,7 @@ export default function InvoicePreview({ invoice }: { invoice?: Invoice }) {
                         <Image
                             alt="QR platba"
                             src={invoice.paymentDetails.qrFetchURL}
-                            width={275}
+                            width={235}
                         />
                     </div>
                 </div>

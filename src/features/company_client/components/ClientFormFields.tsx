@@ -20,6 +20,7 @@ export default function ClientForm({client}: {client: Client | null}) {
                 name="name"
                 placeholder="Welding Montáže"
                 type="text"
+                variant="bordered"
             />
 
             <Input
@@ -31,6 +32,7 @@ export default function ClientForm({client}: {client: Client | null}) {
                 placeholder="info@weldingmontaze.cz"
                 endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />}
                 type="email"
+                variant="bordered"
             />
 
             <Textarea
@@ -42,6 +44,7 @@ export default function ClientForm({client}: {client: Client | null}) {
                 name="name"
                 placeholder="Budovatelů 1522/53b, Prostřední Suchá, 73564 Havířov"
                 type="text"
+                variant="bordered"
             />
         </div>
     );

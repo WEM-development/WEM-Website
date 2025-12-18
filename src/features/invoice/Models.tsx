@@ -1,6 +1,7 @@
 import { Client } from "../company_client/Models";
 
 export interface InvoiceItem {
+    id?: number;
     description: string;
     amount: number;
     price: number;

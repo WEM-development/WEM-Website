@@ -1,35 +1,57 @@
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
+      {/* Maintenance Section */}
+      <section className="flex items-center justify-center min-h-screen py-20">
         <div className="container mx-auto px-4">
-          <h1 className="text-5xl font-bold mb-6">Welding Montáže</h1>
-          <p className="text-2xl mb-4">Profesionální svařovací služby v Ostravě</p>
-          <p className="text-xl mb-8 max-w-3xl">
-            Jsme specialisté na svařování a montáže ocelových konstrukcí s více než 
-            20 lety zkušeností v oboru. Poskytujeme komplexní řešení pro průmysl 
-            i soukromou sféru.
-          </p>
-          <div className="flex gap-4">
-            <a 
-              href="/contact" 
-              className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
-            >
-              Kontaktujte nás
-            </a>
-            <a 
-              href="/products" 
-              className="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition"
-            >
-              Naše služby
-            </a>
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl p-12 text-center">
+            {/* Construction Icon */}
+            <div className="text-8xl mb-8">🚧</div>
+            
+            {/* Main Heading */}
+            <h1 className="text-5xl font-bold mb-6">
+              Stránky jsou ve výstavbě
+            </h1>
+            
+            {/* Subtitle */}
+            <p className="text-2xl text-gray-700 mb-8">
+              Probíhá pravidelná údržba
+            </p>
+            
+            {/* Description */}
+            <div className="rounded-lg p-8 mb-8">
+              <p className="text-lg text-gray-800 mb-4">
+                Naše webové stránky právě procházejí rekonstrukcí a pravidelnou údržbou, 
+                abychom vám mohli přinést ještě lepší služby a uživatelský zážitek.
+              </p>
+              <p className="text-lg text-gray-800">
+                Děkujeme za vaši trpělivost a pochopení. Brzy se k vám vrátíme!
+              </p>
+            </div>
+            
+            {/* Contact Info */}
+            <div className="border-t border-gray-200 pt-8">
+              <h2 className="text-2xl font-semibold mb-4">
+                Welding Montáže
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Profesionální svařovací služby v Ostravě
+              </p>
+              <div className="flex flex-col gap-3 items-center">
+                <a href="mailto:info@weldingmontaze.cz" className="text-lg text-blue-600 hover:text-blue-800 transition flex items-center gap-2">
+                  <span>info@weldingmontaze.cz</span>
+                </a>
+                <a href="tel:+420773266677" className="text-lg text-blue-600 hover:text-blue-800 transition flex items-center gap-2">
+                  <span>+420 773 266 677</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section className="py-16 bg-white">
+      {/* Services Overview - COMMENTED OUT */}
+      {/* <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Naše služby</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -60,10 +82,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Why Choose Us */}
-      <section className="py-16 bg-gray-100">
+      {/* Why Choose Us - COMMENTED OUT */}
+      {/* <section className="py-16 bg-gray-100">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Proč si vybrat nás</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -109,10 +131,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Reference Section */}
-      <section className="py-16 bg-white">
+      {/* Reference Section - COMMENTED OUT */}
+      {/* <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Naše reference</h2>
           <p className="text-center text-xl text-gray-700 max-w-3xl mx-auto mb-8">
@@ -135,10 +157,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* CTA Section */}
-      <section className="bg-blue-900 text-white py-16">
+      {/* CTA Section - COMMENTED OUT */}
+      {/* <section className="bg-blue-900 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-6">Máte projekt na míru?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -152,7 +174,7 @@ export default function HomePage() {
             Získat cenovou nabídku
           </a>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
