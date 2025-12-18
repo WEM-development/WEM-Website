@@ -64,7 +64,7 @@ export default function InvoiceForm() { //({ onSubmit }: InvoiceFormProps) {
     const [searchedClient, setSearchedClient] = useState<Client | null>(null);
 
     const handleSearch = async () => {
-        const client = null; // await GetCompanyClient(ico);
+        const client = await GetCompanyClient(ico);
         setSearchedClient(client);
         setShowClientForm(true);
 
