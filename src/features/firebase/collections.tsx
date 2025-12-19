@@ -1,5 +1,5 @@
 export type CollectionField = {
-    type: string,
+    type: any,
     value?: any
 };
 
@@ -23,13 +23,13 @@ export const UserScheme: Collection = {
     }
 };
 
-export const InvoiceScheme: Collection = {
-    name: "invoice",
+export const ClientScheme: Collection = {
+    name: "clients",
     fields: {
-        firstName: {
+        name: {
             type: "string"
         },
-        lastName: {
+        address: {
             type: "string"
         },
         email: {
@@ -38,4 +38,68 @@ export const InvoiceScheme: Collection = {
     }
 };
 
-export type DatabaseCollection = typeof UserScheme | typeof InvoiceScheme;
+export const InvoicePaymentScheme: Collection = {
+    name: "invoice_payments",
+    fields: {
+        accountNumber: {
+            type: "number"
+        },
+        amount: {
+            type: "number"
+        },
+        bankCode: {
+            type: "number"
+        },
+        currency: {
+            type: "string"
+        },
+        message: {
+            type: "string"
+        },
+        qrFetchURL: {
+            type: "string"
+        },
+        variableSymbol: {
+            type: "number"
+        }
+    }
+};
+
+export const InvoiceScheme: Collection = {
+    name: "invoices",
+    fields: {
+        items: {
+            type: {
+                parentType: "array",
+                childrenType: "reference"
+            }
+        },
+        itemsPrice: {
+            type: "number"
+        },
+        publishDate: {
+            type: "timestamp"
+        },
+        paymentDate: {
+            type: "timestamp"
+        },
+        paymentDetails: {
+            type: "reference"
+        },
+        taxRate: {
+            type: "number"
+        },
+        supplier: {
+            type: "reference"
+        },
+        customer: {
+            type: "reference"
+        },
+    }
+};
+
+export type DatabaseCollection =
+    typeof UserScheme           |
+    typeof ClientScheme         |
+    typeof InvoicePaymentScheme | 
+    typeof InvoiceScheme;

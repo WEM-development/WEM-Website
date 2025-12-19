@@ -24,5 +24,7 @@ export interface Invoice {
     supplier: Client;
     customer: Client;
     items: InvoiceItem[];
+    itemsPrice: number;
+    taxRate: number;
     paymentDetails: InvoicePaymentDetails;
 };

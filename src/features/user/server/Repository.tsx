@@ -2,7 +2,6 @@ import { addDocument, FirebaseStatus, getDocument, getDocuments } from "@/src/fe
 import { UserScheme } from "../../firebase/collections";
 import { User } from "../Models";
 
-
 export interface UserRepository {
     addUserAsync(user: User) : Promise<boolean>;
     getUserAsync(uid: string) : Promise<User | undefined>;

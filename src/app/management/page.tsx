@@ -1,9 +1,14 @@
-import InvoiceForm from "@/src/features/invoice/components/InvoiceForm";
+import InvoiceEditor from "@/src/features/invoice/components/InvoiceEditor";
+import { Invoices } from "@/src/features/invoice/server/Repository";
 
 export default async function Page() {
+    const testInvoice = await Invoices.getInvoiceAsync("202519121");
+
     return (
-        <div className="container mx-auto px-4 py-8">
-            <InvoiceForm />
+        <div>
+            <InvoiceEditor
+                loadInvoice={testInvoice}
+            />
         </div>
     );
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Input } from "@heroui/react";
+import { Button, Form, Input } from "@heroui/react";
 import { InvoiceItem } from "../Models";
 import { TrashIcon } from "./Icons";
 import { useState } from "react";
@@ -10,7 +10,7 @@ interface InvoiceItemsFormProps {
 }
         <div id="print-area" className="flex flex-col min-h-[297mm] bg-white w-full max-w-[210mm]"></div>
 
-export default function InvoiceItemsForm() {
+export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
     const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
 
     return (
@@ -26,6 +26,7 @@ export default function InvoiceItemsForm() {
                             description: "",
                             amount: 0,
                             price: 0}]);
+                        onChange(invoiceItems);
                     }}
                 >
                     Přidat položku
@@ -41,6 +42,7 @@ export default function InvoiceItemsForm() {
                             endContent={<TrashIcon />}
                             onPress={() => {
                                 setInvoiceItems(invoiceItems.filter((i) => i.id !== item.id));
+                                onChange(invoiceItems);
                             }}
                         >
                         </Button>
@@ -54,6 +56,10 @@ export default function InvoiceItemsForm() {
                             name="item_desc"
                             type="text"
                             variant="bordered"
+                            onValueChange={(value: string) => {
+                                item.description = value;
+                                onChange(invoiceItems);
+                            }}
                         />
                     </div>
                     <div className="flex flex-row gap-6 items-center justify-between">
@@ -63,8 +69,12 @@ export default function InvoiceItemsForm() {
                             label="Množství"
                             labelPlacement="outside-top"
                             name="item_count"
-                            type="text"
+                            type="number"
                             variant="bordered"
+                            onValueChange={(value: string) => {
+                                item.amount = parseInt(value);
+                                onChange(invoiceItems);
+                            }}
                         />
                         <Input
                             isRequired
@@ -72,8 +82,12 @@ export default function InvoiceItemsForm() {
                             label="Cena/kus (Kč)"
                             labelPlacement="outside-top"
                             name="item_price"
-                            type="text"
+                            type="number"
                             variant="bordered"
+                            onValueChange={(value: string) => {
+                                item.price = parseFloat(value);
+                                onChange(invoiceItems);
+                            }}
                         />
                     </div>
                 </div>
