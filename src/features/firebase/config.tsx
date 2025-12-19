@@ -3,13 +3,13 @@ import { getFirestore } from "firebase/firestore";
 
 // TODO: Add enviroment keys
 const firebaseConfig = {
-  apiKey: "AIzaSyDIRoWWjiT8xhzKWjecyF8xSEuka565vxk",
-  authDomain: "wem-website.firebaseapp.com",
-  projectId: "wem-website",
-  storageBucket: "wem-website.firebasestorage.app",
-  messagingSenderId: "767727234228",
-  appId: "1:767727234228:web:94a0edf13f4a6e3baebbe1",
-  measurementId: "G-1VDNVBM5SB"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
