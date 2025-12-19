@@ -127,11 +127,6 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
         );
     }
 
-    const subTotal = invoice.items.reduce((sum, item) => sum + (item.amount * item.price), 0);
-    const vatRate = 0.21;
-    const vatAmount = subTotal * vatRate;
-    const totalAmount = subTotal + vatAmount;
-
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-row gap-8 items-center justify-between">
@@ -227,19 +222,19 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                                 <tr className="border-t-2 border-gray-300">
                                     <td colSpan={3} className="py-2 text-right text-gray-600">Mezisoučet bez DPH:</td>
                                     <td className="py-2 text-right font-medium">
-                                        {subTotal.toLocaleString('cs-CZ')} Kč
+                                        {invoice.itemsPrice.toLocaleString('cs-CZ')} Kč
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colSpan={3} className="py-2 text-right text-gray-600">DPH (21%):</td>
                                     <td className="py-2 text-right font-medium">
-                                        {vatAmount.toLocaleString('cs-CZ')} Kč
+                                        {(invoice.itemsPrice * invoice.taxRate).toLocaleString('cs-CZ')} Kč
                                     </td>
                                 </tr>
                                 <tr className="bg-gray-50">
                                     <td colSpan={3} className="py-4 text-right font-bold text-lg">Celkem k úhradě:</td>
                                     <td className="py-4 text-right font-bold text-lg text-primary">
-                                        {totalAmount.toLocaleString('cs-CZ')} Kč
+                                        {invoice.paymentDetails.amount.toLocaleString('cs-CZ')} Kč
                                     </td>
                                 </tr>
                             </tfoot>

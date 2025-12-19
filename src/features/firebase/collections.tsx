@@ -65,6 +65,21 @@ export const InvoicePaymentScheme: Collection = {
     }
 };
 
+export const InvoiceItemsScheme: Collection = {
+    name: "invoice_items",
+    fields: {
+        description: {
+            type: "string"
+        },
+        amount: {
+            type: "number"
+        },
+        price: {
+            type: "number"
+        }
+    }
+};
+
 export const InvoiceScheme: Collection = {
     name: "invoices",
     fields: {
@@ -102,4 +117,5 @@ export type DatabaseCollection =
     typeof UserScheme           |
     typeof ClientScheme         |
     typeof InvoicePaymentScheme | 
+    typeof InvoiceItemsScheme | 
     typeof InvoiceScheme;

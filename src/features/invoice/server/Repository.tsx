@@ -1,4 +1,4 @@
-import { ClientScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
+import { ClientScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
 import { addDocument, FirebaseStatus, getDocument, getReference } from "../../firebase/utilities";
 import { Invoice } from "../Models";
 
@@ -26,6 +26,12 @@ class FirebaseRepository implements InvoiceRepository {
         const [customerIco, customerFields] = await getReference(ClientScheme, fields.customer.value);
         const [_, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails.value);
 
+        const items = await Promise.all(fields.items.value.map(async (itemId: any) => {
+            console.log(itemId);
+            const item = await getReference(InvoiceItemsScheme, itemId);
+            return item;
+        }));
+
         return {
             id: id,
             publishDate: fields.publishDate.value.toDate(),
@@ -42,7 +48,14 @@ class FirebaseRepository implements InvoiceRepository {
                 address: customerFields.address.value,
                 email: customerFields.email.value
             },
-            items: [],
+            items: items.map(([id, itemFields]: any) => {
+                return {
+                    id: id,
+                    description: itemFields.description.value,
+                    amount: itemFields.amount.value,
+                    price: itemFields.price.value
+                };
+            }),
             itemsPrice: fields.itemsPrice.value,
             taxRate: fields.taxRate.value,
             paymentDetails: {
