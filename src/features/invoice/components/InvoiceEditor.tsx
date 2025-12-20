@@ -5,9 +5,10 @@ import { Invoice, InvoiceItem } from "../Models";
 import InvoiceForm from "./InvoiceForm";
 import InvoiceItemsForm from "./InvoiceItemsForm";
 import InvoicePreview from "./InvoicePreview";
+import { getQRFetchUrl } from "../server/Service";
 
-export default function InvoiceEditor({ loadInvoice }: { loadInvoice: Invoice | null }) {
-    const [invoice, setInvoice] = useState<Invoice | null>(loadInvoice);
+export default function InvoiceEditor({ loadInvoice }: { loadInvoice: Invoice}) {
+    const [invoice, setInvoice] = useState<Invoice>(loadInvoice);
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -15,20 +16,28 @@ export default function InvoiceEditor({ loadInvoice }: { loadInvoice: Invoice | 
                 <div className="grid grid-cols-2 grid-rows-2 gap-16">
                     <div className="w-full flex flex-col gap-4">
                         <InvoiceForm
-                            // TODO: Fix the nullability
-                            invoice={invoice!}
+                            invoice={invoice}
                             onChange={(currentInvoice: Invoice) => {
                                 setInvoice(currentInvoice);
                             }}
                         />
                         <InvoiceItemsForm
                             onChange={(items: InvoiceItem[]) => {
-                                if (invoice) {
-                                    setInvoice({
-                                        ...invoice,
-                                        items: items
-                                    });
-                                }
+                                const sumPrice = items.reduce((sum, item) => sum + (item.price * item.amount), 0);
+                                const newPaymentDetails = {
+                                    ...invoice.paymentDetails,
+                                    amount: sumPrice + (sumPrice * invoice.taxRate),
+                                };
+
+                                setInvoice({
+                                    ...invoice,
+                                    items: items,
+                                    itemsPrice: sumPrice,
+                                    paymentDetails: {
+                                        ...newPaymentDetails,
+                                        qrFetchURL: getQRFetchUrl(newPaymentDetails)
+                                    }
+                                });
                             }}
                         />
                     </div>

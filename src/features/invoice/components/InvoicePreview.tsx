@@ -236,7 +236,7 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
 
                                         <div className="col-span-1">
                                             <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Cena</p>
-                                            <p className="text-m">{invoice.paymentDetails.amount} {invoice.paymentDetails.currency}</p>
+                                            <p className="text-m">{invoice.paymentDetails.amount.toLocaleString('cs-CZ')} {invoice.paymentDetails.currency}</p>
                                         </div>
 
                                         <div className="col-span-4">

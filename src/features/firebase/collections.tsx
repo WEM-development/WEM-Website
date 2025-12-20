@@ -8,17 +8,32 @@ export interface Collection {
     fields: Record<string, CollectionField>
 };
 
-export const UserScheme: Collection = {
-    name: "users",
+export const ProfileScheme: Collection = {
+    name: "profiles",
     fields: {
-        firstName: {
-            type: "string"
+        uid: {
+            type: "number"
         },
-        lastName: {
+        ico: {
+            type: "number"
+        },
+        supplierName: {
             type: "string"
         },
         email: {
             type: "string"
+        },
+        address: {
+            type: "string"
+        },
+        signature: {
+            type: "string"
+        },
+        accountNumber: {
+            type: "number"
+        },
+        bankCode: {
+            type: "number"
         }
     }
 };
@@ -114,7 +129,7 @@ export const InvoiceScheme: Collection = {
 };
 
 export type DatabaseCollection =
-    typeof UserScheme           |
+    typeof ProfileScheme        |
     typeof InvoiceClientScheme  |
     typeof InvoicePaymentScheme | 
     typeof InvoiceItemsScheme   | 

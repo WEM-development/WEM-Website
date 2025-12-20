@@ -15,7 +15,7 @@ interface InvoiceFormProps {
 export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
     const [ico, setIco] = useState("");
     const [searchedClient, setSearchedClient] = useState<Client | null>({
-        ico: "",
+        ico: 0,
         name: "",
         address: ""
     });
@@ -48,7 +48,11 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                             onValueChange={(value: string) => {
                                 onChange({
                                     ...invoice,
-                                    id: value
+                                    id: value,
+                                    paymentDetails: { 
+                                        ...invoice.paymentDetails,
+                                        variableSymbol: parseInt(value)
+                                    }
                                 });
                             }}
                         />
@@ -104,7 +108,7 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                                         ...invoice,
                                         customer: {
                                             ...invoice.customer,
-                                            ico: value
+                                            ico: parseInt(value)
                                         }
                                     });
                                 }}
@@ -114,7 +118,7 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                     </div>
                     <div className="pt-8">
                         {<ClientFormFields 
-                            client={searchedClient}
+                            client={invoice.customer}
                             onChange={(client: Client) => {
                                 onChange({
                                     ...invoice,

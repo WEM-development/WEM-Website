@@ -1,6 +1,6 @@
 
 export interface Client {
-    ico: string;
+    ico: number;
     name: string;
     email?: string;
     address: string;
