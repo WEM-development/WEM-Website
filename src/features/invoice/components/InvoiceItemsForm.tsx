@@ -22,11 +22,16 @@ export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
                     variant="ghost"
                     onPress={() => {
                         setInvoiceItems([...invoiceItems, {
-                            id: Date.now(),
+                            id: invoiceItems.length + 1,
                             description: "",
                             amount: 0,
                             price: 0}]);
-                        onChange(invoiceItems);
+                        onChange([...invoiceItems, {
+                            id: invoiceItems.length + 1,
+                            description: "",
+                            amount: 0,
+                            price: 0}]
+                        );
                     }}
                 >
                     Přidat položku
@@ -42,7 +47,7 @@ export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
                             endContent={<TrashIcon />}
                             onPress={() => {
                                 setInvoiceItems(invoiceItems.filter((i) => i.id !== item.id));
-                                onChange(invoiceItems);
+                                onChange(invoiceItems.filter((i) => i.id !== item.id));
                             }}
                         >
                         </Button>

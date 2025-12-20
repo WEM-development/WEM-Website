@@ -3,6 +3,7 @@
 import { Button, Image } from "@heroui/react";
 import { Invoice } from "../Models";
 import { PaperAirplaneIcon, PrinterIcon } from "./Icons";
+import { Invoices } from "../server/Repository";
 
 export default function InvoicePreview({ invoice }: { invoice: Invoice | null }) {
 
@@ -127,130 +128,195 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
         );
     }
 
+    // Pagination logic
+    const ITEMS_PER_FIRST_PAGE = 8;
+    const ITEMS_PER_PAGE = 18;
+    
+    const pages = [];
+    const items = [...invoice.items];
+    
+    // First page
+    pages.push({
+        items: items.slice(0, ITEMS_PER_FIRST_PAGE),
+        pageNumber: 1,
+        isFirst: true,
+        isLast: items.length <= ITEMS_PER_FIRST_PAGE
+    });
+    
+    // Subsequent pages
+    for (let i = ITEMS_PER_FIRST_PAGE; i < items.length; i += ITEMS_PER_PAGE) {
+        const chunk = items.slice(i, i + ITEMS_PER_PAGE);
+        pages.push({
+            items: chunk,
+            pageNumber: pages.length + 1,
+            isFirst: false,
+            isLast: i + ITEMS_PER_PAGE >= items.length
+        });
+    }
+
     return (
         <div className="flex flex-col gap-6">
-            <div className="flex flex-row gap-8 items-center justify-between">
+            <div className="flex flex-row gap-8 items-center justify-between print:hidden">
                 <p className="text-xl font-medium float-left">Náhled faktury</p>
                 <div className="flex flex-row gap-8 ">
                     <Button color="primary" variant="ghost" endContent={<PrinterIcon />}
                         onPress={() => window.print() }>
                         Tisknout
                     </Button>
-                    <Button color="primary" endContent={<PaperAirplaneIcon />}>
+                    <Button color="primary" endContent={<PaperAirplaneIcon />}
+                        onPress={async() => await Invoices.addInvoiceAsync(invoice)}>
                         Odeslat
                     </Button>
                 </div>
             </div>
-            <div id="print-area" className="flex flex-col min-h-[297mm] bg-white w-full max-w-[210mm] rounded-lg border-1 border-gray-200 p-8 shadow-sm text-sm relative">
-                <div className="flex justify-between mb-8">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-800">FAKTURA</h1>
-                        <p className="text-gray-500">č. {invoice.id}</p>
-                    </div>
-                    <div className="text-right">
-                        <p><span className="font-semibold">Datum vystavení:</span> {invoice.publishDate.toLocaleDateString('cs-CZ')}</p>
-                        <p><span className="font-semibold">Datum splatnosti:</span> {invoice.paymentDate.toLocaleDateString('cs-CZ')}</p>
-                    </div>
-                </div>
+            
+            <div id="print-area">
+                {pages.map((page, index) => (
+                    <div 
+                        key={index}
+                        className={`flex flex-col min-h-[297mm] bg-white w-full max-w-[210mm] rounded-lg border-1 border-gray-200 print:border-none p-8 print:p-6 shadow-sm print:shadow-none text-sm relative ${index < pages.length - 1 ? 'mb-8 print:mb-0' : ''}`}
+                        style={index < pages.length - 1 ? { pageBreakAfter: 'always' } : {}}
+                    >
+                        {/* Header */}
+                        {page.isFirst ? (
+                            <>
+                                <div className="flex justify-between mb-8 print:mb-4">
+                                    <div>
+                                        <h1 className="text-2xl font-bold text-gray-800">FAKTURA</h1>
+                                        <p className="text-gray-500">č. {invoice.id}</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p><span className="font-semibold">Datum vystavení:</span> {invoice.publishDate.toLocaleDateString('cs-CZ')}</p>
+                                        <p><span className="font-semibold">Datum splatnosti:</span> {invoice.paymentDate.toLocaleDateString('cs-CZ')}</p>
+                                    </div>
+                                </div>
 
-                <div className="grid grid-cols-2 gap-8 mb-8">
-                    <div>
-                        <h3 className="font-bold text-gray-700 border-b pb-1 mb-2">Dodavatel</h3>
-                        <p className="font-semibold">{invoice.supplier.name}</p>
-                        <p>{invoice.supplier.address}</p>
-                        <p>IČO: {invoice.supplier.ico}</p>
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-gray-700 border-b pb-1 mb-2">Odběratel</h3>
-                        <p className="font-semibold">{invoice.customer.name}</p>
-                        <p>{invoice.customer.address}</p>
-                        <p>IČO: {invoice.customer.ico}</p>
-                    </div>
-                </div>
-
-                <div className="grid grid-rows-2">
-                    <div className="w-full h-auto flex flex-row gap-8 items-center justify-between">
-                        <div className="float-left w-full h-auto p-6 bg-gray-50 rounded-lg grid grid-cols-4 grid-rows-2 gap-8">
-                            <div className="col-span-2">
-                                <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Bankovní účet</p>
-                                <p className="text-m">{invoice.paymentDetails.accountNumber}/{invoice.paymentDetails.bankCode}</p>
+                                <div className="grid grid-cols-2 gap-8 print:gap-4 mb-8 print:mb-4">
+                                    <div>
+                                        <h3 className="font-bold text-gray-700 border-b pb-1 mb-2">Dodavatel</h3>
+                                        <p className="font-semibold">{invoice.supplier.name}</p>
+                                        <p>{invoice.supplier.address}</p>
+                                        <p>IČO: {invoice.supplier.ico}</p>
+                                        <p>{invoice.supplier.email}</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-gray-700 border-b pb-1 mb-2">Odběratel</h3>
+                                        <p className="font-semibold">{invoice.customer.name}</p>
+                                        <p>{invoice.customer.address}</p>
+                                        <p>IČO: {invoice.customer.ico}</p>
+                                        <p>{invoice.customer.email}</p>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="flex justify-between mb-8 print:mb-4 border-b pb-4">
+                                <div>
+                                    <h1 className="text-xl font-bold text-gray-800">FAKTURA - pokračování</h1>
+                                    <p className="text-gray-500">č. {invoice.id} - Strana {page.pageNumber}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p><span className="font-semibold">Datum vystavení:</span> {invoice.publishDate.toLocaleDateString('cs-CZ')}</p>
+                                </div>
                             </div>
-                            <div className="col-span-1">
-                                <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Var. symbol</p>
-                                <p className="text-m">{invoice.paymentDetails.variableSymbol}</p>
-                            </div>
+                        )}
 
-                            <div className="col-span-1">
-                                <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Cena</p>
-                                <p className="text-m">{invoice.paymentDetails.amount} {invoice.paymentDetails.currency}</p>
-                            </div>
+                        {/* Content */}
+                        <div className="flex flex-col flex-grow">
+                            {page.isFirst && (
+                                <div className="w-full h-auto flex flex-row gap-8 items-center justify-between mb-4">
+                                    <div className="float-left w-full h-auto p-6 print:p-4 bg-gray-50 rounded-lg grid grid-cols-4 grid-rows-2 gap-8 print:gap-4">
+                                        <div className="col-span-2">
+                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Bankovní účet</p>
+                                            <p className="text-m">{invoice.paymentDetails.accountNumber}/{invoice.paymentDetails.bankCode}</p>
+                                        </div>
+                                        <div className="col-span-1">
+                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Var. symbol</p>
+                                            <p className="text-m">{invoice.paymentDetails.variableSymbol}</p>
+                                        </div>
 
-                            <div className="col-span-4">
-                                <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Zpráva pro příjemce</p>
-                                <p className="text-m">{invoice.paymentDetails.message}</p>
+                                        <div className="col-span-1">
+                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Cena</p>
+                                            <p className="text-m">{invoice.paymentDetails.amount} {invoice.paymentDetails.currency}</p>
+                                        </div>
+
+                                        <div className="col-span-4">
+                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Zpráva pro příjemce</p>
+                                            <p className="text-m">{invoice.paymentDetails.message}</p>
+                                        </div>
+                                    </div>
+                                    <div className="float-right">
+                                        <Image
+                                            alt="QR platba"
+                                            src={invoice.paymentDetails.qrFetchURL}
+                                            width={235}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex-grow">
+                                <table className="w-full text-left">
+                                    <thead>
+                                        <tr className="border-b-2 border-gray-300">
+                                            <th className="py-2">Položka</th>
+                                            <th className="py-2 text-right">Množství</th>
+                                            <th className="py-2 text-right">Cena/ks</th>
+                                            <th className="py-2 text-right">Celkem bez DPH</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {page.items.map((item, index) => (
+                                            <tr key={index} className="border-b border-gray-100">
+                                                <td className="py-2">{item.description}</td>
+                                                <td className="py-2 text-right">{item.amount}</td>
+                                                <td className="py-2 text-right">{item.price.toLocaleString('cs-CZ')} Kč</td>
+                                                <td className="py-2 text-right font-medium">{(item.amount * item.price).toLocaleString('cs-CZ')} Kč</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                    {page.isLast && (
+                                        <tfoot>
+                                            <tr className="border-t-2 border-gray-300">
+                                                <td colSpan={3} className="py-2 text-right text-gray-600">Mezisoučet bez DPH:</td>
+                                                <td className="py-2 text-right font-medium">
+                                                    {invoice.itemsPrice.toLocaleString('cs-CZ')} Kč
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colSpan={3} className="py-2 text-right text-gray-600">DPH (21%):</td>
+                                                <td className="py-2 text-right font-medium">
+                                                    {(invoice.itemsPrice * invoice.taxRate).toLocaleString('cs-CZ')} Kč
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-gray-50">
+                                                <td colSpan={3} className="py-4 text-right font-bold text-lg">Celkem k úhradě:</td>
+                                                <td className="py-4 text-right font-bold text-lg text-primary">
+                                                    {invoice.paymentDetails.amount.toLocaleString('cs-CZ')} Kč
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    )}
+                                </table>
                             </div>
                         </div>
-                        <div className="float-right">
-                            <Image
-                                alt="QR platba"
-                                src={invoice.paymentDetails.qrFetchURL}
-                                width={235}
-                            />
+
+                        {page.isLast && (
+                            <div className="mt-8 mb-8 print:mt-4 print:mb-4 grid grid-cols-2 gap-8">
+                                <div>
+                                    {/* Optional: Notes or payment details */}
+                                </div>
+                                <div className="flex flex-col items-center justify-end">
+                                    <div className="h-24 print:h-16 w-48 border-b-1 border-gray-400 mb-2"></div>
+                                    <p className="text-sm text-gray-500">Podpis a razítko dodavatele</p>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="mt-auto w-full text-right text-gray-400 text-xs">
+                            Strana {page.pageNumber} z {pages.length}
                         </div>
                     </div>
-                    <div className="mt-4 flex-grow">
-                        <table className="w-full text-left">
-                            <thead>
-                                <tr className="border-b-2 border-gray-300">
-                                    <th className="py-2">Položka</th>
-                                    <th className="py-2 text-right">Množství</th>
-                                    <th className="py-2 text-right">Cena/ks</th>
-                                    <th className="py-2 text-right">Celkem bez DPH</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {invoice.items.map((item, index) => (
-                                    <tr key={index} className="border-b border-gray-100">
-                                        <td className="py-2">{item.description}</td>
-                                        <td className="py-2 text-right">{item.amount}</td>
-                                        <td className="py-2 text-right">{item.price.toLocaleString('cs-CZ')} Kč</td>
-                                        <td className="py-2 text-right font-medium">{(item.amount * item.price).toLocaleString('cs-CZ')} Kč</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                            <tfoot>
-                                <tr className="border-t-2 border-gray-300">
-                                    <td colSpan={3} className="py-2 text-right text-gray-600">Mezisoučet bez DPH:</td>
-                                    <td className="py-2 text-right font-medium">
-                                        {invoice.itemsPrice.toLocaleString('cs-CZ')} Kč
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={3} className="py-2 text-right text-gray-600">DPH (21%):</td>
-                                    <td className="py-2 text-right font-medium">
-                                        {(invoice.itemsPrice * invoice.taxRate).toLocaleString('cs-CZ')} Kč
-                                    </td>
-                                </tr>
-                                <tr className="bg-gray-50">
-                                    <td colSpan={3} className="py-4 text-right font-bold text-lg">Celkem k úhradě:</td>
-                                    <td className="py-4 text-right font-bold text-lg text-primary">
-                                        {invoice.paymentDetails.amount.toLocaleString('cs-CZ')} Kč
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-
-                <div className="mt-16 mb-8 grid grid-cols-2 gap-8">
-                    <div>
-                        {/* Optional: Notes or payment details */}
-                    </div>
-                    <div className="flex flex-col items-center justify-end">
-                        <div className="h-24 w-48 border-b-1 border-gray-400 mb-2"></div>
-                        <p className="text-sm text-gray-500">Podpis a razítko dodavatele</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );

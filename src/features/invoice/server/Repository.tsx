@@ -1,5 +1,5 @@
-import { ClientScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
-import { addDocument, FirebaseStatus, getDocument, getReference } from "../../firebase/utilities";
+import { InvoiceClientScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
+import { addDocument, FirebaseStatus, getDocument, getReference, getReferenceObject } from "../../firebase/utilities";
 import { Invoice } from "../Models";
 
 export interface InvoiceRepository {
@@ -9,10 +9,36 @@ export interface InvoiceRepository {
 
 class FirebaseRepository implements InvoiceRepository {
     async addInvoiceAsync(invoice: Invoice) : Promise<boolean> {
-        const status = await addDocument(InvoiceScheme, invoice) == FirebaseStatus.Ok;
-        // TODO: Add adding payment, items references
+        const identificators = {
+            customer: `${invoice.id}-c`,
+            supplier: `${invoice.id}-s`,
+            payment: `${invoice.id}-Payment`
+        };
 
-        return status;
+        const customerStatus = await addDocument(InvoiceClientScheme, invoice.customer, identificators.customer) == FirebaseStatus.Ok;
+        const supplierStatus = await addDocument(InvoiceClientScheme, invoice.supplier, identificators.supplier) == FirebaseStatus.Ok;
+        const paymentStatus = await addDocument(InvoicePaymentScheme, invoice.paymentDetails, identificators.payment) == FirebaseStatus.Ok;
+
+        const items = invoice.items.map(item => [`${invoice.id}-Item:${item.id}`, item] as const);
+        await Promise.all(items.map(async ([id, item]) => {
+            return await addDocument(InvoiceItemsScheme, item, id);
+        }));
+
+        const invoiceStatus = await addDocument(
+            InvoiceScheme, {
+                items: items.map(([id, _]) => getReferenceObject(InvoiceItemsScheme, id)),
+                customer: getReferenceObject(InvoiceClientScheme, identificators.customer),
+                supplier: getReferenceObject(InvoiceClientScheme, identificators.supplier),
+                paymentDetails: getReferenceObject(InvoicePaymentScheme, identificators.payment),
+                publishDate: invoice.publishDate,
+                paymentDate: invoice.paymentDate,
+                itemsPrice: invoice.itemsPrice,
+                taxRate: invoice.taxRate
+            },
+            invoice.id
+        ) == FirebaseStatus.Ok;
+
+        return customerStatus && supplierStatus && paymentStatus && invoiceStatus;
     }
 
     async getInvoiceAsync(invoiceId: string) : Promise<Invoice | null> {
@@ -22,8 +48,8 @@ class FirebaseRepository implements InvoiceRepository {
             return null;
         }
 
-        const [supplierIco, supplierFields] = await getReference(ClientScheme, fields.supplier.value);
-        const [customerIco, customerFields] = await getReference(ClientScheme, fields.customer.value);
+        const [supplierIco, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier.value);
+        const [customerIco, customerFields] = await getReference(InvoiceClientScheme, fields.customer.value);
         const [_, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails.value);
 
         const items = await Promise.all(fields.items.value.map(async (itemId: any) => {

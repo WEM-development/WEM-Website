@@ -1,34 +1,38 @@
 "use client"
 
-import { Button, DatePicker, Form, Input, InputOtp } from "@heroui/react";
+import { Button, DatePicker, DateValue, Form, Input, InputOtp } from "@heroui/react";
 import { useState } from "react";
 import ClientFormFields from "../../company_client/components/ClientFormFields";
 import { Client } from "../../company_client/Models";
 import { GetCompanyClient } from "../../company_client/server/Route";
+import { Invoice } from "../Models";
 
 interface InvoiceFormProps {
-    onSubmit: (invoice: {}) => void;
+    invoice: Invoice;
+    onChange: (invoice: Invoice) => void;
 }
 
-export default function InvoiceForm({ onSubmit }: InvoiceFormProps) {
+export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
     const [ico, setIco] = useState("");
-    const [showClientForm, setShowClientForm] = useState(false);
-    const [searchedClient, setSearchedClient] = useState<Client | null>(null);
+    const [searchedClient, setSearchedClient] = useState<Client | null>({
+        ico: "",
+        name: "",
+        address: ""
+    });
 
     const handleSearch = async () => {
         const client = await GetCompanyClient(ico);
         setSearchedClient(client);
-        setShowClientForm(true);
+        if (client) {
+            onChange({
+                ...invoice,
+                customer: client
+            });
+        }
     };
 
     return (
-        <Form
-            onSubmit={(e) => {
-                e.preventDefault();
-                let data = Object.fromEntries(new FormData(e.currentTarget));
-                onSubmit(data);
-            }}
-        >
+        <Form>
             <div className="w-full flex flex-row gap-8 justify-between items-start">
                 <div className="flex-1 flex-column gap-4">
                     <p className="text-xl font-bold">Informace o faktuře</p>
@@ -39,8 +43,14 @@ export default function InvoiceForm({ onSubmit }: InvoiceFormProps) {
                             label="Číslo faktury"
                             labelPlacement="outside-top"
                             name="id"
-                            type="text"
+                            type="number"
                             variant="bordered"
+                            onValueChange={(value: string) => {
+                                onChange({
+                                    ...invoice,
+                                    id: value
+                                });
+                            }}
                         />
                         <DatePicker
                             isRequired
@@ -48,6 +58,14 @@ export default function InvoiceForm({ onSubmit }: InvoiceFormProps) {
                             name="publishDate"
                             labelPlacement="outside"
                             variant="bordered"
+                            onChange={(value: DateValue | null) => {
+                                if (value) {
+                                    onChange({
+                                        ...invoice,
+                                        publishDate: new Date(value.year, value.month - 1, value.day)
+                                    });
+                                }
+                            }}
                         />
                         <DatePicker
                             isRequired
@@ -55,6 +73,14 @@ export default function InvoiceForm({ onSubmit }: InvoiceFormProps) {
                             name="paymentDate"
                             labelPlacement="outside"
                             variant="bordered"
+                            onChange={(value: DateValue | null) => {
+                                if (value) {
+                                    onChange({
+                                        ...invoice,
+                                        paymentDate: new Date(value.year, value.month - 1, value.day)
+                                    });
+                                }
+                            }}
                         />
                     </div>
                 </div>
@@ -72,18 +98,35 @@ export default function InvoiceForm({ onSubmit }: InvoiceFormProps) {
                                 placeholder="Enter code"
                                 value={ico}
                                 variant="bordered"
-                                onValueChange={setIco}
+                                onValueChange={(value: string) => {
+                                    setIco(value);
+                                    onChange({
+                                        ...invoice,
+                                        customer: {
+                                            ...invoice.customer,
+                                            ico: value
+                                        }
+                                    });
+                                }}
+                                onComplete={handleSearch}
                             />
                         <Button color="primary" variant="ghost" onPress={handleSearch}>Vyhledat</Button>
                     </div>
                     <div className="pt-8">
-                        {showClientForm && <ClientFormFields client={searchedClient}/>}
+                        {<ClientFormFields 
+                            client={searchedClient}
+                            onChange={(client: Client) => {
+                                onChange({
+                                    ...invoice,
+                                    customer: client
+                                });
+                            }}
+                        />}
                     </div>
                 </div>
             </div>
             <div className="flex gap-2">
-                <Button type="reset" variant="flat">Reset</Button>
-                <Button color="primary" type="submit">Vložit</Button>
+                <Button type="reset" variant="flat">Resetovat</Button>
             </div>
         </Form>
     );

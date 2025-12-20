@@ -4,9 +4,12 @@ import { Input, Textarea } from "@heroui/react";
 import { MailIcon } from "../../invoice/components/Icons";
 import { Client } from "../Models";
 
-export default function ClientForm({client}: {client: Client | null}) {
-    console.log("Client form");
-    console.log(client);
+interface ClientFormProps {
+    client: Client | null;
+    onChange?: (client: Client) => void;
+}
+
+export default function ClientForm({client, onChange}: ClientFormProps) {
     if (client !== null) {
         return (
             <div className="flex flex-col space-y-4 border-solid">
@@ -28,10 +31,19 @@ export default function ClientForm({client}: {client: Client | null}) {
                     label="Email společnosti"
                     labelPlacement="outside"
                     name="email"
+                    value={client.email || ""}
                     placeholder="info@weldingmontaze.cz"
                     endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />}
                     type="email"
                     variant="bordered"
+                    onValueChange={(value: string) => {
+                        if (onChange) {
+                            onChange({
+                                ...client,
+                                email: value
+                            });
+                        }
+                    }}
                 />
 
                 <Textarea
@@ -61,17 +73,37 @@ export default function ClientForm({client}: {client: Client | null}) {
                 placeholder="Welding Montáže"
                 type="text"
                 variant="bordered"
+                onValueChange={(value: string) => {
+                    if (onChange) {
+                        onChange({
+                            ico: "",
+                            name: value,
+                            address: "",
+                            email: ""
+                        });
+                    }
+                }}
             />
 
             <Input
                 errorMessage="Zadejte email společnosti"
                 label="Email společnosti"
                 labelPlacement="outside"
-                name="name"
+                name="email"
                 placeholder="info@weldingmontaze.cz"
                 endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />}
                 type="email"
                 variant="bordered"
+                onValueChange={(value: string) => {
+                    if (onChange) {
+                        onChange({
+                            ico: "",
+                            name: "",
+                            address: "",
+                            email: value
+                        });
+                    }
+                }}
             />
 
             <Textarea
@@ -79,10 +111,20 @@ export default function ClientForm({client}: {client: Client | null}) {
                 errorMessage="Zadejte adresu společnosti"
                 label="Adresa společnosti"
                 labelPlacement="outside"
-                name="name"
+                name="address"
                 placeholder="Budovatelů 1522/53b, Prostřední Suchá, 73564 Havířov"
                 type="text"
                 variant="bordered"
+                onValueChange={(value: string) => {
+                    if (onChange) {
+                        onChange({
+                            ico: "",
+                            name: "",
+                            address: value,
+                            email: ""
+                        });
+                    }
+                }}
             />
         </div>
     );

@@ -23,8 +23,8 @@ export const UserScheme: Collection = {
     }
 };
 
-export const ClientScheme: Collection = {
-    name: "clients",
+export const InvoiceClientScheme: Collection = {
+    name: "invoice_clients",
     fields: {
         name: {
             type: "string"
@@ -115,7 +115,7 @@ export const InvoiceScheme: Collection = {
 
 export type DatabaseCollection =
     typeof UserScheme           |
-    typeof ClientScheme         |
+    typeof InvoiceClientScheme  |
     typeof InvoicePaymentScheme | 
-    typeof InvoiceItemsScheme | 
+    typeof InvoiceItemsScheme   | 
     typeof InvoiceScheme;

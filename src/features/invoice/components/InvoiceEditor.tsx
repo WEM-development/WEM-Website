@@ -15,37 +15,10 @@ export default function InvoiceEditor({ loadInvoice }: { loadInvoice: Invoice | 
                 <div className="grid grid-cols-2 grid-rows-2 gap-16">
                     <div className="w-full flex flex-col gap-4">
                         <InvoiceForm
-                            onSubmit={(formData: any) => {
-                                console.log("From data...");
-                                console.log(formData);
-                                setInvoice({
-                                    ...invoice!,
-                                    id: formData.id,
-                                    publishDate: formData.publishDate ? new Date(formData.publishDate) : new Date(),
-                                    paymentDate: formData.paymentDate ? new Date(formData.paymentDate) : new Date(),
-                                    customer: {
-                                        ico: formData.ico || "",
-                                        name: formData.name || "",
-                                        address: formData.address || "",
-                                        email: formData.email || ""
-                                    },
-                                    items: [],
-                                    supplier: {
-                                        ico: "12345678",
-                                        name: "Moje Firma s.r.o.",
-                                        address: "Hlavní 123, 110 00 Praha",
-                                        email: "info@mojefirma.cz"
-                                    },
-                                    paymentDetails: {
-                                        accountNumber: 222885,
-                                        bankCode: 5500,
-                                        amount: 250,
-                                        currency: "CZK",
-                                        variableSymbol: 333,
-                                        message: "Testovací zpráva",
-                                        qrFetchURL: "https://api.paylibo.com/paylibo/generator/czech/image?accountNumber=222885&bankCode=5500&amount=250.00&currency=CZK&vs=333&branding=false&message=FOND%20HUMANITY%20CCK"
-                                    }
-                                });
+                            // TODO: Fix the nullability
+                            invoice={invoice!}
+                            onChange={(currentInvoice: Invoice) => {
+                                setInvoice(currentInvoice);
                             }}
                         />
                         <InvoiceItemsForm

@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, addDoc, deleteDoc, getDocs, DocumentReference, CollectionReference } from "firebase/firestore";
+import { collection, doc, getDoc, addDoc, setDoc, deleteDoc, getDocs, DocumentReference, CollectionReference } from "firebase/firestore";
 import { database } from "./config";
 import { CollectionField, DatabaseCollection } from "./collections";
 
@@ -54,17 +54,21 @@ export async function getDocuments(databaseCollection: DatabaseCollection) : Pro
     return returnDocuments;
 }
 
-export async function addDocument(databaseCollection: DatabaseCollection, document: any) : Promise<FirebaseStatus> {
+export async function addDocument(databaseCollection: DatabaseCollection, document: any, customId?: string) : Promise<FirebaseStatus> {
     try {
-        const returnDocument = await addDoc(
-            collection(database, databaseCollection.name),
-            document
-        );
-
-        console.log(`[${databaseCollection}]: Document written with ID: ${returnDocument.id}`);
+        if (customId) {
+            await setDoc(doc(database, databaseCollection.name, customId), document);
+            console.log(`[${databaseCollection.name}]: Document written with custom ID: ${customId}`);
+        } else {
+            const returnDocument = await addDoc(
+                collection(database, databaseCollection.name),
+                document
+            );
+            console.log(`[${databaseCollection.name}]: Document written with ID: ${returnDocument.id}`);
+        }
         return FirebaseStatus.Ok;
     } catch (e) {
-        console.log(`[${databaseCollection}]: Error adding document: ${e}`);
+        console.log(`[${databaseCollection.name}]: Error adding document: ${e}`);
         return FirebaseStatus.NotOk;
     }
 }
@@ -96,5 +100,9 @@ export async function getReference(databaseCollection: DatabaseCollection, refer
         console.error("Error in getReference:", error);
         throw error;
     }
+}
+
+export function getReferenceObject(databaseCollection: DatabaseCollection, id: string) {
+    return doc(database, `${databaseCollection.name}/${id}`); 
 }
 
