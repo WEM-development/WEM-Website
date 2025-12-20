@@ -4,8 +4,9 @@ import { Button, Image } from "@heroui/react";
 import { Invoice } from "../Models";
 import { PaperAirplaneIcon, PrinterIcon } from "./Icons";
 import { Invoices } from "../server/Repository";
+import { Profile } from "../../profile/Models";
 
-export default function InvoicePreview({ invoice }: { invoice: Invoice | null }) {
+export default function InvoicePreview({ invoice, profile }: { invoice: Invoice | null, profile: Profile }) {
 
     if (invoice === null) {
         return (
@@ -180,10 +181,17 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                         {/* Header */}
                         {page.isFirst ? (
                             <>
-                                <div className="flex justify-between mb-8 print:mb-4">
-                                    <div>
-                                        <h1 className="text-2xl font-bold text-gray-800">FAKTURA</h1>
-                                        <p className="text-gray-500">č. {invoice.id}</p>
+                                <div className="flex justify-between items-start mb-8 print:mb-4">
+                                    <div className="flex items-center gap-4">
+                                        <img 
+                                            src="/WEM.svg" 
+                                            alt="WEM Logo" 
+                                            className="h-24 w-24"
+                                        />
+                                        <div>
+                                            <h1 className="text-2xl font-bold text-gray-800">FAKTURA</h1>
+                                            <p className="text-gray-700">č. {invoice.id}</p>
+                                        </div>
                                     </div>
                                     <div className="text-right">
                                         <p><span className="font-semibold">Datum vystavení:</span> {invoice.publishDate.toLocaleDateString('cs-CZ')}</p>
@@ -193,14 +201,13 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
 
                                 <div className="grid grid-cols-2 gap-8 print:gap-4 mb-8 print:mb-4">
                                     <div>
-                                        <h3 className="font-bold text-gray-700 border-b pb-1 mb-2">Dodavatel</h3>
+                                        <h3 className="font-bold text-gray-800 border-b border-gray-600 pb-1 mb-2">Dodavatel</h3>
                                         <p className="font-semibold">{invoice.supplier.name}</p>
                                         <p>{invoice.supplier.address}</p>
                                         <p>IČO: {invoice.supplier.ico}</p>
-                                        <p>{invoice.supplier.email}</p>
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-gray-700 border-b pb-1 mb-2">Odběratel</h3>
+                                        <h3 className="font-bold text-gray-800 border-b border-gray-600 pb-1 mb-2">Odběratel</h3>
                                         <p className="font-semibold">{invoice.customer.name}</p>
                                         <p>{invoice.customer.address}</p>
                                         <p>IČO: {invoice.customer.ico}</p>
@@ -212,7 +219,7 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                             <div className="flex justify-between mb-8 print:mb-4 border-b pb-4">
                                 <div>
                                     <h1 className="text-xl font-bold text-gray-800">FAKTURA - pokračování</h1>
-                                    <p className="text-gray-500">č. {invoice.id} - Strana {page.pageNumber}</p>
+                                    <p className="text-gray-700">č. {invoice.id} - Strana {page.pageNumber}</p>
                                 </div>
                                 <div className="text-right">
                                     <p><span className="font-semibold">Datum vystavení:</span> {invoice.publishDate.toLocaleDateString('cs-CZ')}</p>
@@ -224,23 +231,23 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                         <div className="flex flex-col flex-grow">
                             {page.isFirst && (
                                 <div className="w-full h-auto flex flex-row gap-8 items-center justify-between mb-4">
-                                    <div className="float-left w-full h-auto p-6 print:p-4 bg-gray-50 rounded-lg grid grid-cols-4 grid-rows-2 gap-8 print:gap-4">
+                                    <div className="float-left w-full h-auto p-6 print:p-4 bg-gray-100 rounded-lg grid grid-cols-4 grid-rows-2 gap-8 print:gap-4">
                                         <div className="col-span-2">
-                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Bankovní účet</p>
+                                            <p className="font-bold border-b border-gray-400 pb-1 mb-2 text-gray-800">Bankovní účet</p>
                                             <p className="text-m">{invoice.paymentDetails.accountNumber}/{invoice.paymentDetails.bankCode}</p>
                                         </div>
                                         <div className="col-span-1">
-                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Var. symbol</p>
+                                            <p className="font-bold border-b border-gray-400 pb-1 mb-2 text-gray-800">Var. symbol</p>
                                             <p className="text-m">{invoice.paymentDetails.variableSymbol}</p>
                                         </div>
 
                                         <div className="col-span-1">
-                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Cena</p>
+                                            <p className="font-bold border-b border-gray-400 pb-1 mb-2 text-gray-800">Cena</p>
                                             <p className="text-m">{invoice.paymentDetails.amount.toLocaleString('cs-CZ')} {invoice.paymentDetails.currency}</p>
                                         </div>
 
                                         <div className="col-span-4">
-                                            <p className="font-bold border-b border-gray-200 pb-1 mb-2 text-gray-700">Zpráva pro příjemce</p>
+                                            <p className="font-bold border-b border-gray-400 pb-1 mb-2 text-gray-800">Zpráva pro příjemce</p>
                                             <p className="text-m">{invoice.paymentDetails.message}</p>
                                         </div>
                                     </div>
@@ -257,7 +264,7 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                             <div className="flex-grow">
                                 <table className="w-full text-left">
                                     <thead>
-                                        <tr className="border-b-2 border-gray-300">
+                                        <tr className="border-b-2 border-gray-600">
                                             <th className="py-2">Položka</th>
                                             <th className="py-2 text-right">Množství</th>
                                             <th className="py-2 text-right">Cena/ks</th>
@@ -266,7 +273,7 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                                     </thead>
                                     <tbody>
                                         {page.items.map((item, index) => (
-                                            <tr key={index} className="border-b border-gray-100">
+                                            <tr key={index} className="border-b border-gray-300">
                                                 <td className="py-2">{item.description}</td>
                                                 <td className="py-2 text-right">{item.amount}</td>
                                                 <td className="py-2 text-right">{item.price.toLocaleString('cs-CZ')} Kč</td>
@@ -276,19 +283,19 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                                     </tbody>
                                     {page.isLast && (
                                         <tfoot>
-                                            <tr className="border-t-2 border-gray-300">
-                                                <td colSpan={3} className="py-2 text-right text-gray-600">Mezisoučet bez DPH:</td>
+                                            <tr className="border-t-2 border-gray-600">
+                                                <td colSpan={3} className="py-2 text-right text-gray-800">Mezisoučet bez DPH:</td>
                                                 <td className="py-2 text-right font-medium">
                                                     {invoice.itemsPrice.toLocaleString('cs-CZ')} Kč
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colSpan={3} className="py-2 text-right text-gray-600">DPH (21%):</td>
+                                                <td colSpan={3} className="py-2 text-right text-gray-800">DPH (21%):</td>
                                                 <td className="py-2 text-right font-medium">
                                                     {(invoice.itemsPrice * invoice.taxRate).toLocaleString('cs-CZ')} Kč
                                                 </td>
                                             </tr>
-                                            <tr className="bg-gray-50">
+                                            <tr className="bg-gray-100">
                                                 <td colSpan={3} className="py-4 text-right font-bold text-lg">Celkem k úhradě:</td>
                                                 <td className="py-4 text-right font-bold text-lg text-primary">
                                                     {invoice.paymentDetails.amount.toLocaleString('cs-CZ')} Kč
@@ -306,8 +313,15 @@ export default function InvoicePreview({ invoice }: { invoice: Invoice | null })
                                     {/* Optional: Notes or payment details */}
                                 </div>
                                 <div className="flex flex-col items-center justify-end">
-                                    <div className="h-24 print:h-16 w-48 border-b-1 border-gray-400 mb-2"></div>
-                                    <p className="text-sm text-gray-500">Podpis a razítko dodavatele</p>
+                                    <div className="h-24 print:h-16 w-48 border-b-1 border-gray-400 mb-1">
+                                        <Image
+                                            alt="Profile signature"
+                                            src={profile.signature}
+                                            width={235}
+                                            className="mt-1"
+                                        />
+                                    </div>
+                                    <p className="text-sm text-gray-500 mt-2">Podpis dodavatele</p>
                                 </div>
                             </div>
                         )}

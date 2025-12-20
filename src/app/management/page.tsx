@@ -40,6 +40,7 @@ export default async function Page() {
         <div>
             <InvoiceEditor
                 loadInvoice={blankInvoice}
+                loadProfile={testProfile!}
             />
         </div>
     );

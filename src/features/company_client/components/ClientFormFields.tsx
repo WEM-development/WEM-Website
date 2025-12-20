@@ -38,7 +38,6 @@ export default function ClientForm({client, onChange}: ClientFormProps) {
                 label="Email společnosti"
                 labelPlacement="outside"
                 name="email"
-                placeholder="info@weldingmontaze.cz"
                 value={client.email || ""}
                 endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />}
                 type="email"
@@ -59,7 +58,6 @@ export default function ClientForm({client, onChange}: ClientFormProps) {
                 label="Adresa společnosti"
                 labelPlacement="outside"
                 name="address"
-                placeholder="Budovatelů 1522/53b, Prostřední Suchá, 73564 Havířov"
                 type="text"
                 variant="bordered"
                 value={client.address}

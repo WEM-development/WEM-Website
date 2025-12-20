@@ -6,8 +6,9 @@ import InvoiceForm from "./InvoiceForm";
 import InvoiceItemsForm from "./InvoiceItemsForm";
 import InvoicePreview from "./InvoicePreview";
 import { getQRFetchUrl } from "../server/Service";
+import { Profile } from "../../profile/Models";
 
-export default function InvoiceEditor({ loadInvoice }: { loadInvoice: Invoice}) {
+export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoice: Invoice, loadProfile: Profile}) {
     const [invoice, setInvoice] = useState<Invoice>(loadInvoice);
 
     return (
@@ -42,7 +43,9 @@ export default function InvoiceEditor({ loadInvoice }: { loadInvoice: Invoice}) 
                         />
                     </div>
                     <InvoicePreview
-                        invoice={invoice} />
+                        invoice={invoice}
+                        profile={loadProfile}
+                    />
                 </div>
             </div>
         </div>
