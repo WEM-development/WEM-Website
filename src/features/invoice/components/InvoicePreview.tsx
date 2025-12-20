@@ -251,13 +251,15 @@ export default function InvoicePreview({ invoice, profile }: { invoice: Invoice 
                                             <p className="text-m">{invoice.paymentDetails.message}</p>
                                         </div>
                                     </div>
-                                    <div className="float-right">
-                                        <Image
-                                            alt="QR platba"
-                                            src={invoice.paymentDetails.qrFetchURL}
-                                            width={235}
-                                        />
-                                    </div>
+                                    {invoice.paymentDetails.qrFetchURL && (
+                                        <div className="float-right">
+                                            <Image
+                                                alt="QR platba"
+                                                src={invoice.paymentDetails.qrFetchURL}
+                                                width={235}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
@@ -314,12 +316,14 @@ export default function InvoicePreview({ invoice, profile }: { invoice: Invoice 
                                 </div>
                                 <div className="flex flex-col items-center justify-end">
                                     <div className="h-24 print:h-16 w-48 border-b-1 border-gray-400 mb-1">
-                                        <Image
-                                            alt="Profile signature"
-                                            src={profile.signature}
-                                            width={235}
-                                            className="mt-1"
-                                        />
+                                        {profile.signature && (
+                                            <Image
+                                                alt="Profile signature"
+                                                src={profile.signature}
+                                                width={235}
+                                                className="mt-1"
+                                            />
+                                        )}
                                     </div>
                                     <p className="text-sm text-gray-500 mt-2">Podpis dodavatele</p>
                                 </div>
