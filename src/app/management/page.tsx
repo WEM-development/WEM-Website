@@ -16,7 +16,7 @@ export default async function Page() {
             email: testProfile!.email
         },
         customer: {
-            ico: 0,
+            ico: "",
             name: "",
             address: "",
             email: ""

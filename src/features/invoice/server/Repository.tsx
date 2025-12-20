@@ -63,13 +63,13 @@ class FirebaseRepository implements InvoiceRepository {
             publishDate: fields.publishDate.value.toDate(),
             paymentDate: fields.paymentDate.value.toDate(),
             supplier: {
-                ico: parseInt(supplierIco),
+                ico: supplierIco,
                 name: supplierFields.name.value,
                 address: supplierFields.address.value,
                 email: supplierFields.email.value
             },
             customer: {
-                ico: parseInt(customerIco),
+                ico: customerIco,
                 name: customerFields.name.value,
                 address: customerFields.address.value,
                 email: customerFields.email.value

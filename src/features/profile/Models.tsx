@@ -1,6 +1,6 @@
 export interface Profile {
     uid: string;
-    ico: number;
+    ico: string;
     supplierName: string;
     address: string;
     email: string;

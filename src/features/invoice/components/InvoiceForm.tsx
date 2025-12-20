@@ -15,7 +15,7 @@ interface InvoiceFormProps {
 export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
     const [ico, setIco] = useState("");
     const [searchedClient, setSearchedClient] = useState<Client | null>({
-        ico: 0,
+        ico: "",
         name: "",
         address: ""
     });
@@ -108,13 +108,12 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                                         ...invoice,
                                         customer: {
                                             ...invoice.customer,
-                                            ico: parseInt(value)
+                                            ico: value
                                         }
                                     });
                                 }}
                                 onComplete={handleSearch}
                             />
-                        <Button color="primary" variant="ghost" onPress={handleSearch}>Vyhledat</Button>
                     </div>
                     <div className="pt-8">
                         {<ClientFormFields 

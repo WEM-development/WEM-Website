@@ -16,7 +16,7 @@ export async function GetCompanyClient(ico: string) : Promise<Client | null> {
     const clientRecordJson = await responseJson["zaznamy"][0];
 
     return {
-        ico: parseInt(ico),
+        ico: ico,
         name: clientRecordJson.obchodniJmeno,
         address: clientRecordJson["sidlo"].textovaAdresa
     };
