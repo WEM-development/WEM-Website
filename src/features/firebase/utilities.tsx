@@ -106,3 +106,7 @@ export function getReferenceObject(databaseCollection: DatabaseCollection, id: s
     return doc(database, `${databaseCollection.name}/${id}`); 
 }
 
+export function getCollection(databaseCollection: DatabaseCollection) {
+    return collection(database, databaseCollection.name);
+}
+

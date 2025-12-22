@@ -113,6 +113,9 @@ export const InvoiceScheme: Collection = {
         paymentDate: {
             type: "timestamp"
         },
+        idt: {
+            type: "timestamp"
+        },
         paymentDetails: {
             type: "reference"
         },

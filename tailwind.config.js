@@ -11,7 +11,11 @@ module.exports = {
     "./node_modules/@heroui/theme/dist/components/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        courier: ["var(--font-courier-prime)", "Courier New", "Courier", "monospace"],
+      },
+    },
   },
   darkMode: "class",
   plugins: [heroui({

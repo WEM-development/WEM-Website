@@ -17,9 +17,8 @@ export default function ClientForm({client, onChange}: ClientFormProps) {
                 isRequired
                 errorMessage="Zadejte název společnosti"
                 label="Název společnosti"
-                labelPlacement="outside"
+                labelPlacement="outside-top"
                 name="name"
-                placeholder="Welding Montáže"
                 type="text"
                 variant="bordered"
                 value={client.name}
@@ -36,7 +35,7 @@ export default function ClientForm({client, onChange}: ClientFormProps) {
             <Input
                 errorMessage="Zadejte email společnosti"
                 label="Email společnosti"
-                labelPlacement="outside"
+                labelPlacement="outside-top"
                 name="email"
                 value={client.email || ""}
                 endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />}
@@ -56,7 +55,7 @@ export default function ClientForm({client, onChange}: ClientFormProps) {
                 isRequired
                 errorMessage="Zadejte adresu společnosti"
                 label="Adresa společnosti"
-                labelPlacement="outside"
+                labelPlacement="outside-top"
                 name="address"
                 type="text"
                 variant="bordered"

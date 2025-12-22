@@ -5,6 +5,7 @@ import { Invoice } from "@/src/features/invoice/Models";
 import { Profiles } from "@/src/features/profile/server/Repository";
 import { useEffect, useState } from "react";
 import { Profile } from "@/src/features/profile/Models";
+import { generateNextInvoiceId } from "@/src/features/invoice/server/Service";
 
 export default function Page() {
     const [profile, setProfile] = useState<Profile | null>(null);
@@ -13,12 +14,13 @@ export default function Page() {
     useEffect(() => {
         const loadProfile = async () => {
             const testProfile = await Profiles.getProfileAsync("uFdOFqKOBy6XJGhFZaPn");
+            const nextInvoiceId = await generateNextInvoiceId();
             
             if (testProfile) {
                 setProfile(testProfile);
                 
                 const blankInvoice: Invoice = {
-                    id: "",
+                    id: nextInvoiceId,
                     publishDate: new Date(),
                     paymentDate: new Date(),
                     supplier: {

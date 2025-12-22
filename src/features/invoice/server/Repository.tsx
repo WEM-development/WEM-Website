@@ -1,10 +1,12 @@
+import { getDocs, query, where } from "firebase/firestore";
 import { InvoiceClientScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
-import { addDocument, FirebaseStatus, getDocument, getReference, getReferenceObject } from "../../firebase/utilities";
+import { addDocument, FirebaseStatus, getCollection, getDocument, getReference, getReferenceObject } from "../../firebase/utilities";
 import { Invoice } from "../Models";
 
 export interface InvoiceRepository {
     addInvoiceAsync(invoice: Invoice) : Promise<boolean>;
     getInvoiceAsync(invoiceId: string) : Promise<Invoice | null>;
+    getInvoicesCountAsync(date?: Date) : Promise<number>;
 }
 
 class FirebaseRepository implements InvoiceRepository {
@@ -32,6 +34,7 @@ class FirebaseRepository implements InvoiceRepository {
                 paymentDetails: getReferenceObject(InvoicePaymentScheme, identificators.payment),
                 publishDate: invoice.publishDate,
                 paymentDate: invoice.paymentDate,
+                idt: new Date(),
                 itemsPrice: invoice.itemsPrice,
                 taxRate: invoice.taxRate
             },
@@ -94,6 +97,19 @@ class FirebaseRepository implements InvoiceRepository {
                 qrFetchURL: paymentDetailsFields.qrFetchURL.value
             }
         };
+    }
+
+    async getInvoicesCountAsync(date?: Date): Promise<number> {
+        const currentDate = date ?? new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        const returnQuery = query(
+            getCollection(InvoiceScheme),
+            where("idt", ">=", currentDate)
+        );
+
+        const invoices = await getDocs(returnQuery);
+        return invoices.size;
     }
 }
  

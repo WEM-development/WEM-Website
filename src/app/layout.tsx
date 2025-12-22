@@ -3,7 +3,7 @@
 import "./globals.css";
 import { HeroUIProvider } from "@heroui/react";
 import React from "react";
-import { geistMono, geistSans } from "../config/fonts";
+import { geistMono, geistSans, courierPrime } from "../config/fonts";
 import NavigationBar, { NavigationItem } from "../components/navigation/NavigationBar";
 
 export const items: NavigationItem[] = [
@@ -23,7 +23,7 @@ export default function RootLayout({
         <title>Welding Montáže - Profesionální svařovací služby v Ostravě</title>
         <meta name="description" content="Profesionální svařovací služby a montáže ocelových konstrukcí v Ostravě" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${courierPrime.variable} antialiased`}>
         <HeroUIProvider>
           <NavigationBar navigationItems={items}/>
           {children}

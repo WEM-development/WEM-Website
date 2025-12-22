@@ -1,6 +1,7 @@
 "use client"
 
 import { Button, DatePicker, DateValue, Form, Input, InputOtp } from "@heroui/react";
+import { CalendarDate } from "@internationalized/date";
 import { useState } from "react";
 import ClientFormFields from "../../company_client/components/ClientFormFields";
 import { Client } from "../../company_client/Models";
@@ -42,6 +43,7 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                             errorMessage="Zadejte číslo faktury"
                             label="Číslo faktury"
                             labelPlacement="outside-top"
+                            defaultValue={invoice.id}
                             name="id"
                             type="number"
                             variant="bordered"
@@ -62,6 +64,7 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                             name="publishDate"
                             labelPlacement="outside"
                             variant="bordered"
+                            defaultValue={new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())}
                             onChange={(value: DateValue | null) => {
                                 if (value) {
                                     onChange({
