@@ -51,9 +51,9 @@ class FirebaseRepository implements InvoiceRepository {
             return null;
         }
 
-        const [supplierIco, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier.value);
-        const [customerIco, customerFields] = await getReference(InvoiceClientScheme, fields.customer.value);
-        const [_, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails.value);
+        const [_1, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier.value);
+        const [_2, customerFields] = await getReference(InvoiceClientScheme, fields.customer.value);
+        const [_3, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails.value);
 
         const items = await Promise.all(fields.items.value.map(async (itemId: any) => {
             console.log(itemId);
@@ -66,16 +66,14 @@ class FirebaseRepository implements InvoiceRepository {
             publishDate: fields.publishDate.value.toDate(),
             paymentDate: fields.paymentDate.value.toDate(),
             supplier: {
-                ico: supplierIco,
+                ico: supplierFields.ico.value,
                 name: supplierFields.name.value,
-                address: supplierFields.address.value,
-                email: supplierFields.email.value
+                address: supplierFields.address.value
             },
             customer: {
-                ico: customerIco,
+                ico: customerFields.ico.value,
                 name: customerFields.name.value,
-                address: customerFields.address.value,
-                email: customerFields.email.value
+                address: customerFields.address.value
             },
             items: items.map(([id, itemFields]: any) => {
                 return {

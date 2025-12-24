@@ -8,39 +8,46 @@ import { Profile } from "@/src/features/profile/Models";
 import { generateBlankInvoice, generateNextInvoiceId } from "@/src/features/invoice/server/Service";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { auth } from "@/src/features/firebase/config";
+import { Invoices } from "@/src/features/invoice/server/Repository";
+import { useAuth } from "@/src/features/auth/AuthContext";
 
 function ManagementContent() {
     const [profile, setProfile] = useState<Profile | null>(null);
     const [invoice, setInvoice] = useState<Invoice | null>(null);
+    const { user, loading } = useAuth();
 
     const router = useRouter();
     const searchParams = useSearchParams();
-    const uid = searchParams.get('uid');
+
+    const iid = searchParams.get('iid');
 
     useEffect(() => {
-        if (!uid || !auth.currentUser) {
+        if (loading) return;
+
+        if (!user) {
             router.push('/management/auth');
             return;
         }
 
         const loadProfile = async () => {
-            const profile = await Profiles.getProfileAsync(uid);
+            const profile = await Profiles.getProfileAsync(user.uid);
             
             if (profile) {
                 setProfile(profile);
 
                 const nextInvoiceId = await generateNextInvoiceId();
-                const invoice = await generateBlankInvoice(profile, nextInvoiceId);
+                const invoice = iid !== null ?
+                    await Invoices.getInvoiceAsync(iid) : 
+                    await generateBlankInvoice(profile, nextInvoiceId);
 
                 setInvoice(invoice);
             } else {
-                router.push(`/management/auth-error?uid=${uid}`);
+                router.push(`/management/auth-error?uid=${user.uid}`);
             }
         };
 
         loadProfile();
-    }, [uid, router]);
+    }, [user, loading, iid, router]);
 
     if (!profile || !invoice) {
         return <div className="container mx-auto px-4 py-8">Načítání...</div>; 

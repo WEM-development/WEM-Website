@@ -24,7 +24,7 @@ export default function Page() {
             console.log(profile);
             
             if (profile) {
-                router.push(`/management?uid=${result.user.uid}`);
+                router.push(`/management`);
             } else {
                 router.push(`/management/auth-error?uid=${result.user.uid}`);
             }

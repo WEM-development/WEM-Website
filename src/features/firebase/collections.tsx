@@ -38,13 +38,13 @@ export const ProfileScheme: Collection = {
 export const InvoiceClientScheme: Collection = {
     name: "invoice_clients",
     fields: {
+        ico: {
+            type: "string"
+        },
         name: {
             type: "string"
         },
         address: {
-            type: "string"
-        },
-        email: {
             type: "string"
         }
     }
