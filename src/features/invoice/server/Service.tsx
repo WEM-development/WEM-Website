@@ -1,4 +1,5 @@
-import { InvoicePaymentDetails } from "../Models";
+import { Profile } from "../../profile/Models";
+import { Invoice, InvoicePaymentDetails } from "../Models";
 import { Invoices } from "./Repository";
 
 export function getQRFetchUrl(invoicePayment: InvoicePaymentDetails) : string {
@@ -13,4 +14,36 @@ export async function generateNextInvoiceId() {
 
     const todaysInvoicesCount = await Invoices.getInvoicesCountAsync(currentDate);
     return `${currentDate.getFullYear()}${currentDate.getDate()}${currentDate.getMonth() + 1}${todaysInvoicesCount + 1}`;
+}
+
+export function generateBlankInvoice(profile: Profile, invoiceId: string) : Invoice {
+    return {
+        id: invoiceId,
+        publishDate: new Date(),
+        paymentDate: new Date(),
+        supplier: {
+            ico: profile.ico,
+            name: profile.supplierName,
+            address: profile.address,
+            email: profile.email
+        },
+        customer: {
+            ico: "",
+            name: "",
+            address: "",
+            email: ""
+        },
+        items: [],
+        itemsPrice: 0,
+        taxRate: 0.21,
+        paymentDetails: {
+            accountNumber: profile.accountNumber,
+            bankCode: profile.bankCode,
+            amount: 0,
+            currency: "CZK",
+            variableSymbol: invoiceId,
+            message: "",
+            qrFetchURL: ""
+        }
+    };
 }

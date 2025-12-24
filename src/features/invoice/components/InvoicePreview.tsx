@@ -204,13 +204,13 @@ export default function InvoicePreview({ invoice, profile }: { invoice: Invoice 
                                         <h3 className="font-bold text-gray-800 border-b border-gray-600 pb-1 mb-2">Dodavatel</h3>
                                         <p className="font-semibold">{invoice.supplier.name}</p>
                                         <p>{invoice.supplier.address}</p>
-                                        <p>IČO: {invoice.supplier.ico}</p>
+                                        <p>{invoice.supplier.ico != "" ? "IČO:" + invoice.supplier.ico : ""}</p>
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-gray-800 border-b border-gray-600 pb-1 mb-2">Odběratel</h3>
                                         <p className="font-semibold">{invoice.customer.name}</p>
                                         <p>{invoice.customer.address}</p>
-                                        <p>IČO: {invoice.customer.ico}</p>
+                                        <p>{invoice.customer.ico != "" ? "IČO:" + invoice.customer.ico : ""}</p>
                                         <p>{invoice.customer.email}</p>
                                     </div>
                                 </div>

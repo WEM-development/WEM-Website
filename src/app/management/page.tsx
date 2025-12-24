@@ -5,59 +5,45 @@ import { Invoice } from "@/src/features/invoice/Models";
 import { Profiles } from "@/src/features/profile/server/Repository";
 import { useEffect, useState } from "react";
 import { Profile } from "@/src/features/profile/Models";
-import { generateNextInvoiceId } from "@/src/features/invoice/server/Service";
+import { generateBlankInvoice, generateNextInvoiceId } from "@/src/features/invoice/server/Service";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { auth } from "@/src/features/firebase/config";
 
-export default function Page() {
+function ManagementContent() {
     const [profile, setProfile] = useState<Profile | null>(null);
     const [invoice, setInvoice] = useState<Invoice | null>(null);
 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const uid = searchParams.get('uid');
+
     useEffect(() => {
+        if (!uid || !auth.currentUser) {
+            router.push('/management/auth');
+            return;
+        }
+
         const loadProfile = async () => {
-            const testProfile = await Profiles.getProfileAsync("uFdOFqKOBy6XJGhFZaPn");
-            const nextInvoiceId = await generateNextInvoiceId();
+            const profile = await Profiles.getProfileAsync(uid);
             
-            if (testProfile) {
-                setProfile(testProfile);
-                
-                const blankInvoice: Invoice = {
-                    id: nextInvoiceId,
-                    publishDate: new Date(),
-                    paymentDate: new Date(),
-                    supplier: {
-                        ico: testProfile.ico,
-                        name: testProfile.supplierName,
-                        address: testProfile.address,
-                        email: testProfile.email
-                    },
-                    customer: {
-                        ico: "",
-                        name: "",
-                        address: "",
-                        email: ""
-                    },
-                    items: [],
-                    itemsPrice: 0,
-                    taxRate: 0.21,
-                    paymentDetails: {
-                        accountNumber: testProfile.accountNumber,
-                        bankCode: testProfile.bankCode,
-                        amount: 0,
-                        currency: "CZK",
-                        variableSymbol: 0,
-                        message: "",
-                        qrFetchURL: ""
-                    }
-                };
-                
-                setInvoice(blankInvoice);
+            if (profile) {
+                setProfile(profile);
+
+                const nextInvoiceId = await generateNextInvoiceId();
+                const invoice = await generateBlankInvoice(profile, nextInvoiceId);
+
+                setInvoice(invoice);
+            } else {
+                router.push(`/management/auth-error?uid=${uid}`);
             }
         };
-        
+
         loadProfile();
-    }, []);
+    }, [uid, router]);
 
     if (!profile || !invoice) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container mx-auto px-4 py-8">Načítání...</div>; 
     }
 
     return (
@@ -67,5 +53,13 @@ export default function Page() {
                 loadProfile={profile}
             />
         </div>
+    );
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<div className="container mx-auto px-4 py-8">Načítání...</div>}>
+            <ManagementContent />
+        </Suspense>
     );
 }

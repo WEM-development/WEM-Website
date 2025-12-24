@@ -11,11 +11,8 @@ export interface Collection {
 export const ProfileScheme: Collection = {
     name: "profiles",
     fields: {
-        uid: {
-            type: "number"
-        },
         ico: {
-            type: "number"
+            type: "string"
         },
         supplierName: {
             type: "string"
@@ -30,10 +27,10 @@ export const ProfileScheme: Collection = {
             type: "string"
         },
         accountNumber: {
-            type: "number"
+            type: "string"
         },
         bankCode: {
-            type: "number"
+            type: "string"
         }
     }
 };

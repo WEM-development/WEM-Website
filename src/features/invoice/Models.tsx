@@ -8,11 +8,11 @@ export interface InvoiceItem {
 }
 
 export interface InvoicePaymentDetails {
-    accountNumber: number;
-    bankCode: number;
+    accountNumber: string;
+    bankCode: string;
     amount: number;
     currency: string;
-    variableSymbol: number;
+    variableSymbol: string;
     message: string;
     qrFetchURL: string;
 }

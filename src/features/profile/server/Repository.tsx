@@ -14,8 +14,7 @@ class FirebaseRepository implements ProfileRepository {
 
     async getProfileAsync(uid: string) : Promise<Profile | undefined> {
         const [id, fields] = await getDocument(ProfileScheme, uid);
-
-        if (!fields) return undefined;
+        if (Object.values(fields).every(field => field.value === undefined)) return undefined;
 
         return {
             uid: id,

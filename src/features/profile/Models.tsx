@@ -5,6 +5,6 @@ export interface Profile {
     address: string;
     email: string;
     signature: string;
-    accountNumber: number;
-    bankCode: number;
+    accountNumber: string;
+    bankCode: string;
 };

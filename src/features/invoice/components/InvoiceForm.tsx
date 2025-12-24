@@ -53,7 +53,7 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                                     id: value,
                                     paymentDetails: { 
                                         ...invoice.paymentDetails,
-                                        variableSymbol: parseInt(value)
+                                        variableSymbol: value
                                     }
                                 });
                             }}

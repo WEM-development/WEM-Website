@@ -3,20 +3,31 @@
 import "./globals.css";
 import { HeroUIProvider } from "@heroui/react";
 import React from "react";
+import { usePathname } from "next/navigation";
 import { geistMono, geistSans, courierPrime } from "../config/fonts";
 import NavigationBar, { NavigationItem } from "../components/navigation/NavigationBar";
 
-export const items: NavigationItem[] = [
-  // { name: "O nás", href: "/" },
-  // { name: "Produkty", href: "/" },
-  // { name: "Kontakt", href: "/" }
-];
+const navigationItems: Record<string, NavigationItem[]> = { 
+  "/management": [
+    { name: "Vytvořit fakturu", href: "/management" }
+  ],
+  "/": [
+    { name: "O nás", href: "/" },
+    { name: "Produkty", href: "/" },
+    { name: "Kontakt", href: "/" }
+  ]
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const pathname = usePathname();
+  const currentItemsKey = Object.keys(navigationItems).find(key => pathname?.startsWith(key))!;
+  const currentItems = navigationItems[currentItemsKey];
+
   return (
     <html lang="cs" suppressHydrationWarning>
       <head>
@@ -25,7 +36,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${courierPrime.variable} antialiased`}>
         <HeroUIProvider>
-          <NavigationBar navigationItems={items}/>
+          <NavigationBar navigationItems={currentItems}/>
           {children}
         </HeroUIProvider>
       </body>

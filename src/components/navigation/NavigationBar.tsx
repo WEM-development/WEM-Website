@@ -11,7 +11,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
 } from "@heroui/navbar";
-import { Link, Button } from "@heroui/react";
+import { Link } from "@heroui/react";
 import WEMLogo from "../common/WEMLogo";
 
 export interface NavigationItem {
