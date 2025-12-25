@@ -1,5 +1,5 @@
 import { getDocs, query, where } from "firebase/firestore";
-import { InvoiceClientScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
+import { InvoiceClientScheme, InvoiceConfigurationScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
 import { addDocument, FirebaseStatus, getCollection, getDocument, getReference, getReferenceObject } from "../../firebase/utilities";
 import { Invoice } from "../Models";
 
@@ -20,6 +20,7 @@ class FirebaseRepository implements InvoiceRepository {
         const customerStatus = await addDocument(InvoiceClientScheme, invoice.customer, identificators.customer) == FirebaseStatus.Ok;
         const supplierStatus = await addDocument(InvoiceClientScheme, invoice.supplier, identificators.supplier) == FirebaseStatus.Ok;
         const paymentStatus = await addDocument(InvoicePaymentScheme, invoice.paymentDetails, identificators.payment) == FirebaseStatus.Ok;
+        const configurationStatus = await addDocument(InvoicePaymentScheme, invoice.paymentDetails, identificators.payment) == FirebaseStatus.Ok;
 
         const items = invoice.items.map(item => [`${invoice.id}-Item:${item.id}`, item] as const);
         await Promise.all(items.map(async ([id, item]) => {
@@ -36,7 +37,6 @@ class FirebaseRepository implements InvoiceRepository {
                 paymentDate: invoice.paymentDate,
                 idt: new Date(),
                 itemsPrice: invoice.itemsPrice,
-                taxRate: invoice.taxRate
             },
             invoice.id
         ) == FirebaseStatus.Ok;
@@ -54,6 +54,7 @@ class FirebaseRepository implements InvoiceRepository {
         const [_1, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier.value);
         const [_2, customerFields] = await getReference(InvoiceClientScheme, fields.customer.value);
         const [_3, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails.value);
+        const [_4, configurationFields] = await getReference(InvoiceConfigurationScheme, fields.configuration.value);
 
         const items = await Promise.all(fields.items.value.map(async (itemId: any) => {
             console.log(itemId);
@@ -84,7 +85,6 @@ class FirebaseRepository implements InvoiceRepository {
                 };
             }),
             itemsPrice: fields.itemsPrice.value,
-            taxRate: fields.taxRate.value,
             paymentDetails: {
                 accountNumber: paymentDetailsFields.accountNumber.value,
                 bankCode: paymentDetailsFields.bankCode.value,
@@ -93,6 +93,12 @@ class FirebaseRepository implements InvoiceRepository {
                 variableSymbol: paymentDetailsFields.variableSymbol.value,
                 message: paymentDetailsFields.message.value,
                 qrFetchURL: paymentDetailsFields.qrFetchURL.value
+            },
+            configuration: {
+                isTaxRateEnabled: configurationFields.isTaxRateEnabled.value,
+                taxRate: configurationFields.taxRate.value,
+                logo: configurationFields.logo.value,
+                signature: configurationFields.signature.value
             }
         };
     }

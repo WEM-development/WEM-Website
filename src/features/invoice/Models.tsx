@@ -17,6 +17,13 @@ export interface InvoicePaymentDetails {
     qrFetchURL: string;
 }
 
+export interface InvoiceConfiguration {
+    isTaxRateEnabled: boolean;
+    taxRate: number;
+    logo: string;
+    signature: string;
+}
+
 export interface Invoice {
     id: string;
     publishDate: Date;
@@ -25,6 +32,6 @@ export interface Invoice {
     customer: Client;
     items: InvoiceItem[];
     itemsPrice: number;
-    taxRate: number;
     paymentDetails: InvoicePaymentDetails;
+    configuration: InvoiceConfiguration;
 };

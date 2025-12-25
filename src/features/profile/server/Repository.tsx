@@ -24,7 +24,10 @@ class FirebaseRepository implements ProfileRepository {
             address: fields.address.value,
             signature: fields.signature.value,
             accountNumber: fields.accountNumber.value,
-            bankCode: fields.bankCode.value
+            bankCode: fields.bankCode.value,
+            logo: fields.logo.value,
+            isTaxRateEnabled: fields.isTaxRateEnabled.value,
+            taxRate: fields.taxRate.value
         };
     }
 }

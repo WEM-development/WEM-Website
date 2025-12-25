@@ -33,6 +33,7 @@ export default function ClientForm({client, onChange}: ClientFormProps) {
             />
 
             <Input
+                isRequired
                 errorMessage="Zadejte email společnosti"
                 label="Email společnosti"
                 labelPlacement="outside-top"

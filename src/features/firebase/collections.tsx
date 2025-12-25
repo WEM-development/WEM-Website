@@ -31,6 +31,15 @@ export const ProfileScheme: Collection = {
         },
         bankCode: {
             type: "string"
+        },
+        logo: {
+            type: "string"
+        },
+        isTaxRateEnabled: {
+            type: "boolean"
+        },
+        taxRate: {
+            type: "number"
         }
     }
 };
@@ -92,6 +101,24 @@ export const InvoiceItemsScheme: Collection = {
     }
 };
 
+export const InvoiceConfigurationScheme: Collection = {
+    name: "invoice_configurations",
+    fields: {
+        isTaxRateEnabled: {
+            type: "boolean"
+        },
+        taxRate: {
+            type: "number"
+        },
+        logo: {
+            type: "string"
+        },
+        signature: {
+            type: "string"
+        },
+    }
+};
+
 export const InvoiceScheme: Collection = {
     name: "invoices",
     fields: {
@@ -116,21 +143,22 @@ export const InvoiceScheme: Collection = {
         paymentDetails: {
             type: "reference"
         },
-        taxRate: {
-            type: "number"
-        },
         supplier: {
             type: "reference"
         },
         customer: {
             type: "reference"
         },
+        configuration: {
+            type: "reference"
+        }
     }
 };
 
 export type DatabaseCollection =
-    typeof ProfileScheme        |
-    typeof InvoiceClientScheme  |
-    typeof InvoicePaymentScheme | 
-    typeof InvoiceItemsScheme   | 
+    typeof ProfileScheme                |
+    typeof InvoiceClientScheme          |
+    typeof InvoicePaymentScheme         |
+    typeof InvoiceItemsScheme           |
+    typeof InvoiceConfigurationScheme   |
     typeof InvoiceScheme;

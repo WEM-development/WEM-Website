@@ -35,7 +35,6 @@ export function generateBlankInvoice(profile: Profile, invoiceId: string) : Invo
         },
         items: [],
         itemsPrice: 0,
-        taxRate: 0.21,
         paymentDetails: {
             accountNumber: profile.accountNumber,
             bankCode: profile.bankCode,
@@ -44,6 +43,12 @@ export function generateBlankInvoice(profile: Profile, invoiceId: string) : Invo
             variableSymbol: invoiceId,
             message: "",
             qrFetchURL: ""
+        },
+        configuration: {
+            logo: profile.logo,
+            signature: profile.signature,
+            isTaxRateEnabled: profile.isTaxRateEnabled,
+            taxRate: profile.taxRate
         }
     };
 }

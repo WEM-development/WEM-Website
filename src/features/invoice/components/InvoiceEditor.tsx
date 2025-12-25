@@ -7,6 +7,7 @@ import InvoiceItemsForm from "./InvoiceItemsForm";
 import InvoicePreview from "./InvoicePreview";
 import { getQRFetchUrl } from "../server/Service";
 import { Profile } from "../../profile/Models";
+import InvoiceModal from "./InvoiceModal";
 
 export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoice: Invoice, loadProfile: Profile}) {
     const [invoice, setInvoice] = useState<Invoice>(loadInvoice);
@@ -27,7 +28,7 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                                 const sumPrice = items.reduce((sum, item) => sum + (item.price * item.amount), 0);
                                 const newPaymentDetails = {
                                     ...invoice.paymentDetails,
-                                    amount: sumPrice + (sumPrice * invoice.taxRate),
+                                    amount: invoice.configuration.isTaxRateEnabled ? sumPrice + (sumPrice * invoice.configuration.taxRate) : sumPrice
                                 };
 
                                 setInvoice({
@@ -42,10 +43,18 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                             }}
                         />
                     </div>
-                    <InvoicePreview
-                        invoice={invoice}
-                        profile={loadProfile}
-                    />
+                    <div className="flex flex-col gap-6">
+                        <div className="flex flex-row gap-8 items-center justify-between print:hidden">
+                            <p className="text-xl font-medium float-left">Náhled faktury</p>
+                            <InvoiceModal
+                                onInvoicePress={ (emailContent: any) => { console.log(`INVOICE SEND: ${emailContent.header}`); } }
+                            />
+                        </div>
+                        <InvoicePreview
+                            invoice={invoice}
+                            profile={loadProfile}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
