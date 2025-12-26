@@ -19,11 +19,12 @@ function createTransportFromProfile(profile: Profile) {
 export async function sendInvoiceModalAsync(sender: Profile, recieverAddress: string, emailContent: any) {
     const transport = createTransportFromProfile(sender);
 
-    await transport.sendMail({
+    await new Promise(() => {
+        transport.sendMail({
         from: sender.email,
         to: recieverAddress,
         subject: emailContent.header,
         html: emailContent.content,
-        attachments: emailContent.attachments
+        attachments: emailContent.attachments});
     });
 }
