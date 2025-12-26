@@ -10,6 +10,9 @@ function createTransportFromProfile(profile: Profile) {
         auth: {
             user: profile.email,
             pass: profile.emailPass
+        },
+        tls: {
+            rejectUnauthorized: false,
         }
     });
 
