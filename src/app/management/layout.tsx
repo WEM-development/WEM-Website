@@ -5,12 +5,24 @@ import { AuthProvider, useAuth } from "@/src/features/auth/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/src/features/firebase/config";
 import { useRouter } from "next/navigation";
+import { 
+  Navbar, 
+  NavbarBrand, 
+  NavbarContent, 
+  NavbarItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Avatar,
+  Button
+} from "@heroui/react";
+import Link from "next/link";
+import WEMLogo from "@/src/components/common/WEMLogo";
 
-function LogoutButton() {
+function ManagementNavbar() {
   const { user } = useAuth();
   const router = useRouter();
-
-  if (!user) return null;
 
   const handleLogout = async () => {
     try {
@@ -21,26 +33,76 @@ function LogoutButton() {
     }
   };
 
+  if (!user) return null;
+
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <button
-        onClick={handleLogout}
-        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg transition-colors flex items-center gap-2"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-        </svg>
-        <span>Odhlásit se</span>
-      </button>
-    </div>
+    <Navbar isBordered className="bg-white shadow-sm">
+      <NavbarBrand>
+        <Link href="/management" className="font-bold text-xl text-inherit hover:text-blue-600 transition-colors">
+          <WEMLogo width={72} height={72} />
+        </Link>
+      </NavbarBrand>
+
+      <NavbarContent className="hidden sm:flex gap-6" justify="center">
+        <NavbarItem>
+          <Link href="/management" className="text-foreground hover:text-blue-600 transition-colors">
+            Dashboard
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="/management/invoice-editor" className="text-foreground hover:text-blue-600 transition-colors">
+            Nová faktura
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarContent justify="end">
+        <NavbarItem>
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Button
+                variant="light"
+                className="gap-2 px-2"
+              >
+                <Avatar
+                  isBordered
+                  color="primary"
+                  size="sm"
+                  src={user.photoURL || undefined}
+                  name={user.displayName || user.email || "User"}
+                />
+                <span className="hidden sm:block font-medium">
+                  {user.displayName || user.email}
+                </span>
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="User menu actions">
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-semibold">Přihlášen jako</p>
+                <p className="font-semibold">{user.email}</p>
+              </DropdownItem>
+              <DropdownItem 
+                key="logout" 
+                color="danger"
+                onClick={handleLogout}
+              >
+                Odhlásit se
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
   );
 }
 
 function ManagementLayoutContent({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex-1">
-      <LogoutButton />
-      {children}
+    <div className="min-h-screen bg-gray-50">
+      <ManagementNavbar />
+      <main className="flex-1">
+        {children}
+      </main>
     </div>
   );
 }

@@ -27,6 +27,7 @@ export default function RootLayout({
   const pathname = usePathname();
   const currentItemsKey = Object.keys(navigationItems).find(key => pathname?.startsWith(key))!;
   const currentItems = navigationItems[currentItemsKey];
+  const isManagementRoute = pathname?.startsWith("/management");
 
   return (
     <html lang="cs" suppressHydrationWarning>
@@ -36,7 +37,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${courierPrime.variable} antialiased`}>
         <HeroUIProvider>
-          <NavigationBar navigationItems={currentItems}/>
+          {!isManagementRoute && <NavigationBar navigationItems={currentItems}/>}
           {children}
         </HeroUIProvider>
       </body>

@@ -8,6 +8,7 @@ import InvoicePreview from "./InvoicePreview";
 import { getQRFetchUrl } from "../server/Service";
 import { Profile } from "../../profile/Models";
 import InvoiceModal from "./InvoiceModal";
+import { Invoices } from "../server/Repository";
 
 export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoice: Invoice, loadProfile: Profile}) {
     const [invoice, setInvoice] = useState<Invoice>(loadInvoice);
@@ -47,7 +48,10 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                         <div className="flex flex-row gap-8 items-center justify-between print:hidden">
                             <p className="text-xl font-medium float-left">Náhled faktury</p>
                             <InvoiceModal
-                                onInvoicePress={ (emailContent: any) => { console.log(`INVOICE SEND: ${emailContent.header}`); } }
+                                onInvoicePress={async (emailContent: any) => {
+                                    await Invoices.addInvoiceAsync(invoice);
+                                    console.log(emailContent);
+                                }}
                             />
                         </div>
                         <InvoicePreview
