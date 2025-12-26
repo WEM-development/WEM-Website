@@ -9,9 +9,56 @@ import { getQRFetchUrl } from "../server/Service";
 import { Profile } from "../../profile/Models";
 import InvoiceModal from "./InvoiceModal";
 import { Invoices } from "../server/Repository";
+import { useRouter } from "next/navigation";
+import { sendInvoiceEmailAction } from "../server/Actions";
+
+async function getInvoiceHTML(): Promise<string> {
+    const element = document.getElementById("print-area");
+    if (!element) {
+        throw new Error("Print area not found");
+    }
+
+    // Get all stylesheets
+    const styles = Array.from(document.styleSheets)
+        .map(sheet => {
+            try {
+                return Array.from(sheet.cssRules).map(rule => rule.cssText).join('\n');
+            } catch {
+                return '';
+            }
+        })
+        .join('\n');
+
+    return `
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta charset="utf-8">
+                <style>${styles}</style>
+            </head>
+            <body>
+                ${element.outerHTML}
+            </body>
+        </html>
+    `;
+}
+
+async function sendInvoiceEmailAsync(invoice: Invoice, sender: Profile, emailContent: {}) {
+    const htmlContent = await getInvoiceHTML();
+
+    await sendInvoiceEmailAction(
+        sender,
+        invoice.customer.email!,
+        emailContent,
+        htmlContent,
+        invoice.id
+    );
+}
 
 export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoice: Invoice, loadProfile: Profile}) {
     const [invoice, setInvoice] = useState<Invoice>(loadInvoice);
+    const router = useRouter();
+    console.log(loadInvoice);
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -25,6 +72,7 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                             }}
                         />
                         <InvoiceItemsForm
+                            loadItems={invoice.items}
                             onChange={(items: InvoiceItem[]) => {
                                 const sumPrice = items.reduce((sum, item) => sum + (item.price * item.amount), 0);
                                 const newPaymentDetails = {
@@ -48,9 +96,15 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                         <div className="flex flex-row gap-8 items-center justify-between print:hidden">
                             <p className="text-xl font-medium float-left">Náhled faktury</p>
                             <InvoiceModal
+                                invoice={invoice}
+                                sender={loadProfile}
                                 onInvoicePress={async (emailContent: any) => {
-                                    await Invoices.addInvoiceAsync(invoice);
-                                    console.log(emailContent);
+                                    console.log(loadProfile);
+                                    await Promise.all([
+                                        Invoices.addInvoiceAsync(invoice),
+                                        sendInvoiceEmailAsync(invoice, loadProfile, emailContent)
+                                    ]);
+                                    router.push('/management');
                                 }}
                             />
                         </div>

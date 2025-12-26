@@ -22,7 +22,7 @@ class FirebaseRepository implements InvoiceRepository {
         const customerStatus = await addDocument(InvoiceClientScheme, invoice.customer, identificators.customer) == FirebaseStatus.Ok;
         const supplierStatus = await addDocument(InvoiceClientScheme, invoice.supplier, identificators.supplier) == FirebaseStatus.Ok;
         const paymentStatus = await addDocument(InvoicePaymentScheme, invoice.paymentDetails, identificators.payment) == FirebaseStatus.Ok;
-        const configurationStatus = await addDocument(InvoiceConfigurationScheme, invoice.paymentDetails, identificators.configuration) == FirebaseStatus.Ok;
+        const configurationStatus = await addDocument(InvoiceConfigurationScheme, invoice.configuration, identificators.configuration) == FirebaseStatus.Ok;
 
         const items = invoice.items.map(item => [`${invoice.id}-Item:${item.id}`, item] as const);
         await Promise.all(items.map(async ([id, item]) => {

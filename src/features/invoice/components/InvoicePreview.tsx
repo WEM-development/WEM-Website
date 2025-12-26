@@ -5,6 +5,7 @@ import { Invoice } from "../Models";
 import { PaperAirplaneIcon, PrinterIcon } from "./Icons";
 import { Invoices } from "../server/Repository";
 import { Profile } from "../../profile/Models";
+import WEMLogo from "@/src/components/common/WEMLogo";
 
 export default function InvoicePreview({ invoice, profile }: { invoice: Invoice | null, profile: Profile }) {
 
@@ -168,10 +169,9 @@ export default function InvoicePreview({ invoice, profile }: { invoice: Invoice 
                         <>
                             <div className="flex justify-between items-start mb-8 print:mb-4">
                                 <div className="flex items-center gap-4">
-                                    <img 
-                                        src="/WEM.svg" 
-                                        alt="WEM Logo" 
-                                        className="h-24 w-24"
+                                    <WEMLogo
+                                        width={96}
+                                        height={96}
                                     />
                                     <div>
                                         <h1 className="text-2xl font-bold text-gray-800">FAKTURA</h1>

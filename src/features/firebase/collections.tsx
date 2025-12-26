@@ -20,6 +20,15 @@ export const ProfileScheme: Collection = {
         email: {
             type: "string"
         },
+        emailTemplate: {
+            type: "string"
+        },
+        emailProvider: {
+            type: "string"
+        },
+        emailPass: {
+            type: "string"
+        },
         address: {
             type: "string"
         },

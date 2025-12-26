@@ -7,6 +7,16 @@ body {
   background-color: #f9fafb;
 }
 
+/* Force standard color space for PDF generation compatibility */
+#print-area {
+  color-scheme: light;
+}
+
+#print-area * {
+  /* Override any lab/oklch colors with fallbacks */
+  color: revert-layer;
+}
+
 @page {
   size: A4;
   margin: 0;

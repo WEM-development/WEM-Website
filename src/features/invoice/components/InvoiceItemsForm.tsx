@@ -4,14 +4,16 @@ import { Button, Form, Input } from "@heroui/react";
 import { InvoiceItem } from "../Models";
 import { TrashIcon } from "./Icons";
 import { useState } from "react";
+import { InvoiceClientScheme } from "../../firebase/collections";
 
 interface InvoiceItemsFormProps {
+    loadItems: InvoiceItem[];
     onChange: (items: InvoiceItem[]) => void;
 }
         <div id="print-area" className="flex flex-col min-h-[297mm] bg-white w-full max-w-[210mm]"></div>
 
-export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
-    const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
+export default function InvoiceItemsForm({ loadItems, onChange }: InvoiceItemsFormProps) {
+    const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>(loadItems);
 
     return (
         <div className="flex flex-col gap-8 pt-8">
@@ -61,6 +63,7 @@ export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
                             name="item_desc"
                             type="text"
                             variant="bordered"
+                            defaultValue={item.description}
                             onValueChange={(value: string) => {
                                 item.description = value;
                                 onChange(invoiceItems);
@@ -76,6 +79,7 @@ export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
                             name="item_count"
                             type="number"
                             variant="bordered"
+                            defaultValue={`${item.amount}`}
                             onValueChange={(value: string) => {
                                 item.amount = parseInt(value);
                                 onChange(invoiceItems);
@@ -89,6 +93,7 @@ export default function InvoiceItemsForm({ onChange }: InvoiceItemsFormProps) {
                             name="item_price"
                             type="number"
                             variant="bordered"
+                            defaultValue={`${item.price}`}
                             onValueChange={(value: string) => {
                                 item.price = parseFloat(value);
                                 onChange(invoiceItems);
