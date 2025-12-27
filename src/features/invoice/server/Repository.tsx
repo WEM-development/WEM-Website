@@ -1,13 +1,15 @@
-import { getDocs, query, where } from "firebase/firestore";
+import { DocumentData, getDocs, query, QueryDocumentSnapshot, where } from "firebase/firestore";
 import { InvoiceClientScheme, InvoiceConfigurationScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
 import { addDocument, FirebaseStatus, getCollection, getDocument, getReference, getReferenceObject } from "../../firebase/utilities";
 import { Invoice } from "../Models";
+import { getAllInvoicesAsyncCache } from "./Repository.cache";
 
 export interface InvoiceRepository {
     addInvoiceAsync(invoice: Invoice) : Promise<boolean>;
     getInvoiceAsync(invoiceId: string) : Promise<Invoice | null>;
     getInvoicesCountAsync(date?: Date) : Promise<number>;
     getAllInvoicesAsync() : Promise<Invoice[]>;
+    getRecentInvoicesAsync() : Promise<Invoice[]>;
 }
 
 class FirebaseRepository implements InvoiceRepository {
@@ -44,7 +46,6 @@ class FirebaseRepository implements InvoiceRepository {
             },
             invoice.id
         ) == FirebaseStatus.Ok;
- 
 
         return customerStatus && supplierStatus && paymentStatus && invoiceStatus && configurationStatus;
     }
@@ -56,21 +57,68 @@ class FirebaseRepository implements InvoiceRepository {
             return null;
         }
 
-        const [_1, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier.value);
-        const [_2, customerFields] = await getReference(InvoiceClientScheme, fields.customer.value);
-        const [_3, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails.value);
-        const [_4, configurationFields] = await getReference(InvoiceConfigurationScheme, fields.configuration.value);
+        const mappedInvoice = await this.mapInvoiceToClientAsync(id, fields);
+        return mappedInvoice;
+    }
 
-        const items = await Promise.all(fields.items.value.map(async (itemId: any) => {
-            console.log(itemId);
+    async getInvoicesCountAsync(date?: Date): Promise<number> {
+        const currentDate = date ?? new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        const returnQuery = query(
+            getCollection(InvoiceScheme),
+            where("idt", ">=", currentDate)
+        );
+
+        const invoices = await getDocs(returnQuery);
+        return invoices.size;
+    }
+
+    async getRecentInvoicesAsync() : Promise<Invoice[]> {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        const returnQuery = query(
+            getCollection(InvoiceScheme),
+            where("idt", ">=", currentDate)
+        );
+
+        const invoices = await getDocs(returnQuery)
+            .then(async snapshot => {
+                const doc = snapshot.docs;
+                return await Promise.all(doc.map(async doc => await this.mapInvoiceToClientAsync(doc.id, doc.data())));
+        });
+
+        return invoices;
+    }
+
+    async getAllInvoicesAsync(): Promise<Invoice[]> {
+        const snapshot = await getDocs(getCollection(InvoiceScheme));
+        const invoices: Invoice[] = [];
+
+        for (const doc of snapshot.docs) {
+            const mappedInvoice = await this.mapInvoiceToClientAsync(doc.id, doc.data());
+            invoices.push(mappedInvoice);
+        }
+
+        return invoices.sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
+    }
+
+    async mapInvoiceToClientAsync(id: string, fields: any) : Promise<Invoice> {
+        const [_1, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier);
+        const [_2, customerFields] = await getReference(InvoiceClientScheme, fields.customer);
+        const [_3, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails);
+        const [_4, configurationFields] = await getReference(InvoiceConfigurationScheme, fields.configuration);
+
+        const items = await Promise.all(fields.items.map(async (itemId: any) => {
             const item = await getReference(InvoiceItemsScheme, itemId);
             return item;
         }));
 
-        return {
+        return ({
             id: id,
-            publishDate: fields.publishDate.value.toDate(),
-            paymentDate: fields.paymentDate.value.toDate(),
+            publishDate: fields.publishDate.toDate(),
+            paymentDate: fields.paymentDate.toDate(),
             identificationOrder: fields.identificationOrder && fields.identificationOrder.value !== undefined ? fields.identificationOrder.value : null,
             supplier: {
                 ico: supplierFields.ico.value,
@@ -90,7 +138,7 @@ class FirebaseRepository implements InvoiceRepository {
                     price: itemFields.price.value
                 };
             }),
-            itemsPrice: fields.itemsPrice.value,
+            itemsPrice: fields.itemsPrice,
             paymentDetails: {
                 accountNumber: paymentDetailsFields.accountNumber.value,
                 bankCode: paymentDetailsFields.bankCode.value,
@@ -106,85 +154,8 @@ class FirebaseRepository implements InvoiceRepository {
                 logo: configurationFields.logo.value,
                 signature: configurationFields.signature.value
             }
-        };
+        }) as Invoice;
     }
-
-    async getInvoicesCountAsync(date?: Date): Promise<number> {
-        const currentDate = date ?? new Date();
-        currentDate.setHours(0, 0, 0, 0);
-
-        const returnQuery = query(
-            getCollection(InvoiceScheme),
-            where("idt", ">=", currentDate)
-        );
-
-        const invoices = await getDocs(returnQuery);
-        return invoices.size;
-    }
-
-    async getAllInvoicesAsync(): Promise<Invoice[]> {
-        const snapshot = await getDocs(getCollection(InvoiceScheme));
-        const invoices: Invoice[] = [];
-
-        for (const doc of snapshot.docs) {
-            const fields = doc.data();
-            
-            const [_1, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier);
-            const [_2, customerFields] = await getReference(InvoiceClientScheme, fields.customer);
-            const [_3, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails);
-            const [_4, configurationFields] = await getReference(InvoiceConfigurationScheme, fields.configuration);
-
-            const items = await Promise.all(fields.items.map(async (itemId: any) => {
-                const item = await getReference(InvoiceItemsScheme, itemId);
-                return item;
-            }));
-
-            invoices.push({
-                id: doc.id,
-                publishDate: fields.publishDate.toDate(),
-                paymentDate: fields.paymentDate.toDate(),
-                identificationOrder: fields.identificationOrder && fields.identificationOrder.value !== undefined ? fields.identificationOrder.value : null,
-                supplier: {
-                    ico: supplierFields.ico.value,
-                    name: supplierFields.name.value,
-                    address: supplierFields.address.value
-                },
-                customer: {
-                    ico: customerFields.ico.value,
-                    name: customerFields.name.value,
-                    address: customerFields.address.value
-                },
-                items: items.map(([id, itemFields]: any) => {
-                    return {
-                        id: id,
-                        description: itemFields.description.value,
-                        amount: itemFields.amount.value,
-                        price: itemFields.price.value
-                    };
-                }),
-                itemsPrice: fields.itemsPrice,
-                paymentDetails: {
-                    accountNumber: paymentDetailsFields.accountNumber.value,
-                    bankCode: paymentDetailsFields.bankCode.value,
-                    amount: paymentDetailsFields.amount.value,
-                    currency: paymentDetailsFields.currency.value,
-                    variableSymbol: paymentDetailsFields.variableSymbol.value,
-                    message: paymentDetailsFields.message.value,
-                    qrFetchURL: paymentDetailsFields.qrFetchURL.value
-                },
-                configuration: {
-                    isTaxRateEnabled: configurationFields.isTaxRateEnabled.value,
-                    taxRate: configurationFields.taxRate.value,
-                    logo: configurationFields.logo.value,
-                    signature: configurationFields.signature.value
-                }
-            });
-        }
-
-        return invoices.sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
-    }
-
-    // getAllInvoicesAsyncCache removed; use server-only wrapper for caching
 }
  
 export const Invoices: InvoiceRepository = new FirebaseRepository();

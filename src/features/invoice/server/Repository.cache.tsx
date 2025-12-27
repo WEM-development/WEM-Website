@@ -5,7 +5,9 @@ import { Invoices } from "./Repository";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 export const getAllInvoicesAsyncCache = unstable_cache(
-    async () => await Invoices.getAllInvoicesAsync(),
+    async () => {
+        return await Invoices.getAllInvoicesAsync();
+    },
     ["getAllInvoicesAsync"],
     {
         tags: ["getAllInvoicesAsync"],
