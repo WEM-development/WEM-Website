@@ -21,6 +21,7 @@ export function generateBlankInvoice(profile: Profile, invoiceId: string) : Invo
         id: invoiceId,
         publishDate: new Date(),
         paymentDate: new Date(),
+        identificationOrder: null,
         supplier: {
             ico: profile.ico,
             name: profile.supplierName,

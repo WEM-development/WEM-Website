@@ -32,6 +32,7 @@ export interface Invoice {
     customer: Client;
     items: InvoiceItem[];
     itemsPrice: number;
+    identificationOrder: string | null;
     paymentDetails: InvoicePaymentDetails;
     configuration: InvoiceConfiguration;
 };

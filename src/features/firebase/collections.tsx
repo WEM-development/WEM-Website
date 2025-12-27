@@ -146,6 +146,9 @@ export const InvoiceScheme: Collection = {
         paymentDate: {
             type: "timestamp"
         },
+        identificaionOrder: {
+            type: "string"
+        },
         idt: {
             type: "timestamp"
         },

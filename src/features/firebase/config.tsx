@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { enableIndexedDbPersistence, getFirestore } from "firebase/firestore"; 
+import { getAuth } from "firebase/auth";
 
 // TODO: Add enviroment keys
 const firebaseConfig = {
@@ -13,12 +13,11 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
+
 const app = initializeApp(firebaseConfig);
 export const database = getFirestore(app);
 export const auth = getAuth(app);
 
-// Enable persistence so users stay logged in
-setPersistence(auth, browserLocalPersistence).catch((error) => {
-  console.error("Failed to set auth persistence:", error);
+enableIndexedDbPersistence(database).catch(() => {
+  console.warn("Persistence disabled");
 });
-

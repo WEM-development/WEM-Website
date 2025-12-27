@@ -38,11 +38,13 @@ class FirebaseRepository implements InvoiceRepository {
                 configuration: getReferenceObject(InvoiceConfigurationScheme, identificators.configuration),
                 publishDate: invoice.publishDate,
                 paymentDate: invoice.paymentDate,
+                identificationOrder: invoice.identificationOrder,
                 idt: new Date(),
                 itemsPrice: invoice.itemsPrice,
             },
             invoice.id
         ) == FirebaseStatus.Ok;
+ 
 
         return customerStatus && supplierStatus && paymentStatus && invoiceStatus && configurationStatus;
     }
@@ -69,6 +71,7 @@ class FirebaseRepository implements InvoiceRepository {
             id: id,
             publishDate: fields.publishDate.value.toDate(),
             paymentDate: fields.paymentDate.value.toDate(),
+            identificationOrder: fields.identificationOrder && fields.identificationOrder.value !== undefined ? fields.identificationOrder.value : null,
             supplier: {
                 ico: supplierFields.ico.value,
                 name: supplierFields.name.value,
@@ -140,6 +143,7 @@ class FirebaseRepository implements InvoiceRepository {
                 id: doc.id,
                 publishDate: fields.publishDate.toDate(),
                 paymentDate: fields.paymentDate.toDate(),
+                identificationOrder: fields.identificationOrder && fields.identificationOrder.value !== undefined ? fields.identificationOrder.value : null,
                 supplier: {
                     ico: supplierFields.ico.value,
                     name: supplierFields.name.value,
@@ -179,6 +183,8 @@ class FirebaseRepository implements InvoiceRepository {
 
         return invoices.sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
     }
+
+    // getAllInvoicesAsyncCache removed; use server-only wrapper for caching
 }
  
 export const Invoices: InvoiceRepository = new FirebaseRepository();

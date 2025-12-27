@@ -3,11 +3,10 @@
 import { Button, Image } from "@heroui/react";
 import { Invoice } from "../Models";
 import { PaperAirplaneIcon, PrinterIcon } from "./Icons";
-import { Invoices } from "../server/Repository";
 import { Profile } from "../../profile/Models";
 import WEMLogo from "@/src/components/common/WEMLogo";
 
-export default function InvoicePreview({ invoice, profile }: { invoice: Invoice | null, profile: Profile }) {
+export default function InvoicePreview({ invoice }: { invoice: Invoice | null, profile: Profile }) {
 
     if (invoice === null) {
         return (
@@ -197,6 +196,7 @@ export default function InvoicePreview({ invoice, profile }: { invoice: Invoice 
                                     <p>{invoice.customer.address}</p>
                                     <p>{invoice.customer.ico != "" ? "IČO:" + invoice.customer.ico : ""}</p>
                                     <p>{invoice.customer.email}</p>
+                                    {(invoice.identificationOrder && <p>{"Číslo objednávky: " +  invoice.identificationOrder}</p>)}
                                 </div>
                             </div>
                         </>

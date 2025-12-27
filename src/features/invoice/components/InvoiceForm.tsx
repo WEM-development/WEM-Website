@@ -89,6 +89,20 @@ export default function InvoiceForm({ invoice, onChange }: InvoiceFormProps) {
                                 }
                             }}
                         />
+                        <Input
+                            errorMessage="Zadejte číslo objednávky"
+                            label="Číslo objednávky"
+                            labelPlacement="outside-top"
+                            name="identificationOrder"
+                            type="string"
+                            variant="bordered"
+                            onValueChange={(value: string) => {
+                                onChange({
+                                    ...invoice,
+                                    identificationOrder: value
+                                });
+                            }}
+                        />
                     </div>
                 </div>
                 <div className="flex-1 flex-column gap-4">

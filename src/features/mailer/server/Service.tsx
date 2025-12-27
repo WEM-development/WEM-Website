@@ -24,7 +24,7 @@ export async function sendInvoiceModalAsync(sender: Profile, recieverAddress: st
 
     await new Promise(() => {
         transport.sendMail({
-        from: sender.email,
+        from: `"${sender.supplierName}" <${sender.email}>`,
         to: recieverAddress,
         subject: emailContent.header,
         html: emailContent.content,

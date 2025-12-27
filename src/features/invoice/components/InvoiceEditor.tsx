@@ -11,6 +11,7 @@ import InvoiceModal from "./InvoiceModal";
 import { Invoices } from "../server/Repository";
 import { useRouter } from "next/navigation";
 import { sendInvoiceEmailAction } from "../server/Actions";
+import { addInvoiceAsync } from "../server/Repository.cache";
 
 async function getInvoiceHTML(): Promise<string> {
     const element = document.getElementById("print-area");
@@ -101,7 +102,8 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                                 onInvoicePress={async (emailContent: any) => {
                                     console.log(loadProfile);
                                     await Promise.all([
-                                        Invoices.addInvoiceAsync(invoice),
+                                        addInvoiceAsync(invoice),
+                                        // Invoices.addInvoiceAsync(invoice),
                                         sendInvoiceEmailAsync(invoice, loadProfile, emailContent)
                                     ]);
                                     router.push('/management');

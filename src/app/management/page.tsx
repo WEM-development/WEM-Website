@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import { useAuth } from "@/src/features/auth/AuthContext";
 import { Card, CardBody, CardHeader, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@heroui/react";
 import { Invoice } from "@/src/features/invoice/Models";
-import { Invoices } from "@/src/features/invoice/server/Repository";
+import { getAllInvoicesAsyncCache } from "@/src/features/invoice/server/Repository.cache";
 
 function ManagementContent() {
     const [profile, setProfile] = useState<Profile | null>(null);
@@ -48,8 +48,8 @@ function ManagementContent() {
             setLoading(true);
             try {
                 const [allInvoices, todayInvoices] = await Promise.all([
-                    Invoices.getAllInvoicesAsync(),
-                    Invoices.getInvoicesCountAsync()
+                    await getAllInvoicesAsyncCache(),
+                    0//Invoices.getInvoicesCountAsync()
                 ]);
                 setInvoices(allInvoices);
                 setTodayCount(todayInvoices);
