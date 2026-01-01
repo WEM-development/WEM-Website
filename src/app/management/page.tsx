@@ -52,7 +52,6 @@ function ManagementContent() {
                     0
                 ]);
 
-                console.log(allInvoices);
                 setInvoices(allInvoices);
                 setTodayCount(todayInvoices);
             } catch (error) {

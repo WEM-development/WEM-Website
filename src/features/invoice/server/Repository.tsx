@@ -78,8 +78,6 @@ class FirebaseRepository implements InvoiceRepository {
             return null;
         }
 
-        console.log({id, fields});
-
         const mappedInvoice = await this.mapInvoiceToClientAsync(id, fields);
         this.invoiceCache.data[mappedInvoice.id] = mappedInvoice;
 
@@ -155,7 +153,6 @@ class FirebaseRepository implements InvoiceRepository {
             return item;
         })) : [];
 
-        console.log(fields);
         return ({
             id: id,
             publishDate: fields.publishDate instanceof Timestamp

@@ -21,7 +21,6 @@ export default function Page() {
             const result = await signInWithPopup(auth, authProvider, browserPopupRedirectResolver);
             
             const profile = await Profiles.getProfileAsync(result.user.uid);
-            console.log(profile);
             
             if (profile) {
                 router.push(`/management`);

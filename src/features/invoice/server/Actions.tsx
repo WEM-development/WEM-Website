@@ -11,6 +11,15 @@ export async function sendInvoiceEmailAction(
     htmlContent: string,
     invoiceId: string
 ) {
+    // Validate sender profile has email configuration
+    if (!sender.email || !sender.emailProvider || !sender.emailPass) {
+        throw new Error("Sender profile is missing email configuration. Please configure your email settings in the profile.");
+    }
+
+    if (!recipientEmail) {
+        throw new Error("Recipient email address is required.");
+    }
+
     // Launch Puppeteer and generate PDF
     const browser = await puppeteer.launch({
         headless: true,
@@ -47,10 +56,10 @@ export async function sendInvoiceEmailAction(
             scale: 1,
         });
 
-        await sendInvoiceModalAsync(sender, recipientEmail, {
+        const result = await sendInvoiceModalAsync(sender, recipientEmail, {
             ...emailContent,
             attachments: [
-                ...sender.emailAttachments,
+                ...(sender.emailAttachments || []),
                 {
                     filename: `Faktura-${invoiceId}.pdf`,
                     content: pdfBuffer,
@@ -59,6 +68,11 @@ export async function sendInvoiceEmailAction(
                 }
             ]
         });
+
+        return result;
+    } catch (error) {
+        console.error('Error sending invoice email:', error);
+        throw error;
     } finally {
         await browser.close();
     }

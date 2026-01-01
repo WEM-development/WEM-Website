@@ -16,8 +16,6 @@ class FirebaseRepository implements ProfileRepository {
         const [id, fields] = await getDocument(ProfileScheme, uid);
         if (Object.values(fields).every(field => field.value === undefined)) return undefined;
 
-        console.log(fields.emailAttachments);
-
         return {
             uid: id,
             ico: fields.ico.value,

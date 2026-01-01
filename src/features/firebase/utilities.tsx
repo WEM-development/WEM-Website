@@ -9,8 +9,6 @@ export enum FirebaseStatus{
 
 export async function getDocument(databaseCollection: DatabaseCollection, identificator: string) : Promise<[id: string, fields: Record<string, CollectionField & { value: any }>]> {
     try {
-        console.log("Fetching document:", databaseCollection.name, identificator);
-        
         const returnDocument = await getDoc(
             doc(database, databaseCollection.name, identificator)
         );
@@ -58,13 +56,11 @@ export async function addDocument(databaseCollection: DatabaseCollection, docume
     try {
         if (customId) {
             await setDoc(doc(database, databaseCollection.name, customId), document);
-            console.log(`[${databaseCollection.name}]: Document written with custom ID: ${customId}`);
         } else {
             const returnDocument = await addDoc(
                 collection(database, databaseCollection.name),
                 document
             );
-            console.log(`[${databaseCollection.name}]: Document written with ID: ${returnDocument.id}`);
         }
         return FirebaseStatus.Ok;
     } catch (e) {

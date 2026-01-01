@@ -57,7 +57,6 @@ async function sendInvoiceEmailAsync(invoice: Invoice, sender: Profile, emailCon
 export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoice: Invoice, loadProfile: Profile}) {
     const [invoice, setInvoice] = useState<Invoice>(loadInvoice);
     const router = useRouter();
-    console.log(loadInvoice);
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -98,7 +97,6 @@ export default function InvoiceEditor({ loadInvoice, loadProfile }: { loadInvoic
                                 invoice={invoice}
                                 sender={loadProfile}
                                 onInvoicePress={async (emailContent: any) => {
-                                    console.log(loadProfile);
                                     await Promise.all([
                                         Invoices.addInvoiceAsync(invoice),
                                         sendInvoiceEmailAsync(invoice, loadProfile, emailContent)

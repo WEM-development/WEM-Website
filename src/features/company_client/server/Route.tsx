@@ -1,7 +1,6 @@
 import { Client } from "../Models";
 
 export async function GetCompanyClient(ico: string) : Promise<Client | null> {
-    console.log(`Fetching company data for ICO: ${ico}`);
 
     const response = await fetch(
         "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res/" + ico
