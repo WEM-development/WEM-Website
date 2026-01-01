@@ -50,6 +50,7 @@ export async function sendInvoiceEmailAction(
         await sendInvoiceModalAsync(sender, recipientEmail, {
             ...emailContent,
             attachments: [
+                ...sender.emailAttachments,
                 {
                     filename: `Faktura-${invoiceId}.pdf`,
                     content: pdfBuffer,

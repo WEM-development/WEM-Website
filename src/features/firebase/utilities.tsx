@@ -75,10 +75,8 @@ export async function addDocument(databaseCollection: DatabaseCollection, docume
 
 export async function getReference(databaseCollection: DatabaseCollection, referenceValue: any): Promise<[id: string, fields: Record<string, CollectionField & { value: any }>]> {
     try {
-        const docId = (referenceValue.path).split('/')[1];
+        const docId = referenceValue.id || referenceValue.value.id;
         const docRef = doc(database, databaseCollection.name, docId);
-        
-        console.log(`Fetching reference from ${databaseCollection.name}/${docId}`); 
         
         const returnDocument = await getDoc(docRef);
         

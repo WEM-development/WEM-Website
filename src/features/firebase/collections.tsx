@@ -29,6 +29,12 @@ export const ProfileScheme: Collection = {
         emailPass: {
             type: "string"
         },
+        emailAttachments: {
+            type: {
+                parentType: "array",
+                childrenType: "map"
+            }
+        },
         address: {
             type: "string"
         },
@@ -146,7 +152,7 @@ export const InvoiceScheme: Collection = {
         paymentDate: {
             type: "timestamp"
         },
-        identificaionOrder: {
+        identificationOrder: {
             type: "string"
         },
         idt: {

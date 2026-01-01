@@ -7,6 +7,7 @@ export interface Profile {
     emailTemplate: string;
     emailProvider: string;
     emailPass: string;
+    emailAttachments: any[];
     signature: string;
     logo: string;
     isTaxRateEnabled: boolean;

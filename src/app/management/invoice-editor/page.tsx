@@ -36,7 +36,7 @@ function InvoiceEditorContent() {
 
                 const nextInvoiceId = await generateNextInvoiceId();
                 const invoice = iid !== null ?
-                    await Invoices.getInvoiceAsync(iid) : 
+                    await Invoices.getInvoiceAsync(iid) :
                     await generateBlankInvoice(profile, nextInvoiceId);
 
                 setInvoice(invoice);

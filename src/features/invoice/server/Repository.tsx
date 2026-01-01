@@ -1,8 +1,7 @@
-import { DocumentData, getDocs, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { DocumentData, getDocs, query, Timestamp, where } from "firebase/firestore";
 import { InvoiceClientScheme, InvoiceConfigurationScheme, InvoiceItemsScheme, InvoicePaymentScheme, InvoiceScheme } from "../../firebase/collections";
 import { addDocument, FirebaseStatus, getCollection, getDocument, getReference, getReferenceObject } from "../../firebase/utilities";
 import { Invoice } from "../Models";
-import { getAllInvoicesAsyncCache } from "./Repository.cache";
 
 export interface InvoiceRepository {
     addInvoiceAsync(invoice: Invoice) : Promise<boolean>;
@@ -12,14 +11,31 @@ export interface InvoiceRepository {
     getRecentInvoicesAsync() : Promise<Invoice[]>;
 }
 
+interface InvoiceCache {
+    data: Record<string, Invoice>;
+    lastRevalidationDate: Date;
+    revalidationConfiguration: {
+        hours: number,
+        minutes: number
+    };
+}
+
 class FirebaseRepository implements InvoiceRepository {
+    invoiceCache: InvoiceCache
+
+    constructor(
+        invoiceCache: InvoiceCache
+    ) {
+        this.invoiceCache = invoiceCache;
+    }
+
     async addInvoiceAsync(invoice: Invoice) : Promise<boolean> {
         const identificators = {
             customer: `${invoice.id}-c`,
             supplier: `${invoice.id}-s`,
             payment: `${invoice.id}-Payment`,
             configuration: `${invoice.id}`
-        };
+        }; 
 
         const customerStatus = await addDocument(InvoiceClientScheme, invoice.customer, identificators.customer) == FirebaseStatus.Ok;
         const supplierStatus = await addDocument(InvoiceClientScheme, invoice.supplier, identificators.supplier) == FirebaseStatus.Ok;
@@ -47,17 +63,26 @@ class FirebaseRepository implements InvoiceRepository {
             invoice.id
         ) == FirebaseStatus.Ok;
 
+        this.invoiceCache.data[invoice.id] = invoice;
         return customerStatus && supplierStatus && paymentStatus && invoiceStatus && configurationStatus;
     }
 
     async getInvoiceAsync(invoiceId: string) : Promise<Invoice | null> {
+        if (this.invoiceCache.data[invoiceId] !== undefined) {
+            return this.invoiceCache.data[invoiceId];
+        }
+
         const [id, fields] = await getDocument(InvoiceScheme, invoiceId);
 
         if (!fields) {
             return null;
         }
 
+        console.log({id, fields});
+
         const mappedInvoice = await this.mapInvoiceToClientAsync(id, fields);
+        this.invoiceCache.data[mappedInvoice.id] = mappedInvoice;
+
         return mappedInvoice;
     }
 
@@ -93,33 +118,53 @@ class FirebaseRepository implements InvoiceRepository {
     }
 
     async getAllInvoicesAsync(): Promise<Invoice[]> {
+        const currentDate = new Date();
+
+        if (Object.keys(this.invoiceCache.data).length > 0 && this.invoiceCache.lastRevalidationDate < currentDate) {
+            return Object.values(this.invoiceCache.data);
+        } 
+        else {
+            this.invoiceCache.data = {};
+            currentDate.setHours(
+                currentDate.getHours() + this.invoiceCache.revalidationConfiguration.hours,
+                currentDate.getMinutes() + this.invoiceCache.revalidationConfiguration.minutes,
+            );
+        }
+
         const snapshot = await getDocs(getCollection(InvoiceScheme));
         const invoices: Invoice[] = [];
 
         for (const doc of snapshot.docs) {
             const mappedInvoice = await this.mapInvoiceToClientAsync(doc.id, doc.data());
+            this.invoiceCache.data[mappedInvoice.id] = mappedInvoice;
+
             invoices.push(mappedInvoice);
         }
 
         return invoices.sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
     }
 
-    async mapInvoiceToClientAsync(id: string, fields: any) : Promise<Invoice> {
+    async mapInvoiceToClientAsync(id: string, fields: DocumentData) : Promise<Invoice> {
         const [_1, supplierFields] = await getReference(InvoiceClientScheme, fields.supplier);
         const [_2, customerFields] = await getReference(InvoiceClientScheme, fields.customer);
         const [_3, paymentDetailsFields] = await getReference(InvoicePaymentScheme, fields.paymentDetails);
         const [_4, configurationFields] = await getReference(InvoiceConfigurationScheme, fields.configuration);
 
-        const items = await Promise.all(fields.items.map(async (itemId: any) => {
+        const returnItems = Array.isArray(fields.items || fields.items.value) ? await Promise.all(fields.items.map(async (itemId: any) => {
             const item = await getReference(InvoiceItemsScheme, itemId);
             return item;
-        }));
+        })) : [];
 
+        console.log(fields);
         return ({
             id: id,
-            publishDate: fields.publishDate.toDate(),
-            paymentDate: fields.paymentDate.toDate(),
-            identificationOrder: fields.identificationOrder && fields.identificationOrder.value !== undefined ? fields.identificationOrder.value : null,
+            publishDate: fields.publishDate instanceof Timestamp
+                ? fields.publishDate.toDate()
+                : fields.publishDate.value.toDate(),
+            paymentDate: fields.paymentDate instanceof Timestamp
+                ? fields.paymentDate.toDate()
+                : fields.paymentDate.value.toDate(),
+            identificationOrder: fields.identificationOrder && (fields.identificationOrder || fields.identificationOrder.value) !== undefined ? (fields.identificationOrder || fields.identificationOrder.value) : null,
             supplier: {
                 ico: supplierFields.ico.value,
                 name: supplierFields.name.value,
@@ -130,7 +175,7 @@ class FirebaseRepository implements InvoiceRepository {
                 name: customerFields.name.value,
                 address: customerFields.address.value
             },
-            items: items.map(([id, itemFields]: any) => {
+            items: returnItems.length == 0 ? [] : returnItems.map(([id, itemFields]: any) => {
                 return {
                     id: id,
                     description: itemFields.description.value,
@@ -158,4 +203,13 @@ class FirebaseRepository implements InvoiceRepository {
     }
 }
  
-export const Invoices: InvoiceRepository = new FirebaseRepository();
+export const Invoices: InvoiceRepository = new FirebaseRepository(
+    {
+        data: {},
+        lastRevalidationDate: new Date(),
+        revalidationConfiguration: {
+            hours: 0,
+            minutes: 30
+        }
+    } as InvoiceCache
+);
