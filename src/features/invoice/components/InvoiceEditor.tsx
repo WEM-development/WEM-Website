@@ -18,7 +18,6 @@ async function getInvoiceHTML(): Promise<string> {
         throw new Error("Print area not found");
     }
 
-    // Get all stylesheets
     const styles = Array.from(document.styleSheets)
         .map(sheet => {
             try {

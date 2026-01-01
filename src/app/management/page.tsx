@@ -51,6 +51,7 @@ function ManagementContent() {
                     await Invoices.getAllInvoicesAsync(),
                     0
                 ]);
+
                 console.log(allInvoices);
                 setInvoices(allInvoices);
                 setTodayCount(todayInvoices);

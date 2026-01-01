@@ -4,7 +4,7 @@ import { Profile } from "../../profile/Models";
 function createTransportFromProfile(profile: Profile) {
     const transport = createTransport({
         host: profile.emailProvider,
-        secure: true,
+        secure: false,
         port: 465,
         connectionTimeout: 10_000,
         auth: {
