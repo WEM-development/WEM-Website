@@ -63,13 +63,13 @@ function OrderCard() {
         <p className="text-gray-700 mb-4">
           V momentální době, pouze pomocí e-mailové komunikace.
         </p>
-        <p className="text-blue-600 font-semibold mb-6">
+        <p className="text-black font-semibold mb-6">
           info@weldingmontaze.cz
         </p>
         <Button 
           as={Link}
           href="mailto:info@weldingmontaze.cz"
-          className="w-full bg-blue-600 text-white"
+          className="w-full bg-[#fdc746] text-black font-semibold hover:bg-[#fdb817] transition"
           size="lg"
         >
           Otevřít poštu
@@ -87,10 +87,11 @@ export default function ProductsPage() {
       {/* Products Overview */}
       <section className="py-20 px-4 bg-white">
         <div className="container mx-auto max-w-7xl">
-          <h2 className="text-4xl font-bold text-center mb-12 uppercase">Produkty</h2>
+          <h2 className="text-4xl font-bold text-center mb-4 uppercase">Produkty</h2>
+          <div className="w-24 h-1 bg-[#fdc746] mx-auto mb-12"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Link href="#steel-product">
-              <Card className="hover:shadow-xl transition-shadow cursor-pointer">
+              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
                 <CardBody className="p-0 flex flex-col">
                   <div className="relative w-full h-64">
                     <Image
@@ -110,7 +111,7 @@ export default function ProductsPage() {
             </Link>
 
             <Link href="#welding-product">
-              <Card className="hover:shadow-xl transition-shadow cursor-pointer">
+              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
                 <CardBody className="p-0 flex flex-col">
                   <div className="relative w-full h-64">
                     <Image
@@ -130,7 +131,7 @@ export default function ProductsPage() {
             </Link>
 
             <Link href="#custom-product">
-              <Card className="hover:shadow-xl transition-shadow cursor-pointer">
+              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
                 <CardBody className="p-0 flex flex-col">
                   <div className="relative w-full h-64">
                     <Image
@@ -158,9 +159,10 @@ export default function ProductsPage() {
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-6">
+              <h2 className="text-3xl font-bold mb-4">
                 Výroba ocelových konstrukcí a potrubních celků
               </h2>
+              <div className="w-24 h-1 bg-[#fdc746] mb-6"></div>
               <ImageSlider images={steelImages} alt="Steel constructions" />
               <p className="text-lg text-gray-700 mt-6">
                 Máme dlouholetou zkušenost s montáží potrubí ve všech dimenzí a ocelových konstrukcí.
@@ -178,9 +180,10 @@ export default function ProductsPage() {
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-6">
+              <h2 className="text-3xl font-bold mb-4">
                 Svářečské opravy a zámečnické práce
               </h2>
+              <div className="w-24 h-1 bg-[#fdc746] mb-6"></div>
               <ImageSlider images={weldingImages} alt="Welding services" />
               <div className="space-y-4 text-lg text-gray-700 mt-6">
                 <p>Svařování pomocí metod EN 141, 111, 136.</p>
@@ -201,7 +204,8 @@ export default function ProductsPage() {
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-6">Zakázkové svařování</h2>
+              <h2 className="text-3xl font-bold mb-4">Zakázkové svařování</h2>
+              <div className="w-24 h-1 bg-[#fdc746] mb-6"></div>
               <ImageSlider images={customImages} alt="Custom welding" />
               <p className="text-lg text-gray-700 mt-6">
                 Nabízíme naše služby na míru, v oblastech svařování, zámečnictví až po samotné vyhotovení produktu.
