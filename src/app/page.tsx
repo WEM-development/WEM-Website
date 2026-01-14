@@ -1,180 +1,184 @@
+"use client"
+
+import { Card, CardBody, Button, Link } from "@heroui/react";
+import Navigation from "@/components/layout/Navigation";
+import Footer from "@/components/layout/Footer";
+import ImageSlider from "@/components/common/ImageSlider";
+import Image from "next/image";
+
+const workshopImages = [
+  "/assets/workshop-one.jpeg",
+  "/assets/workshop-two.jpeg",
+  "/assets/workshop-three.jpg",
+  "/assets/workshop-four.jpg",
+  "/assets/workshop-five.jpg",
+];
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Maintenance Section */}
-      <section className="flex items-center justify-center min-h-screen py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl p-12 text-center">
-            {/* Construction Icon */}
-            <div className="text-8xl mb-8">🚧</div>
-            
-            {/* Main Heading */}
-            <h1 className="text-5xl font-bold mb-6">
-              Stránky jsou ve výstavbě
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
+      {/* Hero Banner */}
+      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[#fdc746] opacity-20"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(253, 199, 70, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(253, 199, 70, 0.2) 0%, transparent 50%)'
+        }}></div>
+        
+        <div className="container mx-auto max-w-7xl text-center relative z-10">
+          <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-12 shadow-2xl">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
+              Stěhujeme se do nové haly !
             </h1>
-            
-            {/* Subtitle */}
-            <p className="text-2xl text-gray-700 mb-8">
-              Probíhá pravidelná údržba
+            <div className="w-24 h-1 bg-[#fdc746] mx-auto mb-8 shadow-lg shadow-[#fdc746]/50"></div>
+            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+              Nová moderní hala s nejnovějším vybavením pro ještě lepší služby
             </p>
-            
-            {/* Description */}
-            <div className="rounded-lg p-8 mb-8">
-              <p className="text-lg text-gray-800 mb-4">
-                Naše webové stránky právě procházejí rekonstrukcí a pravidelnou údržbou, 
-                abychom vám mohli přinést ještě lepší služby a uživatelský zážitek.
-              </p>
-              <p className="text-lg text-gray-800">
-                Děkujeme za vaši trpělivost a pochopení. Brzy se k vám vrátíme!
-              </p>
-            </div>
-            
-            {/* Contact Info */}
-            <div className="border-t border-gray-200 pt-8">
-              <h2 className="text-2xl font-semibold mb-4">
-                Welding Montáže
-              </h2>
-              <p className="text-gray-600 mb-6">
-                Profesionální svařovací služby v Ostravě
-              </p>
-              <div className="flex flex-col gap-3 items-center">
-                <a href="mailto:info@weldingmontaze.cz" className="text-lg text-blue-600 hover:text-blue-800 transition flex items-center gap-2">
-                  <span>info@weldingmontaze.cz</span>
-                </a>
-                <a href="tel:+420773266677" className="text-lg text-blue-600 hover:text-blue-800 transition flex items-center gap-2">
-                  <span>+420 773 266 677</span>
-                </a>
+          </div>
+        </div>
+      </section>
+
+      {/* New Products Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto max-w-7xl">
+          <h2 className="text-4xl font-bold text-center mb-4">Nové produkty</h2>
+          <div className="w-24 h-1 bg-[#fdc746] mx-auto mb-12"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Link href="/products#steel-product">
+              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
+                <CardBody className="p-0 flex flex-col">
+                  <div className="relative w-full h-56">
+                    <Image
+                      src="/assets/steel-product-images/pipe-complex.png"
+                      alt="Ocelové konstrukce"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-6 h-28 flex items-center">
+                    <h4 className="text-xl font-semibold line-clamp-2">
+                      Výroba ocelových konstrukcí a potrubních celků
+                    </h4>
+                  </div>
+                </CardBody>
+              </Card>
+            </Link>
+
+            <Link href="/products#welding-product">
+              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
+                <CardBody className="p-0 flex flex-col">
+                  <div className="relative w-full h-56">
+                    <Image
+                      src="/assets/welding-product-images/excavator.jpg"
+                      alt="Svářečské práce"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-6 h-28 flex items-center">
+                    <h4 className="text-xl font-semibold line-clamp-2">
+                      Svářečské opravy a zámečnické práce
+                    </h4>
+                  </div>
+                </CardBody>
+              </Card>
+            </Link>
+
+            <Link href="/products#custom-product">
+              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
+                <CardBody className="p-0 flex flex-col">
+                  <div className="relative w-full h-56">
+                    <Image
+                      src="/assets/custom-service-images/IMG_5269.jpeg"
+                      alt="Zakázkové svařování"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-6 h-28 flex items-center">
+                    <h4 className="text-xl font-semibold line-clamp-2">
+                      Zakázkové svařování
+                    </h4>
+                  </div>
+                </CardBody>
+              </Card>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Workshop Section */}
+      <section id="workshop" className="py-20 px-4 bg-gray-50">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              <h2 className="text-4xl font-bold mb-4">Naše hala</h2>
+              <div className="w-24 h-1 bg-[#fdc746] mb-8"></div>
+              <ImageSlider images={workshopImages} alt="Workshop" />
+              <div className="mt-8 space-y-4 text-lg text-gray-700">
+                <p>
+                  Naše výrobní hala disponuje mostovým jeřábem a plně vybavenou dílnou.
+                </p>
+                <p>
+                  Nacházíme se nedaleko Forum Nová Karolína, což nám umožňuje skvělou dostupnost z jakéhokoliv okolí.
+                </p>
+                <p>
+                  Zabýváme se montáží, výrobou ocelových konstrukcí, potrubních celků a svářečskou zámečnickou výrobou. 
+                  Náš dlouhodobý cíl je být věrohodným partnerem pro všechny strany.
+                </p>
               </div>
+            </div>
+
+            <div className="space-y-8">
+              <Card>
+                <CardBody className="p-6">
+                  <h3 className="text-2xl font-bold mb-4">Kde se nacházíme?</h3>
+                  <div className="relative w-full h-80 rounded-lg overflow-hidden">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d786.5160882822947!2d18.2855611737851!3d49.82572549874255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4713e3b0617d0c03%3A0x61bf6c3d515c0a80!2zV2VsZGluZyBNb250w6HFvmU!5e0!3m2!1scs!2scz!4v1739118062231!5m2!1scs!2scz"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardBody className="p-6">
+                  <h3 className="text-2xl font-bold mb-4">Naše sociální sítě</h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <Link 
+                        href="https://www.facebook.com/profile.php?id=61572748663542"
+                        target="_blank"
+                        className="text-gray-700 hover:text-[#fdc746] text-lg font-semibold transition"
+                      >
+                        Facebook
+                      </Link>
+                    </li>
+                    <li>
+                      <Link 
+                        href="https://www.instagram.com/welding_montaze/"
+                        target="_blank"
+                        className="text-gray-700 hover:text-[#fdc746] text-lg font-semibold transition"
+                      >
+                        Instagram
+                      </Link>
+                    </li>
+                  </ul>
+                </CardBody>
+              </Card>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Overview - COMMENTED OUT */}
-      {/* <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Naše služby</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 p-8 rounded-lg hover:shadow-xl transition">
-              <div className="text-blue-600 text-4xl mb-4">⚡</div>
-              <h3 className="text-2xl font-semibold mb-4">Svařování MIG/MAG</h3>
-              <p className="text-gray-700">
-                Profesionální svařování metodou MIG/MAG pro ocelové konstrukce, 
-                potrubí a nádrže. Zajišťujeme vysokou kvalitu a preciznost každého 
-                svaru.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-lg hover:shadow-xl transition">
-              <div className="text-blue-600 text-4xl mb-4">🔧</div>
-              <h3 className="text-2xl font-semibold mb-4">Montáže konstrukcí</h3>
-              <p className="text-gray-700">
-                Komplexní montáže ocelových konstrukcí včetně hal, skladů, mostů 
-                a průmyslových staveb. Realizujeme projekty od malých po velké.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-lg hover:shadow-xl transition">
-              <div className="text-blue-600 text-4xl mb-4">📐</div>
-              <h3 className="text-2xl font-semibold mb-4">Výroba na zakázku</h3>
-              <p className="text-gray-700">
-                Zakázková výroba ocelových dílů a konstrukcí podle vašich požadavků. 
-                Od návrhu přes výrobu až po finální montáž.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* Why Choose Us - COMMENTED OUT */}
-      {/* <section className="py-16 bg-gray-100">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Proč si vybrat nás</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="flex items-start space-x-4">
-              <div className="text-blue-600 text-3xl">✓</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Zkušený tým</h3>
-                <p className="text-gray-700">
-                  Náš tým tvoří certifikovaní svářeči a montéři s dlouholetou praxí 
-                  v oboru.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div className="text-blue-600 text-3xl">✓</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Moderní technologie</h3>
-                <p className="text-gray-700">
-                  Využíváme nejnovější svařovací technologie a vybavení pro dosažení 
-                  nejvyšší kvality.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div className="text-blue-600 text-3xl">✓</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Flexibilita</h3>
-                <p className="text-gray-700">
-                  Přizpůsobíme se vašim požadavkům a termínům. Realizujeme projekty 
-                  malého i velkého rozsahu.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <div className="text-blue-600 text-3xl">✓</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Kvalita a certifikace</h3>
-                <p className="text-gray-700">
-                  Všechny naše práce odpovídají nejvyšším kvalitativním standardům 
-                  a normám.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* Reference Section - COMMENTED OUT */}
-      {/* <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Naše reference</h2>
-          <p className="text-center text-xl text-gray-700 max-w-3xl mx-auto mb-8">
-            Jsme hrdí na naše projekty realizované pro významné společnosti v regionu. 
-            Mezi naše klienty patří průmyslové podniky, stavební firmy i soukromí 
-            investoři z Ostravy a okolí.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="p-6">
-              <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
-              <p className="text-gray-700">Realizovaných projektů</p>
-            </div>
-            <div className="p-6">
-              <div className="text-4xl font-bold text-blue-600 mb-2">20+</div>
-              <p className="text-gray-700">Let zkušeností</p>
-            </div>
-            <div className="p-6">
-              <div className="text-4xl font-bold text-blue-600 mb-2">100%</div>
-              <p className="text-gray-700">Spokojenost zákazníků</p>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* CTA Section - COMMENTED OUT */}
-      {/* <section className="bg-blue-900 text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Máte projekt na míru?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Kontaktujte nás a my vám připravíme nezávaznou cenovou nabídku. 
-            Rádi probereme vaše požadavky a najdeme optimální řešení.
-          </p>
-          <a 
-            href="/contact" 
-            className="bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition inline-block"
-          >
-            Získat cenovou nabídku
-          </a>
-        </div>
-      </section> */}
+      <Footer />
     </div>
   );
 }

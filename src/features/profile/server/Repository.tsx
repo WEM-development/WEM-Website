@@ -1,4 +1,4 @@
-import { addDocument, FirebaseStatus, getDocument, getDocuments } from "@/src/features/firebase/utilities"
+import { addDocument, FirebaseStatus, getDocument, getDocuments } from "@/features/firebase/utilities"
 import { ProfileScheme } from "../../firebase/collections";
 import { Profile } from "../Models";
 
@@ -8,13 +8,16 @@ export interface ProfileRepository {
 };
 
 class FirebaseRepository implements ProfileRepository {
+
     async addProfileAsync(user: Profile) : Promise<boolean> {
         return await addDocument(ProfileScheme, user) == FirebaseStatus.Ok;
     }
 
     async getProfileAsync(uid: string) : Promise<Profile | undefined> {
         const [id, fields] = await getDocument(ProfileScheme, uid);
-        if (Object.values(fields).every(field => field.value === undefined)) return undefined;
+        if (Object.values(fields).every(field => field.value === undefined)) {
+            return undefined;
+        }
 
         return {
             uid: id,

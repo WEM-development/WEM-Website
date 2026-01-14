@@ -4,7 +4,7 @@ import { Button, Image } from "@heroui/react";
 import { Invoice } from "../Models";
 import { PaperAirplaneIcon, PrinterIcon } from "./Icons";
 import { Profile } from "../../profile/Models";
-import WEMLogo from "@/src/components/common/WEMLogo";
+import WEMLogo from "@/components/common/WEMLogo";
 
 export default function InvoicePreview({ invoice }: { invoice: Invoice | null, profile: Profile }) {
 

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { Geist, Geist_Mono, Courier_Prime } from "next/font/google";
 
 export const metadata: Metadata = {
-  title: "WEM - Welding & Steel Solutions",
-  description: "Professional welding and steel products and services",
+  title: "WEM - Welding Montáže",
+  description: "Svářečské a montážní služby"
 };
 
 export const geistSans = Geist({

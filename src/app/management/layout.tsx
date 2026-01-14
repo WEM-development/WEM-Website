@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { AuthProvider, useAuth } from "@/src/features/auth/AuthContext";
+import { AuthProvider, useAuth } from "@/features/auth/AuthContext";
 import { signOut } from "firebase/auth";
-import { auth } from "@/src/features/firebase/config";
+import { auth } from "@/features/firebase/config";
 import { useRouter } from "next/navigation";
 import { 
   Navbar, 
@@ -18,7 +18,7 @@ import {
   Button
 } from "@heroui/react";
 import Link from "next/link";
-import WEMLogo from "@/src/components/common/WEMLogo";
+import WEMLogo from "@/components/common/WEMLogo";
 
 function ManagementNavbar() {
   const { user } = useAuth();

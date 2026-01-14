@@ -1,12 +1,12 @@
 "use client"
 
-import { useAuth } from "@/src/features/auth/AuthContext";
-import InvoiceEditor from "@/src/features/invoice/components/InvoiceEditor";
-import { Invoice } from "@/src/features/invoice/Models";
-import { Invoices } from "@/src/features/invoice/server/Repository";
-import { generateBlankInvoice, generateNextInvoiceId } from "@/src/features/invoice/server/Service";
-import { Profile } from "@/src/features/profile/Models";
-import { Profiles } from "@/src/features/profile/server/Repository";
+import { useAuth } from "@/features/auth/AuthContext";
+import InvoiceEditor from "@/features/invoice/components/InvoiceEditor";
+import { Invoice } from "@/features/invoice/Models";
+import { Invoices } from "@/features/invoice/server/Repository";
+import { generateBlankInvoice, generateNextInvoiceId } from "@/features/invoice/server/Service";
+import { Profile } from "@/features/profile/Models";
+import { Profiles } from "@/features/profile/server/Repository";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 

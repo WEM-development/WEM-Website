@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { browserPopupRedirectResolver, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/src/features/firebase/config";
-import { Profiles } from "@/src/features/profile/server/Repository";
-import WEMLogo from "@/src/components/common/WEMLogo";
+import { auth } from "@/features/firebase/config";
+import { Profiles } from "@/features/profile/server/Repository";
+import WEMLogo from "@/components/common/WEMLogo";
 
 export default function Page() {
     const [isLoading, setIsLoading] = useState(false);

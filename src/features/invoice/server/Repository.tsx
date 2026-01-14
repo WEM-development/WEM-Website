@@ -21,7 +21,7 @@ interface InvoiceCache {
 }
 
 class FirebaseRepository implements InvoiceRepository {
-    invoiceCache: InvoiceCache
+    invoiceCache: InvoiceCache;
 
     constructor(
         invoiceCache: InvoiceCache
@@ -35,7 +35,7 @@ class FirebaseRepository implements InvoiceRepository {
             supplier: `${invoice.id}-s`,
             payment: `${invoice.id}-Payment`,
             configuration: `${invoice.id}`
-        }; 
+        };
 
         const customerStatus = await addDocument(InvoiceClientScheme, invoice.customer, identificators.customer) == FirebaseStatus.Ok;
         const supplierStatus = await addDocument(InvoiceClientScheme, invoice.supplier, identificators.supplier) == FirebaseStatus.Ok;

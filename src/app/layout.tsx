@@ -34,10 +34,11 @@ export default function RootLayout({
       <head>
         <title>Welding Montáže - Profesionální svařovací služby v Ostravě</title>
         <meta name="description" content="Profesionální svařovací služby a montáže ocelových konstrukcí v Ostravě" />
+        <meta name="keywords" content="svářečské práce, svařování, svařování firma, zpracování kovů, práce svářeče, zpracování kovů, svařování na míru" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${courierPrime.variable} antialiased`}>
         <HeroUIProvider>
-          {!isManagementRoute && <NavigationBar navigationItems={currentItems}/>}
+          {isManagementRoute && <NavigationBar navigationItems={currentItems}/>}
           {children}
         </HeroUIProvider>
       </body>

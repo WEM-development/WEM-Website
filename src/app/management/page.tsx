@@ -1,14 +1,14 @@
 "use client"
 
-import { Profiles } from "@/src/features/profile/server/Repository";
+import { Profiles } from "@/features/profile/server/Repository";
 import { useEffect, useState } from "react";
-import { Profile } from "@/src/features/profile/Models";
+import { Profile } from "@/features/profile/Models";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { useAuth } from "@/src/features/auth/AuthContext";
-import { Card, CardBody, CardHeader, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@heroui/react";
-import { Invoice } from "@/src/features/invoice/Models";
-import { Invoices } from "@/src/features/invoice/server/Repository";
+import { useAuth } from "@/features/auth/AuthContext";
+import { Card, CardBody, CardHeader, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Skeleton } from "@heroui/react";
+import { Invoice } from "@/features/invoice/Models";
+import { Invoices } from "@/features/invoice/server/Repository";
 
 function ManagementContent() {
     const [profile, setProfile] = useState<Profile | null>(null);
@@ -64,13 +64,6 @@ function ManagementContent() {
         loadInvoices();
     }, [profile]);
 
-    if (!profile) {
-        return <div className="container mx-auto px-4 py-8">Načítání...</div>;
-    }
-
-    const totalRevenue = invoices.reduce((sum, inv) => sum + inv.paymentDetails.amount, 0);
-    const pendingInvoices = invoices.filter(inv => inv.paymentDate > new Date()).length;
-
     const formatDate = (date: Date) => {
         return new Date(date).toLocaleDateString('cs-CZ');
     };
@@ -78,6 +71,56 @@ function ManagementContent() {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK' }).format(amount);
     };
+
+    // Skeleton loading UI
+    if (!profile || loading) {
+        return (
+            <div className="container mx-auto px-4 py-8">
+                <Skeleton className="w-64 h-9 rounded-lg mb-8" />
+                
+                {/* Statistics Cards Skeleton */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    {[...Array(4)].map((_, i) => (
+                        <Card key={i}>
+                            <CardHeader className="pb-0 pt-4 px-4">
+                                <Skeleton className="w-32 h-4 rounded-lg" />
+                            </CardHeader>
+                            <CardBody className="py-2 px-4">
+                                <Skeleton className="w-24 h-9 rounded-lg" />
+                            </CardBody>
+                        </Card>
+                    ))}
+                </div>
+
+                {/* Table Skeleton */}
+                <div className="flex flex-col gap-8">
+                    <div className="flex flex-row gap-8 items-center justify-between">
+                        <Skeleton className="w-48 h-7 rounded-lg" />
+                        <Skeleton className="w-36 h-10 rounded-lg" />
+                    </div>
+                    <Card>
+                        <CardBody className="p-0">
+                            <div className="p-4 space-y-3">
+                                {[...Array(5)].map((_, i) => (
+                                    <div key={i} className="flex gap-4">
+                                        <Skeleton className="w-24 h-8 rounded-lg" />
+                                        <Skeleton className="flex-1 h-8 rounded-lg" />
+                                        <Skeleton className="w-32 h-8 rounded-lg" />
+                                        <Skeleton className="w-32 h-8 rounded-lg" />
+                                        <Skeleton className="w-24 h-8 rounded-lg" />
+                                        <Skeleton className="w-28 h-8 rounded-lg" />
+                                    </div>
+                                ))}
+                            </div>
+                        </CardBody>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
+
+    const totalRevenue = invoices.reduce((sum, inv) => sum + inv.paymentDetails.amount, 0);
+    const pendingInvoices = invoices.filter(inv => inv.paymentDate > new Date()).length;
 
     return (
         <div className="container mx-auto px-4 py-8">
