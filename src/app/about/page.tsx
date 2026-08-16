@@ -27,6 +27,7 @@ export default function AboutPage() {
                     <div className="space-y-3">
                       <p className="text-gray-700">
                         <span className="font-semibold">IČO:</span> 08604134
+                        <span className="font-semibold">DIČ:</span> CZ8708065619
                       </p>
                       <Link
                         href="tel:+420773266677"
