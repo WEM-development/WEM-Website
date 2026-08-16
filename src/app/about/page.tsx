@@ -26,7 +26,7 @@ export default function AboutPage() {
                     <h3 className="text-2xl font-bold mb-6 text-gray-800">TOMÁŠ WALTER</h3>
                     <div className="space-y-3">
                       <p className="text-gray-700">
-                        <span className="font-semibold">DIČ:</span> CZ8708065619
+                        <span className="font-semibold">IČO:</span> 08604134
                       </p>
                       <p className="text-gray-700">
                         <span className="font-semibold">DIČ:</span> CZ8708065619
