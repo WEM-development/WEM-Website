@@ -1,31 +1,45 @@
-"use client"
+import WEMLogo from "@/components/common/WEMLogo";
+// import { Card, CardBody, Button, Link } from "@heroui/react";
+// import Navigation from "@/components/layout/Navigation";
+// import Footer from "@/components/layout/Footer";
+// import ImageSlider from "@/components/common/ImageSlider";
+// import Image from "next/image";
 
-import { Card, CardBody, Button, Link } from "@heroui/react";
-import Navigation from "@/components/layout/Navigation";
-import Footer from "@/components/layout/Footer";
-import ImageSlider from "@/components/common/ImageSlider";
-import Image from "next/image";
+// const workshopImages = [
+//   "/assets/workshop-one.jpeg",
+//   "/assets/workshop-two.jpeg",
+//   "/assets/workshop-three.jpg",
+//   "/assets/workshop-four.jpg",
+//   "/assets/workshop-five.jpg",
+// ];
 
-const workshopImages = [
-  "/assets/workshop-one.jpeg",
-  "/assets/workshop-two.jpeg",
-  "/assets/workshop-three.jpg",
-  "/assets/workshop-four.jpg",
-  "/assets/workshop-five.jpg",
-];
+export default function HomePage() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 text-center">
+      <WEMLogo width={160} height={160} />
+      <h1 className="mt-8 text-3xl md:text-4xl font-bold text-gray-900">
+        Stránka se připravuje
+      </h1>
+      <p className="mt-4 text-lg text-gray-600">
+        Brzy se na vás těšíme.
+      </p>
+    </div>
+  );
+}
 
+/*
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      
-      {/* Hero Banner */}
+
+      {/ * Hero Banner * /}
       <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[#fdc746] opacity-20"></div>
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(253, 199, 70, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(253, 199, 70, 0.2) 0%, transparent 50%)'
         }}></div>
-        
+
         <div className="container mx-auto max-w-7xl text-center relative z-10">
           <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-12 shadow-2xl">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
@@ -39,7 +53,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* New Products Section */}
+      {/ * New Products Section * /}
       <section className="py-20 px-4 bg-white">
         <div className="container mx-auto max-w-7xl">
           <h2 className="text-4xl font-bold text-center mb-4">Nové produkty</h2>
@@ -108,7 +122,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Workshop Section */}
+      {/ * Workshop Section * /}
       <section id="workshop" className="py-20 px-4 bg-gray-50">
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -124,7 +138,7 @@ export default function HomePage() {
                   Nacházíme se nedaleko Forum Nová Karolína, což nám umožňuje skvělou dostupnost z jakéhokoliv okolí.
                 </p>
                 <p>
-                  Zabýváme se montáží, výrobou ocelových konstrukcí, potrubních celků a svářečskou zámečnickou výrobou. 
+                  Zabýváme se montáží, výrobou ocelových konstrukcí, potrubních celků a svářečskou zámečnickou výrobou.
                   Náš dlouhodobý cíl je být věrohodným partnerem pro všechny strany.
                 </p>
               </div>
@@ -153,7 +167,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold mb-4">Naše sociální sítě</h3>
                   <ul className="space-y-3">
                     <li>
-                      <Link 
+                      <Link
                         href="https://www.facebook.com/profile.php?id=61572748663542"
                         target="_blank"
                         className="text-gray-700 hover:text-[#fdc746] text-lg font-semibold transition"
@@ -162,7 +176,7 @@ export default function HomePage() {
                       </Link>
                     </li>
                     <li>
-                      <Link 
+                      <Link
                         href="https://www.instagram.com/welding_montaze/"
                         target="_blank"
                         className="text-gray-700 hover:text-[#fdc746] text-lg font-semibold transition"
@@ -182,5 +196,6 @@ export default function HomePage() {
     </div>
   );
 }
+*/
 
 
