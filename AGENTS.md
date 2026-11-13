@@ -4,19 +4,18 @@ Rules for any agent or contributor working on this repository. Follow them exact
 
 ## 1. Scope
 
-The design system below applies to the **public site only**:
+This repository contains only the public company website. Management, invoicing and the typewriter live in a separate repository – do not add them back here.
+
+The design system below applies to every file:
 
 - `src/app/page.tsx`, `src/app/products/**`, `src/app/references/**`, `src/app/about/**`
-- `src/components/layout/**`, `src/components/common/**` (except `WEMLogo.tsx`)
+- `src/components/layout/**`, `src/components/common/**`
 - `src/config/company.ts`, `src/config/services.ts`, `src/config/projects.ts`
 
-Never restyle or refactor these unless explicitly asked:
+Change these only when explicitly asked:
 
-- `src/features/invoice/**`, `src/app/management/**`, `src/components/navigation/NavigationBar.tsx`
-- `src/app/typewriter/**`, `src/features/typewriter/**`, auth routes
-- `src/app/hero.ts` and `tailwind.config.js` – changing the HeroUI theme restyles the invoice editor
-- `src/components/common/WEMLogo.tsx` – also rendered in the invoice PDF
-- `#print-area`, `@page`, `@media print` rules and the `body` rules in `globals.css`
+- `src/app/hero.ts` – HeroUI plugin; keep the default theme, brand colors come from `@theme` tokens
+- `src/app/icon.svg`, `src/app/favicon.ico`, `src/app/apple-icon.png` – generated from `public/WEM.svg`
 
 ## 2. Brand tokens
 
@@ -37,7 +36,7 @@ Rules:
 - Greys come from `neutral-*` only. Never `gray-*`, `slate-*`, `zinc-*` (they are tinted; the logo grey is neutral).
 - `brand` is never used for text on light backgrounds (contrast 1.6:1). On `ink` it may be used for small accents.
 - Secondary text on light backgrounds: `text-neutral-600` (body) or `text-neutral-500` (labels). On `ink`: `text-neutral-400`.
-- No HeroUI semantic colors (`primary`, `secondary`, blue defaults) on the public site.
+- No HeroUI semantic colors (`primary`, `secondary`, blue defaults).
 - Brand motif: the left-pointing yellow triangle from the logo – `BrandMark`. It is the only decorative element allowed.
 
 ## 3. Typography
@@ -146,11 +145,11 @@ Match the existing code exactly:
 - Default-exported function components, PascalCase; file name equals component name.
 - Props typed with an `interface XProps` directly above the component; defaults in destructuring (`{ width = 72 }`).
 - 2-space indentation, double quotes, semicolons.
-- Imports via `@/`; order: `react` / `next` → `@heroui/*` → `framer-motion` → `@/components` → `@/config` / `@/features`.
+- Imports via `@/`; order: `react` / `next` → `@heroui/*` → `framer-motion` → `@/components` → `@/config`.
 - Static data as module-level `const` arrays/objects above the component (`const workshopImages = [...]`).
 - Section comments in JSX: `{/* Section Name */}`.
 - Tailwind utilities inline; variant maps as `const xClasses: Record<Variant, string>`. No CSS modules, no new dependencies.
-- Domain logic stays in `src/features/<domain>/` (Models, components, server/Repository|Service|Actions).
+- Site content lives in `src/config/`; no backend, database or environment variables.
 - Comments only for what the code cannot say, one short line.
 
 ## 12. Definition of done
@@ -159,5 +158,4 @@ Match the existing code exactly:
 2. Pages checked at 375, 768 and 1280 px; no horizontal scroll.
 3. Keyboard tab-through shows a visible focus ring on every interactive element.
 4. Sliders work with arrows, keyboard and touch swipe.
-5. `/management/invoice-editor` (editor, preview, PDF) looks identical to before; no diff in `src/features/**` or `src/app/management/**`.
-6. Public files contain no `gray-`, hex colors, `shadow-`, `border-` or `rounded-lg`+ classes.
+5. Files contain no `gray-`, hex colors, `shadow-`, `border-` or `rounded-lg`+ classes.

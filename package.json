@@ -9,22 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@heroui/navbar": "^2.2.25",
     "@heroui/react": "^2.8.5",
     "@heroui/system": "^2.4.18",
     "@heroui/theme": "^2.4.23",
     "@tailwindcss/postcss": "^4.1.18",
-    "firebase": "^12.6.0",
     "framer-motion": "^12.23.26",
     "next": "^16.0.10",
-    "nodemailer": "^7.0.12",
-    "puppeteer": "^24.34.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/nodemailer": "^7.0.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
