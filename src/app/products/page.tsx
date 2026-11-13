@@ -1,10 +1,16 @@
 "use client"
 
-import { Card, CardBody, Button, Link } from "@heroui/react";
+import Link from "next/link";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import ImageSlider from "@/components/common/ImageSlider";
-import Image from "next/image";
+import BrandMark from "@/components/common/BrandMark";
+import ContactBand from "@/components/common/ContactBand";
+import Reveal from "@/components/common/Reveal";
+import Section from "@/components/common/Section";
+import SectionHeading from "@/components/common/SectionHeading";
+import { company } from "@/config/company";
+import { services } from "@/config/services";
 
 const steelImages = [
   "/assets/steel-product-images/pipe-complex.png",
@@ -38,186 +44,108 @@ const weldingImages = [
   "/assets/welding-product-images/20230524_150735.jpg",
 ];
 
-const customImages = [
-  "/assets/custom-service-images/IMG_5269.jpeg",
-  "/assets/custom-service-images/IMG_5263.jpeg",
-  "/assets/custom-service-images/IMG_5264.jpeg",
-  "/assets/custom-service-images/IMG_5265.jpeg",
-  "/assets/custom-service-images/IMG_5266.jpeg",
-  "/assets/custom-service-images/IMG_5267.jpeg",
-  "/assets/custom-service-images/IMG_5268.jpeg",
-  "/assets/custom-service-images/IMG_5270.jpeg",
-  "/assets/custom-service-images/IMG_5274.jpeg",
-  "/assets/custom-service-images/IMG_5275.jpeg",
-  "/assets/custom-service-images/IMG_5277.jpeg",
-  "/assets/custom-service-images/IMG_5284.jpeg",
-  "/assets/custom-service-images/IMG_5285.jpeg",
-  "/assets/custom-service-images/IMG_5286.jpeg",
-];
-
-function OrderCard() {
-  return (
-    <Card className="h-fit sticky top-24">
-      <CardBody className="p-6">
-        <h3 className="text-2xl font-bold mb-4">Zakázka na míru</h3>
-        <p className="text-gray-700 mb-4">
-          V momentální době, pouze pomocí e-mailové komunikace.
-        </p>
-        <p className="text-black font-semibold mb-6">
-          info@weldingmontaze.cz
-        </p>
-        <Button 
-          as={Link}
-          href="mailto:info@weldingmontaze.cz"
-          className="w-full bg-[#fdc746] text-black font-semibold hover:bg-[#fdb817] transition"
-          size="lg"
-        >
-          Otevřít poštu
-        </Button>
-      </CardBody>
-    </Card>
-  );
+interface ServiceDetail {
+  images: string[];
+  paragraphs: string[];
+  facts: string[];
 }
+
+const serviceDetails: Record<string, ServiceDetail> = {
+  "steel-product": {
+    images: steelImages,
+    paragraphs: ["Máme dlouholeté zkušenosti s\u00a0montáží potrubí všech dimenzí a\u00a0ocelových konstrukcí."],
+    facts: ["Výroba potrubních celků", "Montáž potrubí všech dimenzí", "Ocelové konstrukce"],
+  },
+  "welding-product": {
+    images: weldingImages,
+    paragraphs: [
+      "Svařujeme metodami EN\u00a0141, 111 a\u00a0136.",
+      "Opravujeme stroje a\u00a0vyrábíme mříže, žebříky, ploty, brány a\u00a0pažicí boxy.",
+    ],
+    facts: ["Metody EN\u00a0141, 111, 136", "Opravy strojů", "Mříže, žebříky, ploty a\u00a0brány", "Pažicí boxy"],
+  },
+};
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div data-site className="min-h-screen bg-paper text-ink">
       <Navigation />
-      
-      {/* Products Overview */}
-      <section className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-7xl">
-          <h2 className="text-4xl font-bold text-center mb-4 uppercase">Produkty</h2>
-          <div className="w-24 h-1 bg-[#fdc746] mx-auto mb-12"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Link href="#steel-product">
-              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
-                <CardBody className="p-0 flex flex-col">
-                  <div className="relative w-full h-64">
-                    <Image
-                      src="/assets/steel-product-images/pipe-complex.png"
-                      alt="Ocelové konstrukce"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4 h-24 flex items-center justify-center">
-                    <h4 className="text-lg font-semibold text-center line-clamp-3">
-                      Výroba ocelových konstrukcí a potrubních celků
-                    </h4>
-                  </div>
-                </CardBody>
-              </Card>
-            </Link>
 
-            <Link href="#welding-product">
-              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
-                <CardBody className="p-0 flex flex-col">
-                  <div className="relative w-full h-64">
-                    <Image
-                      src="/assets/welding-product-images/excavator.jpg"
-                      alt="Svářečské práce"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4 h-24 flex items-center justify-center">
-                    <h4 className="text-lg font-semibold text-center line-clamp-3">
-                      Svářečské opravy a zámečnické práce
-                    </h4>
-                  </div>
-                </CardBody>
-              </Card>
-            </Link>
+      {/* Overview */}
+      <Section isPageIntro>
+        <SectionHeading
+          as="h1"
+          eyebrow="Služby"
+          title="Produkty a&nbsp;služby"
+          lead="Výroba, montáž a&nbsp;opravy z&nbsp;oceli – od potrubních celků po jednotlivé zámečnické výrobky."
+        />
+        <ol className="mt-14 grid gap-2 md:grid-cols-2">
+          {services.map((service, index) => (
+            <li key={service.id}>
+              <Link
+                href={`#${service.id}`}
+                className="group flex h-full items-start gap-4 rounded-sm bg-mist p-6 transition-colors hover:bg-neutral-200"
+              >
+                <span className="pt-0.5 text-sm font-semibold tabular-nums text-neutral-400">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1 font-semibold tracking-tight">{service.title}</span>
+                <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5">
+                  ↓
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
-            <Link href="#custom-product">
-              <Card className="hover:shadow-xl hover:shadow-[#fdc746]/20 transition-all cursor-pointer border-2 border-transparent hover:border-[#fdc746]">
-                <CardBody className="p-0 flex flex-col">
-                  <div className="relative w-full h-64">
-                    <Image
-                      src="/assets/custom-service-images/IMG_5269.jpeg"
-                      alt="Zakázkové svařování"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4 h-24 flex items-center justify-center">
-                    <h4 className="text-lg font-semibold text-center line-clamp-3">
-                      Zakázkové svařování
-                    </h4>
-                  </div>
-                </CardBody>
-              </Card>
-            </Link>
+      {services.map((service, index) => {
+        const detail = serviceDetails[service.id];
 
-          </div>
-        </div>
-      </section>
-
-      {/* Steel Product */}
-      <section id="steel-product" className="py-20 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-4">
-                Výroba ocelových konstrukcí a potrubních celků
-              </h2>
-              <div className="w-24 h-1 bg-[#fdc746] mb-6"></div>
-              <ImageSlider images={steelImages} alt="Steel constructions" />
-              <p className="text-lg text-gray-700 mt-6">
-                Máme dlouholetou zkušenost s montáží potrubí ve všech dimenzí a ocelových konstrukcí.
-              </p>
-            </div>
-            <div>
-              <OrderCard />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Welding Product */}
-      <section id="welding-product" className="py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-4">
-                Svářečské opravy a zámečnické práce
-              </h2>
-              <div className="w-24 h-1 bg-[#fdc746] mb-6"></div>
-              <ImageSlider images={weldingImages} alt="Welding services" />
-              <div className="space-y-4 text-lg text-gray-700 mt-6">
-                <p>Svařování pomocí metod EN 141, 111, 136.</p>
-                <p>
-                  V nabídce máme opravy strojů, výrobu mříží, žebříků, plotů, bran a pažících boxů.
+        return (
+          <Section key={service.id} id={service.id} tone={index % 2 === 0 ? "mist" : "paper"}>
+            <div className="grid gap-12 lg:grid-cols-12">
+              {/* Description */}
+              <div className="lg:order-2 lg:col-span-4">
+                <p className="text-sm font-semibold tabular-nums text-neutral-400">
+                  {String(index + 1).padStart(2, "0")}
                 </p>
+                <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight">{service.title}</h2>
+                <div className="mt-6 space-y-4 text-lg leading-relaxed text-neutral-600">
+                  {detail.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+                <ul className="mt-8 space-y-3">
+                  {detail.facts.map((fact) => (
+                    <li key={fact} className="flex items-center gap-3">
+                      <BrandMark size={6} />
+                      {fact}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={`mailto:${company.email}`}
+                  className="mt-10 inline-block text-sm font-semibold hover:underline hover:underline-offset-4"
+                >
+                  Poptat zakázku →
+                </a>
               </div>
-            </div>
-            <div>
-              <OrderCard />
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Custom Product */}
-      <section id="custom-product" className="py-20 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-4">Zakázkové svařování</h2>
-              <div className="w-24 h-1 bg-[#fdc746] mb-6"></div>
-              <ImageSlider images={customImages} alt="Custom welding" />
-              <p className="text-lg text-gray-700 mt-6">
-                Nabízíme naše služby na míru, v oblastech svařování, zámečnictví až po samotné vyhotovení produktu.
-              </p>
+              {/* Gallery */}
+              <Reveal className="lg:order-1 lg:col-span-8">
+                <ImageSlider
+                  images={detail.images}
+                  alt={service.title}
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                />
+              </Reveal>
             </div>
-            <div>
-              <OrderCard />
-            </div>
-          </div>
-        </div>
-      </section>
+          </Section>
+        );
+      })}
 
+      <ContactBand />
       <Footer />
     </div>
   );
