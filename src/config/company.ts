@@ -16,7 +16,7 @@ export interface SocialLink extends SiteLink {
 
 export const company = {
   name: "Welding Montáže",
-  tagline: "Výroba a\u00a0montáž potrubních celků a\u00a0ocelových konstrukcí v\u00a0Ostravě.",
+  tagline: "Výroba a\u00a0montáž potrubních celků a\u00a0ocelových konstrukcí v\u00a0Havířově.",
   email: "info@weldingmontaze.cz",
   mapUrl: "https://maps.app.goo.gl/wrF3SdjLAt1T56Y57",
   mapEmbedUrl:

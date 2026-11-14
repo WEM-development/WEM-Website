@@ -35,13 +35,13 @@ export default function HomePage() {
           <div className="lg:col-span-6">
             <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
               <BrandMark />
-              {company.name} · Ostrava
+              {company.name} · Havířov
             </p>
             <h1 className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
               Výroba a&nbsp;montáž potrubních celků a&nbsp;ocelových konstrukcí
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">
-              Pracujeme v&nbsp;kotelnách, průmyslových provozech i&nbsp;na liniových stavbách. Zázemí máme v&nbsp;Ostravě.
+              Pracujeme v&nbsp;kotelnách, průmyslových provozech i&nbsp;na liniových stavbách. Zázemí máme v&nbsp;Havířově.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href={`mailto:${company.email}`}>Poptat zakázku</ButtonLink>
@@ -115,7 +115,7 @@ export default function HomePage() {
       <Section id="workshop" tone="mist">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <SectionHeading eyebrow="Zázemí" title="Naše hala" />
+            <SectionHeading eyebrow="Havířov" title="Naše hala" />
             <Reveal className="mt-10">
               <ImageSlider
                 images={workshopImages}

@@ -13,8 +13,8 @@ export default function RootLayout({
   return (
     <html lang="cs" suppressHydrationWarning>
       <head>
-        <title>Welding Montáže - Profesionální svařovací služby v Ostravě</title>
-        <meta name="description" content="Profesionální svařovací služby a montáže ocelových konstrukcí v Ostravě" />
+        <title>Welding Montáže - Profesionální svařovací služby v Havířově</title>
+        <meta name="description" content="Profesionální svařovací služby a montáže ocelových konstrukcí v Havířově" />
         <meta name="keywords" content="svářečské práce, svařování, svařování firma, zpracování kovů, práce svářeče, zpracování kovů, svařování na míru" />
       </head>
       <body className={`${geistSans.variable} antialiased`}>
